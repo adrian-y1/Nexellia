@@ -13,6 +13,9 @@ class User < ApplicationRecord
 
   has_many :posts
 
+  has_many :post_likes, foreign_key: "liker_id", dependent: :destroy
+  has_many :liked_posts, through: :post_likes, source: :liked_post, foreign_key: "liked_post_id", dependent: :destroy
+
   def create_friendship(friend)
     self.friends << friend
     friend.friends << self

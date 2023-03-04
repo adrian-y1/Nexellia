@@ -16,3 +16,7 @@ jim = User.create(username: 'jim', email: 'jim@jim', password: 'jimjimjim', pass
 adrian.posts.create(body: "Lorem ipsum dolor sit amet. Ut molestiae atque ex tempora temporibus qui autem ullam. Et corporis sint ut suscipit corrupti quo numquam autem qui expedita repellendus et atque minima ea minima consectetur")
 michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
 jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam laboriosam et galisum deleniti.")
+
+adrian.comments.create(body: "Great read!", post_id: adrian.posts.first.id)
+michael.comments.create(body: "Cool read!", post_id: michael.posts.first.id)
+jim.comments.create(body: "Awesome read!", post_id: jim.posts.first.id)

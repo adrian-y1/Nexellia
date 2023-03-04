@@ -10,14 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_04_053425) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_04_062006) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "comment_likes", force: :cascade do |t|
+    t.integer "liker_id"
+    t.integer "liked_comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "comment_likes_count", default: 0
+    t.integer "user_id"
+    t.integer "post_id"
   end
 
   create_table "friend_requests", force: :cascade do |t|
@@ -61,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_04_053425) do
     t.datetime "updated_at", null: false
     t.integer "posts_count", default: 0
     t.integer "post_likes_count", default: 0
+    t.integer "comment_likes_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

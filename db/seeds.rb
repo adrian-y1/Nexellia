@@ -19,4 +19,8 @@ jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam l
 
 adrian.comments.create(body: "Great read!", post_id: adrian.posts.first.id)
 michael.comments.create(body: "Cool read!", post_id: michael.posts.first.id)
+michael.comments.create(body: "wowww!", post_id: adrian.posts.first.id)
 jim.comments.create(body: "Awesome read!", post_id: jim.posts.first.id)
+
+adrian.create_friendship(jim)
+adrian.create_friendship(michael)

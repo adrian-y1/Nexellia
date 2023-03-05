@@ -7,4 +7,6 @@ class Post < ApplicationRecord
   has_many :likers, through: :post_likes, source: :liker, foreign_key: "liker_id", dependent: :destroy
 
   has_many :comments
+
+  scope :user_and_friends_posts, ->(user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(created_at: :asc) }
 end

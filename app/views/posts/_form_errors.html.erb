@@ -1,0 +1,13 @@
+<% if post.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <strong>
+      <%= pluralize(post.errors.count, "error") %> prohibited this post from being created:
+    </strong>
+    <ul>
+      <% post.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

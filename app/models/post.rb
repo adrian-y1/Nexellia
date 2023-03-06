@@ -1,5 +1,5 @@
 class Post < ApplicationRecord
-  validates :body, length: { maximum: 255 }
+  validates :body, presence: true, length: { maximum: 255, message: "Post description length exceeded." }
 
   belongs_to :user, counter_cache: true
 
@@ -8,5 +8,7 @@ class Post < ApplicationRecord
 
   has_many :comments
 
-  scope :user_and_friends_posts, ->(user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(created_at: :asc) }
+  scope :user_and_friends_posts, ->(user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(created_at: :desc) }
+
+  after_create_commit -> { broadcast_prepend_to "posts" }
 end

@@ -2,7 +2,8 @@
   <div class="card mt-4" style="width: 600px;">
     <div class="card-header">
       <%= post.user.username %>
-      <%= link_to "Edit", edit_post_path(post) %>
+      <%= link_to "View Post", post, data: { turbo_frame: "_top" }  %>
+      <%= link_to "Edit", edit_post_path(post)%>
     </div>
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>

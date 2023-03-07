@@ -73,3 +73,5 @@ end
 
 gem 'devise'
 gem 'responders'
+gem 'redis'
+gem 'redis-rails'

@@ -1,10 +1,5 @@
 <%= turbo_frame_tag id="new_post" do %>
-  <%= render "posts/form_errors", post: @post %>
-  <%= form_with model: @post, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' } do |f| %>
-    <h4>Create Post</h4>
-    <div class="mb-3" style="max-width: 600px;">
-      <%= f.text_area :body, size: "70x4", class: "form-control", placeholder: "What are you thinking?" %>
-      <%= f.submit "Create Post", class: "btn btn-primary mt-2" %>
-    </div>
-  <% end %>
+  <h3> Create Post </h3>
+  <%= render "posts/form", post: @post %>
+  <hr>
 <% end %>

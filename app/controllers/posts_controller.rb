@@ -19,6 +19,22 @@ class PostsController < ApplicationController
     end
   end
 
+  def edit
+    @post = Post.find(params[:id])
+  end
+
+  def update
+    @post = Post.find(params[:id])
+
+    respond_to do |format|
+      if @post.update(post_parmas)
+        format.turbo_stream
+      else
+        format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
+      end
+    end
+  end
+
   private
 
   def post_parmas

@@ -1,7 +1,8 @@
   <%= render "posts/form_errors", post: post %>
-  <%= form_with model: post, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' } do |f| %>
+  <%= form_with model: post, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' }, local: true do |f| %>
     <div class="mb-3" style="max-width: 600px;">
       <%= f.text_area :body, size: "70x4", class: "form-control", placeholder: "What are you thinking?" %>
+      <%= button_to "Cancel", posts_path, class: "btn btn-danger" if action == "edit" %>
       <%= f.submit class: "btn btn-primary mt-2" %>
     </div>
   <% end %>

@@ -1,5 +1,5 @@
 <%= turbo_frame_tag id="new_post" do %>
   <h3> Create Post </h3>
-  <%= render "posts/form", post: @post %>
+  <%= render "posts/form", post: @post, action: "new" %>
   <hr>
 <% end %>

@@ -8,7 +8,7 @@ class Post < ApplicationRecord
 
   has_many :comments
 
-  scope :user_and_friends_posts, ->(user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(created_at: :desc) }
+  scope :user_and_friends_posts, ->(user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(id: :desc) }
 
   after_create_commit -> { broadcast_prepend_to "posts" }
   after_update_commit -> { broadcast_update_to "posts" }

@@ -10,7 +10,6 @@
           <h6 class="card-subtitle mb-2 text-muted"><%= @post.comments.count %> Comments</h6>
           <% @post.comments.each do |comment| %>
             <div class="media mt-4">
-              <img src="<%= comment.user.avatar.url %>" class="mr-3 rounded-circle" width="50" height="50" alt="User Avatar">
               <div class="media-body">
                 <h5 class="mt-0"><%= comment.user.username %></h5>
                 <p><%= comment.body %></p>

@@ -3,8 +3,10 @@
     <div class="card-header">
       <%= post.user.username %>
       <%= link_to "View Post", post, data: { turbo_frame: "_top" }  %>
-      <%= link_to "Delete", post_path(post), data: { turbo_method: :delete } %>
-      <%= link_to "Edit", edit_post_path(post)%>
+      <% if user == post.user %>
+        <%= link_to "Delete", post_path(post), data: { turbo_method: :delete } %>
+        <%= link_to "Edit", edit_post_path(post)%>
+      <% end %>
     </div>
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>

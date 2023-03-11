@@ -1,0 +1,2 @@
+<%= turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } ) %>
+<%= render_turbo_stream_flash_messages %>

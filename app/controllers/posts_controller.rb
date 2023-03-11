@@ -12,9 +12,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.save
-        format.turbo_stream do 
-          render turbo_stream: turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } )
-        end
+        format.turbo_stream { flash.now[:notice] = "Post was successfully created." }
         format.html { redirect_to posts_path, notice: "Post was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity, alert: "Post could not be created." }
@@ -39,9 +37,7 @@ class PostsController < ApplicationController
 
     respond_to do |format|
       if @post.update(post_params)
-        format.turbo_stream do 
-          render turbo_stream: turbo_stream.update(@post, partial: "posts/post", locals: { post: @post, user: Current.user }) 
-        end
+        format.turbo_stream { flash.now[:notice] = "Post was successfully updated." }
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
@@ -54,8 +50,8 @@ class PostsController < ApplicationController
     @post.destroy
 
     respond_to do |format|
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@post) }
-      format.html { redirect_to posts_url }
+      format.turbo_stream { flash.now[:notice] = "Post was successfully deleted." }
+      format.html { redirect_to posts_url, notice: "Post was successfully deleted." }
     end
   end
 

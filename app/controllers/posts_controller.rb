@@ -8,11 +8,13 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = current_user.posts.build(post_parmas)
+    @post = current_user.posts.build(post_params)
 
     respond_to do |format|
       if @post.save
-        format.turbo_stream { render turbo_stream: turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } )}
+        format.turbo_stream do 
+          render turbo_stream: turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } )
+        end
         format.html { redirect_to posts_path, notice: "Post was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity, alert: "Post could not be created." }
@@ -26,14 +28,19 @@ class PostsController < ApplicationController
 
   def edit
     @post = Post.find(params[:id])
+    if current_user != @post.user
+      redirect_to root_path, alert: "You can only edit the posts that you have created."
+    end
   end
 
   def update
     @post = Post.find(params[:id])
 
     respond_to do |format|
-      if @post.update(post_parmas)
-        format.turbo_stream { render turbo_stream: turbo_stream.update(@post, partial: "posts/post", locals: { post: @post, user: Current.user }) }
+      if @post.update(post_params)
+        format.turbo_stream do 
+          render turbo_stream: turbo_stream.update(@post, partial: "posts/post", locals: { post: @post, user: Current.user }) 
+        end
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
@@ -53,7 +60,7 @@ class PostsController < ApplicationController
 
   private
 
-  def post_parmas
+  def post_params
     params.require(:post).permit(:body, :user_id)
   end
 end

@@ -1,8 +1,11 @@
 <div class="container d-flex flex-column align-items-center mb-5">
   <h2>User Posts</h2>
 
-  <%= turbo_stream_from "posts" %>
-
+  <%= turbo_stream_from Current.user.id, "posts"%>
+  <% Current.user.friends.each do |friend| %>
+    <%= turbo_stream_from friend.id, "posts" %>
+  <% end %>
+  
   <%= turbo_frame_tag id="new_post", src: new_post_path %>
 
   <%= turbo_frame_tag "posts" do %>

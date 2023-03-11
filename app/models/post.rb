@@ -10,7 +10,14 @@ class Post < ApplicationRecord
 
   scope :user_and_friends_posts, -> (user) { includes(:user).where(user_id: [user.id] + user.friends.pluck(:id)).order(id: :desc) }
 
-  after_create_commit -> { broadcast_prepend_later_to "posts", partial: "posts/post", locals: { post: self, user: Current.user }, target: "posts" }
-  after_update_commit -> { broadcast_update_later_to "posts", locals: { post: self, user: Current.user } }
-  after_destroy_commit -> { broadcast_remove_to "posts" }
+
+  after_create_commit -> do 
+    broadcast_prepend_later_to [self.user.id, "posts"], partial: "posts/post", locals: { post: self, user: Current.user }, target: "posts" 
+  end
+
+  after_update_commit -> do 
+    broadcast_update_later_to [self.user.id, "posts"], locals: { post: self, user: Current.user } 
+  end
+  
+  after_destroy_commit -> { broadcast_remove_to [self.user.id, "posts"] }
 end

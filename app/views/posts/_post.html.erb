@@ -6,7 +6,7 @@
       <div class="post-buttons" data-user-id="<%= post.user.id %>">
         <% if user == post.user %>
           <%= link_to "Delete", post_path(post), data: { turbo_method: :delete } %>
-          <%= link_to "Edit", edit_post_path(post)%>
+          <%= link_to "Edit", edit_post_path(post) %>
         <% end %>
       </div>
     </div>

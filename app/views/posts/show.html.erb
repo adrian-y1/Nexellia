@@ -1,24 +1,32 @@
-<div class="container my-5">
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title"><%= @post.user.username %></h5>
-          <p class="card-text"><%= @post.body %></p>
-          <p class="card-text"><small class="text-muted"><%= time_ago_in_words(@post.created_at) %> ago</small></p>
-          <hr>
-          <h6 class="card-subtitle mb-2 text-muted"><%= @post.comments.count %> Comments</h6>
-          <% @post.comments.each do |comment| %>
-            <div class="media mt-4">
-              <div class="media-body">
-                <h5 class="mt-0"><%= comment.user.username %></h5>
-                <p><%= comment.body %></p>
-                <p><small class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</small></p>
-              </div>
+<%= turbo_frame_tag @post do %>
+  <div class="container my-5">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= @post.user.username %></h5>
+            <div class="post-buttons" data-user-id="<%= @post.user.id %>">
+              <% if Current.user == @post.user %>
+                <%= link_to "Delete", post_path(@post), data: { turbo_method: :delete } %>
+                <%= link_to "Edit", edit_post_path(@post) %>
+              <% end %>
             </div>
-          <% end %>
+            <p class="card-text"><%= @post.body %></p>
+            <p class="card-text"><small class="text-muted"><%= time_ago_in_words(@post.created_at) %> ago</small></p>
+            <hr>
+            <h6 class="card-subtitle mb-2 text-muted"><%= @post.comments.count %> Comments</h6>
+            <% @post.comments.each do |comment| %>
+              <div class="media mt-4">
+                <div class="media-body">
+                  <h5 class="mt-0"><%= comment.user.username %></h5>
+                  <p><%= comment.body %></p>
+                  <p><small class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</small></p>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+<% end %>

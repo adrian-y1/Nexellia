@@ -23,7 +23,8 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = Post.find_by(id: params[:id])
+    redirect_to posts_url, alert: "The post you were viewing no longer exists." unless @post
   end
 
   def edit

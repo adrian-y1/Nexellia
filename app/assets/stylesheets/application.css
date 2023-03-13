@@ -13,3 +13,10 @@
  *= require_tree .
  *= require_self
  */
+
+.empty-state:not(:only-child) {
+  display: none;
+}
+.empty-state:only-child {
+  display: revert;
+}

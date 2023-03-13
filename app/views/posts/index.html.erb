@@ -9,6 +9,7 @@
   <%= turbo_frame_tag id="new_post", src: new_post_path %>
 
   <%= turbo_frame_tag "posts" do %>
+    <%= render "posts/empty_state" %>
     <%= render @posts, user: Current.user %>
   <% end %>
 </div>

@@ -14,10 +14,8 @@
 #
 #  index_posts_on_user_id  (user_id)
 #
-require "test_helper"
-
-class PostTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+FactoryBot.define do
+  factory :post do
+    
+  end
 end

@@ -7,7 +7,7 @@
             <h5 class="card-title"><%= @post.user.username %></h5>
             <div class="post-buttons" data-user-id="<%= @post.user.id %>">
               <% if Current.user == @post.user %>
-                <%= link_to "Delete", post_path(@post), data: { turbo_method: :delete } %>
+                <%= link_to "Delete", post_path(@post), data: { turbo_method: :delete, turbo_frame: "_top" } %>
                 <%= link_to "Edit", edit_post_path(@post) %>
               <% end %>
             </div>

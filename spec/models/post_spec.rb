@@ -17,5 +17,24 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "is valid when body is not blank" do
+    post = create(:post)
+    expect(post.valid?).to be true
+  end
+
+  it "is not valid when body is blank" do
+    post = build(:post, body: nil)
+    expect(post.valid?).to be false
+  end
+
+  describe "Associations" do
+    it { should belong_to(:user) }
+    it { should have_many(:comments) }
+    it { should have_many(:post_likes) }
+    it { should have_many(:likers) }
+  end
+
+  describe "Index" do
+    it { should have_db_index(:user_id) }
+  end
 end

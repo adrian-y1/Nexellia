@@ -16,6 +16,7 @@
 #
 FactoryBot.define do
   factory :post do
-    
+    user
+    body { "Testing!" }
   end
 end

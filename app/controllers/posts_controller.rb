@@ -1,4 +1,5 @@
 class PostsController < ApplicationController
+  before_action :set_post, only: [:edit, :update, :destroy]
   def index
     @posts = Post.user_and_friends_posts(current_user).includes(:comments)
   end
@@ -26,18 +27,18 @@ class PostsController < ApplicationController
   end
 
   def edit
-    @post = Post.find(params[:id])
     if current_user != @post.user
       redirect_to root_path, alert: "You can only edit the posts that you have created."
     end
   end
 
   def update
-    @post = Post.find(params[:id])
-
     respond_to do |format|
       if @post.update(post_params)
-        format.turbo_stream { flash.now[:notice] = "Post was successfully updated." }
+        format.turbo_stream do 
+          redirect_to redirect_context
+          flash.now[:notice] = "Post was successfully updated." 
+        end
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
@@ -46,7 +47,6 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.find(params[:id])
     @post.destroy
 
     respond_to do |format|
@@ -56,6 +56,14 @@ class PostsController < ApplicationController
   end
 
   private
+
+  def redirect_context
+    request.referrer.include?("#{@post.id}") ? @post : posts_url
+  end
+
+  def set_post
+    @post = Post.find(params[:id])
+  end
 
   def post_params
     params.require(:post).permit(:body, :user_id)

@@ -35,10 +35,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.turbo_stream do 
-          redirect_to redirect_context
-          flash.now[:notice] = "Post was successfully updated." 
-        end
+        format.turbo_stream { redirect_and_set_flash_notice(@post, "Post was successfully updated.") }
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
@@ -50,15 +47,20 @@ class PostsController < ApplicationController
     @post.destroy
 
     respond_to do |format|
-      format.turbo_stream { redirect_to posts_url, status: :see_other, notice: "Post was successfully deleted." }
+      format.turbo_stream { redirect_and_set_flash_notice(posts_url, "Post was successfully deleted.") }
       format.html { redirect_to posts_url, notice: "Post was successfully deleted." }
     end
   end
 
   private
 
-  def redirect_context
-    request.referrer.include?("#{@post.id}") ? @post : posts_url
+  def redirect_and_set_flash_notice(url, notice)
+    if request.referrer.include?("#{@post.id}")
+      redirect_to url
+      flash[:notice] = notice
+    else
+      flash.now[:notice] = notice
+    end
   end
 
   def set_post

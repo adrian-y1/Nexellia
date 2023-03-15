@@ -11,5 +11,40 @@
 require 'rails_helper'
 
 RSpec.describe CommentLike, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validations" do
+    describe "Liker" do
+      it "is valid when the liker & liked comment is unique" do
+        user = create(:user)
+        comment = create(:comment)
+        comment_like = create(:comment_like, liker: user, liked_comment: comment)
+        expect(comment_like).to be_valid
+      end
+
+      it "is not valid when the liker & liked comment is not unique" do
+        user = create(:user)
+        comment = create(:comment)
+        comment_like1 = create(:comment_like, liker: user, liked_comment: comment)
+        comment_like2 = build(:comment_like, liker: user, liked_comment: comment)
+        expect(comment_like2).to_not be_valid
+      end
+    end
+  end
+
+  describe "Associations" do
+    describe "User" do
+      it "belongs to a user(liker)" do
+        user = create(:user)
+        comment_like = create(:comment_like, liker: user)
+        expect(comment_like.liker).to eq(user)
+      end      
+    end
+
+    describe "Comment" do
+      it "belongs to a comment(liked_comment)" do
+        comment = create(:comment)
+        comment_like = create(:comment_like, liked_comment: comment)
+        expect(comment_like.liked_comment).to eq(comment)
+      end
+    end
+  end
 end

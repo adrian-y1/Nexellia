@@ -23,6 +23,8 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
+  let(:user) { create(:user) }
+  
   describe "Validations" do
     describe "Username" do
       it "is valid when username length is between 3-15" do
@@ -115,7 +117,6 @@ RSpec.describe User, type: :model do
 
     describe "Email" do
       it "is valid when email is present" do
-        user = create(:user)
         expect(user).to be_valid
       end
 
@@ -126,7 +127,6 @@ RSpec.describe User, type: :model do
       end
 
       it "is valid when email is formatted correctly" do
-        user = create(:user)
         expect(user).to be_valid
       end
 
@@ -189,7 +189,6 @@ RSpec.describe User, type: :model do
 
     describe "Post" do
       it "can have many posts" do
-        user = create(:user)
         post1 = create(:post, user: user)
         post2 = create(:post, user: user)
         expect(user.posts.count).to eq(2)
@@ -198,14 +197,12 @@ RSpec.describe User, type: :model do
 
     describe "PostLike" do
       it "can have many post likes" do
-        user = create(:user)
         like1 = create(:post_like, liker: user)
         like2 = create(:post_like, liker: user)
         expect(user.post_likes.count).to eq(2)
       end
 
       it "can have many liked posts" do
-        user = create(:user)
         like1 = create(:post_like, liker: user)
         like2 = create(:post_like, liker: user)
         expect(user.liked_posts.count).to eq(2)
@@ -214,7 +211,6 @@ RSpec.describe User, type: :model do
 
     describe "Comment" do
       it "can have many comments" do
-        user = create(:user)
         comment = create(:comment, user: user)
         expect(user.comments.count).to eq(1)
       end
@@ -222,13 +218,11 @@ RSpec.describe User, type: :model do
 
     describe "CommentLike" do
       it "can have many comment likes" do
-        user = create(:user)
         comment_like = create(:comment_like, liker: user)
         expect(user.comment_likes.count).to eq(1)
       end
 
       it "can have many liked comments" do
-        user = create(:user)
         comment_like = create(:comment_like, liker: user)
         expect(user.liked_comments.count).to eq(1)
       end

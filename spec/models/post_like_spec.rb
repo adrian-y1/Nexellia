@@ -15,18 +15,17 @@
 require 'rails_helper'
 
 RSpec.describe PostLike, type: :model do
+  let(:user) { create(:user) }
+  let(:post) { create(:post) }
+  
   describe "Validations" do
     describe "Liker" do
       it "is valid when the liker & liked post is unique" do
-        user = create(:user)
-        post = create(:post)
         post_like = create(:post_like, liker: user, liked_post: post)
         expect(post_like).to be_valid
       end
 
       it "is not valid when the liker & liked post is not unique" do
-        user = create(:user)
-        post = create(:post)
         post_like1 = create(:post_like, liker: user, liked_post: post)
         post_like2 = build(:post_like, liker: user, liked_post: post)
         expect(post_like2).to_not be_valid
@@ -37,7 +36,6 @@ RSpec.describe PostLike, type: :model do
   describe "Associations" do
     describe "User" do
       it "belongs to a user(liker)" do
-        user = create(:user)
         post_like = create(:post_like, liker: user)
         expect(post_like.liker).to eq(user)
       end      
@@ -45,7 +43,6 @@ RSpec.describe PostLike, type: :model do
 
     describe "Post" do
       it "belongs to a post(liked_post)" do
-        post = create(:post)
         post_like = create(:post_like, liked_post: post)
         expect(post_like.liked_post).to eq(post)
       end

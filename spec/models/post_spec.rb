@@ -18,10 +18,11 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe Post, type: :model do
+  let(:post) { create(:post) }
+
   describe "Validation" do
     describe "Body" do
       it "is valid when body is not blank and length < 255" do
-        post = create(:post)
         expect(post).to be_valid
       end
     
@@ -49,7 +50,6 @@ RSpec.describe Post, type: :model do
 
     describe "Comment" do
       it "can have many comments" do
-        post = create(:post)
         comment1 = create(:comment, post: post)
         comment2 = create(:comment, post: post)
         expect(post.comments_count).to eq(2)
@@ -57,20 +57,18 @@ RSpec.describe Post, type: :model do
     end
 
     describe "PostLike" do
+      before do
+        create(:post_like, liked_post: post)
+        create(:post_like, liked_post: post)
+      end
+
       it "can have many post likes" do
-        post = create(:post)
-        like1 = create(:post_like, liked_post: post)
-        like2 = create(:post_like, liked_post: post)
         expect(post.post_likes_count).to eq(2)
       end
 
       it "can have many likers" do 
-        post = create(:post)
-        like1 = create(:post_like, liked_post: post)
-        like2 = create(:post_like, liked_post: post)
         expect(post.likers.count).to eq(2)
       end
     end
-
   end
 end

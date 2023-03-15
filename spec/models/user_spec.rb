@@ -23,5 +23,128 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validations" do
+    describe "Username" do
+      it "is valid when username length is between 3-15" do
+        username = Faker::Lorem.characters(number: 12)
+        user = build(:user, username: username)
+        expect(user).to be_valid
+      end
+      
+      it "is valid when username length is exactly 15" do
+        username = Faker::Lorem.characters(number: 15)
+        user = build(:user, username: username)
+        expect(user).to be_valid
+      end
+
+      it "is valid when username is unique" do
+        user1 = create(:user, username: "mark")
+        user2 = build(:user, username: "jim")
+        expect(user2).to be_valid
+      end
+
+      it "is not valid when username is not unique" do
+        user1 = create(:user, username: "mark")
+        user2 = build(:user, username: "mark")
+        expect(user2).to_not be_valid
+      end
+
+      it "is not valid when username is not present" do
+        user = build(:user, username: nil)
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when username length is < 3" do
+        user = build(:user, username: 'vi')
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when username length is > 15 " do
+        username = Faker::Lorem.characters(number: 20)
+        user = build(:user, username: username)
+        expect(user).to_not be_valid
+      end
+
+
+    end
+
+    describe "Password" do
+      it "is valid when password length is between 6-128" do
+        password = Faker::Lorem.characters(number: 42)
+        user = create(:user, password: password)
+        expect(user).to be_valid
+      end
+
+      it "is valid when password length is exactly 128" do
+        password = Faker::Lorem.characters(number: 128)
+        user = create(:user, password: password)
+        expect(user).to be_valid
+      end
+
+      it "is valid when password matches confirmation password" do
+        password = "12345678"
+        password_confirmation = "12345678"
+        user = build(:user, password: password, password_confirmation: password_confirmation)
+        expect(user).to be_valid
+      end
+
+      it "is not valid when password is not present" do
+        user = build(:user, password: nil)
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when password length is < 6" do
+        password = Faker::Lorem.characters(number: 4)
+        user = build(:user, password: password)
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when password length is > 128" do
+        password = Faker::Lorem.characters(number: 220)
+        user = build(:user, password: password)
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when password and password confirmation dont match" do
+        password = "12345678"
+        password_confirmation = "0987654"
+        user = build(:user, password: password, password_confirmation: password_confirmation)
+        expect(user).to_not be_valid
+      end
+    end
+
+    describe "Email" do
+      it "is valid when email is present" do
+        user = create(:user)
+        expect(user).to be_valid
+      end
+
+      it "is valid when email is unique" do
+        user1 = create(:user, email: "michael@gmail.com")
+        user2 = create(:user, email: "jim@gmail.com")
+        expect(user2).to be_valid
+      end
+
+      it "is valid when email is formatted correctly" do
+        user = create(:user)
+        expect(user).to be_valid
+      end
+
+      it "is not valid when email is not present" do
+        user = build(:user, email: nil)
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when email is not unique" do
+        user1 = create(:user, email: "michael@gmail.com")
+        user2 = build(:user, email: "michael@gmail.com")
+        expect(user2).to_not be_valid
+      end
+
+      it "is not valid when email is not formatted correctly" do
+        user = build(:user, email: "jim@")
+        expect(user).to_not be_valid
+      end
+    end
+  end
 end

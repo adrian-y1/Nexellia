@@ -13,10 +13,11 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
+  let(:comment) { create(:comment) }
+  
   describe "Validations" do
     describe "Body" do
       it "is valid when body is present" do
-        comment = create(:comment)
         expect(comment).to be_valid
       end
 
@@ -64,13 +65,11 @@ RSpec.describe Comment, type: :model do
 
     describe "CommentLike" do
       it "can have many comment likes" do
-        comment = create(:comment)
         comment_like = create(:comment_like, liked_comment: comment)
         expect(comment.comment_likes).to include(comment_like)
       end
 
       it "can have many likers" do
-        comment = create(:comment)
         like1 = create(:comment_like, liked_comment: comment)
         like2 = create(:comment_like, liked_comment: comment)
         expect(comment.likers.count).to eq(2)

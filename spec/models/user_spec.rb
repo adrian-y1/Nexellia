@@ -147,4 +147,73 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "Associations" do
+    describe "FriendRequest" do
+      it "can have many sent friend requests" do
+        user1 = create(:user)
+        user2 = create(:user)
+        user3 = create(:user)
+        friend_request1 = create(:friend_request, sender: user1, receiver: user2)
+        friend_request2 = create(:friend_request, sender: user1, receiver: user3)
+        expect(user1.friend_requests_sent.count).to eq(2)
+      end
+
+      it "can have many received friend requests" do
+        user1 = create(:user)
+        user2 = create(:user)
+        user3 = create(:user)
+        friend_request1 = create(:friend_request, sender: user1, receiver: user2)
+        friend_request1 = create(:friend_request, sender: user3, receiver: user2)
+        expect(user2.friend_requests_received.count).to eq(2)
+      end
+    end
+
+    describe "Post" do
+      it "can have many posts" do
+        user = create(:user)
+        post1 = create(:post, user: user)
+        post2 = create(:post, user: user)
+        expect(user.posts.count).to eq(2)
+      end
+    end
+
+    describe "PostLike" do
+      it "can have many post likes" do
+        user = create(:user)
+        like1 = create(:post_like, liker: user)
+        like2 = create(:post_like, liker: user)
+        expect(user.post_likes.count).to eq(2)
+      end
+
+      it "can have many liked posts" do
+        user = create(:user)
+        like1 = create(:post_like, liker: user)
+        like2 = create(:post_like, liker: user)
+        expect(user.liked_posts.count).to eq(2)
+      end
+    end
+
+    describe "Comment" do
+      it "can have many comments" do
+        user = create(:user)
+        comment = create(:comment, user: user)
+        expect(user.comments.count).to eq(1)
+      end
+    end
+
+    describe "CommentLike" do
+      it "can have many comment likes" do
+        user = create(:user)
+        comment_like = create(:comment_like, liker: user)
+        expect(user.comment_likes.count).to eq(1)
+      end
+
+      it "can have many liked comments" do
+        user = create(:user)
+        comment_like = create(:comment_like, liker: user)
+        expect(user.liked_comments.count).to eq(1)
+      end
+    end
+  end
 end

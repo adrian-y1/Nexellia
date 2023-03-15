@@ -13,5 +13,35 @@
 require 'rails_helper'
 
 RSpec.describe Comment, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "Validations" do
+    describe "Body" do
+      it "is valid when body is present" do
+        comment = create(:comment)
+        expect(comment).to be_valid
+      end
+
+      it "is valid when body length is < 255" do
+        body = Faker::Lorem.characters(number: 122)
+        comment = create(:comment, body: body)
+        expect(comment).to be_valid
+      end
+
+      it "is valid when body lenght is exactly 255" do
+        body = Faker::Lorem.characters(number: 255)
+        comment = create(:comment, body: body)
+        expect(comment).to be_valid
+      end
+
+      it "is not valid when body is not present" do
+        comment = build(:comment, body: nil)
+        expect(comment).to_not be_valid
+      end
+
+      it "is not valid when body length is > 255" do
+        body = Faker::Lorem.characters(number: 300)
+        comment = build(:comment, body: body)
+        expect(comment).to_not be_valid
+      end
+    end
+  end
 end

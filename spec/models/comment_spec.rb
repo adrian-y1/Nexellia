@@ -44,4 +44,37 @@ RSpec.describe Comment, type: :model do
       end
     end
   end
+
+  describe "Association" do
+    describe "User" do
+      it "belongs to a user" do
+        user = create(:user)
+        comment = create(:comment, user: user)
+        expect(comment.user).to eq(user)
+      end
+    end
+
+    describe "Post" do
+      it "belongs to a post" do
+        post = create(:post)
+        comment = create(:comment, post: post)
+        expect(comment.post).to eq(post)
+      end
+    end
+
+    describe "CommentLike" do
+      it "can have many comment likes" do
+        comment = create(:comment)
+        comment_like = create(:comment_like, liked_comment: comment)
+        expect(comment.comment_likes).to include(comment_like)
+      end
+
+      it "can have many likers" do
+        comment = create(:comment)
+        like1 = create(:comment_like, liked_comment: comment)
+        like2 = create(:comment_like, liked_comment: comment)
+        expect(comment.likers.count).to eq(2)
+      end
+    end
+  end
 end

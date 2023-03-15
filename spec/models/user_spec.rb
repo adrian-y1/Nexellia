@@ -169,6 +169,24 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe "friendship" do
+      it "can create many friendships between users" do
+        user1 = create(:user)
+        user2 = create(:user)
+        user3 = create(:user)
+        user1.friends << user2
+        user1.friends << user3
+        user2.friends << user3
+        user2.friends << user1
+        user3.friends << user1
+        user3.friends << user2
+
+        expect(user1.friends).to eq([user2, user3])
+        expect(user2.friends).to eq([user3, user1])
+        expect(user3.friends).to eq([user1, user2])
+      end
+    end
+
     describe "Post" do
       it "can have many posts" do
         user = create(:user)
@@ -213,6 +231,18 @@ RSpec.describe User, type: :model do
         user = create(:user)
         comment_like = create(:comment_like, liker: user)
         expect(user.liked_comments.count).to eq(1)
+      end
+    end
+  end
+
+  describe "Instance Methods" do
+    describe "#create_friendships" do
+      it "creates a two-way friendship" do
+        user1 = create(:user)
+        user2 = create(:user)
+        user1.create_friendship(user2)
+        expect(user1.friends.first).to eq(user2)
+        expect(user2.friends.first).to eq(user1)
       end
     end
   end

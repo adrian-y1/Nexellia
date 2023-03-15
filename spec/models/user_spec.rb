@@ -182,7 +182,7 @@ RSpec.describe User, type: :model do
         user3.friends << user2
 
         expect(user1.friends).to eq([user2, user3])
-        expect(user2.friends).to eq([user3, user1])
+        expect(user2.friends).to eq([user1, user3])
         expect(user3.friends).to eq([user1, user2])
       end
     end

@@ -17,6 +17,6 @@
 FactoryBot.define do
   factory :post do
     user
-    body { "Testing!" }
+    sequence(:body) { |n| "this is test number #{n}"}
   end
 end

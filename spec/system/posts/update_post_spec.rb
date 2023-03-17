@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Posts::UpdatePosts", type: :system do
+RSpec.describe "Update Post", type: :system do
   let(:user) { create(:user) }
   let(:uri_error) { URI::InvalidURIError }
 

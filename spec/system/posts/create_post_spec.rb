@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Posts::CreatePosts", type: :system do
+RSpec.describe "Create Post", type: :system do
   before do
     driven_by(:rack_test)
     login_as(create(:user))
@@ -9,7 +9,7 @@ RSpec.describe "Posts::CreatePosts", type: :system do
   # Steps: Login => visit new_post_path => fill in the form => submit
   # Since im using TurboStreams, the form is in posts_path (index), 
   # i dont need to visit/redirect to posts_path otherwise i wont see the flash notice
-  context "when creating a post with valid attributes" do
+  describe "Valid Attributes" do
     it "creates the post with Turbo Streams" do
       content = 'My New Post!'
       flash_notice = 'Post was successfully created.'
@@ -25,7 +25,7 @@ RSpec.describe "Posts::CreatePosts", type: :system do
     end
   end
 
-  context "when creating a post with invalid attributes" do
+  describe "Invalid Attributes" do
     it "doesn't create the post and renders an error with Turbo Streams" do
       visit new_post_path
       fill_in 'post[body]', with: ''

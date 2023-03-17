@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "Posts::DeletePosts", type: :system do
+RSpec.describe "Delete Post", type: :system do
   let(:user) { create(:user) }
   let(:flash_notice) { "Post was successfully deleted."}
 
@@ -9,7 +9,7 @@ RSpec.describe "Posts::DeletePosts", type: :system do
     login_as(user)
   end
 
-  context "when deleting a post in the index page" do
+  describe "Index Page" do
     it "deletes the post and renders flash notice using Turbo Streams" do
       post = create(:post, user: user)
       visit posts_path
@@ -25,7 +25,7 @@ RSpec.describe "Posts::DeletePosts", type: :system do
     end
   end
 
-  context "when deleting a post in the show page" do
+  describe "Show Page" do
     it "deletes the post, renders flash notice and redirects to index page using Turbo Streams" do
       post = create(:post, user: user)
       visit post_path(post)

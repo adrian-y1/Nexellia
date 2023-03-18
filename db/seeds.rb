@@ -23,4 +23,4 @@ michael.comments.create(body: "wowww!", post_id: adrian.posts.first.id)
 jim.comments.create(body: "Awesome read!", post_id: jim.posts.first.id)
 
 adrian.create_friendship(jim)
-# adrian.create_friendship(michael)
+jim.create_friendship(michael)

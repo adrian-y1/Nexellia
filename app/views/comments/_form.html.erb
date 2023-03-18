@@ -1,0 +1,7 @@
+<%= render "shared/form_errors", object: comment %>
+<%= form_with model: comment, url: post_comments_path, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' } do |f| %>
+  <div class="mb-3" style="max-width: 600px;">
+    <%= f.text_area :body, size: "70x2", class: "form-control", placeholder: "add a comment..." %>
+    <%= f.submit class: "btn btn-primary mt-2" %>
+  </div>
+<% end %>

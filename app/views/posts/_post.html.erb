@@ -1,3 +1,5 @@
+<%# turbo_stream_from post %>
+
 <%= turbo_frame_tag dom_id post do %>
   <div class="card mt-4" style="width: 600px;">
     <div class="card-header">
@@ -14,17 +16,17 @@
       <p class="card-text"><%= post.body %></p>
       <p class="card-text"><small class="text-muted">Created at: <%= time_ago_in_words(post.created_at) %> ago</small></p>
       <div class="card-header">Comments (<%= post.comments_count %>)</div>
+
+      <%# Comments Partials & Comment Form %>
+      <%= turbo_stream_from post, :comments %>
+
       <ul class="list-group">
-        <% post.comments.each do |comment| %>
-          <li class="list-group-item">
-            <span class="badge text-bg-primary"><%= comment.user.username %></span> <br>
-            <div class="d-flex justify-content-between">
-              <%= comment.body %>
-              <small><%= time_ago_in_words(comment.created_at) %> ago</small>
-            </div>
-          </li>
+        <%= turbo_frame_tag post, "comments" do %>
+          <%= render post.comments %>
         <% end %>
       </ul>
+      <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+
     </div>
   </div>
 <% end %>

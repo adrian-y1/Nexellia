@@ -11,6 +11,8 @@
 #  user_id             :integer
 #
 class Comment < ApplicationRecord
+  include ActionView::RecordIdentifier
+  
   belongs_to :user
   belongs_to :post, counter_cache: true
 
@@ -18,4 +20,8 @@ class Comment < ApplicationRecord
   has_many :likers, through: :comment_likes, source: :liker, foreign_key: "liker_id", dependent: :destroy
 
   validates :body, presence: true, length: { maximum: 255, message: "Comment length exceeded." }
+
+  after_create_commit -> do
+    broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self }
+  end
 end

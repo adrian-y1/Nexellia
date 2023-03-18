@@ -14,7 +14,6 @@ class CommentsController < ApplicationController
         format.turbo_stream { flash.now[:notice] = "Comment was successfully created." }
         format.html { redirect_to posts_path, notice: "Comment was successfully created." }
       else
-        puts @comment.inspect
         format.html { render :new, status: :unprocessable_entity, alert: "Comment could not be created." }
       end
     end

@@ -7,15 +7,10 @@
       <p class="card-text"><%= render "posts/form", post: @post, action: "edit" %></p>
       <p class="card-text"><small class="text-muted">Created at: <%= time_ago_in_words(@post.created_at) %> ago</small></p>
       <div class="card-header">Comments (<%= @post.comments_count %>)</div>
+
       <ul class="list-group">
-        <% @post.comments.each do |comment| %>
-          <li class="list-group-item">
-            <span class="badge text-bg-primary"><%= comment.user.username %></span> <br>
-            <div class="d-flex justify-content-between">
-              <%= comment.body %>
-              <small><%= time_ago_in_words(comment.created_at) %> ago</small>
-            </div>
-          </li>
+        <%= turbo_frame_tag @post, "comments" do %>
+          <%= render @post.comments %>
         <% end %>
       </ul>
     </div>

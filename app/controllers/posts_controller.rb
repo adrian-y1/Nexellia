@@ -36,7 +36,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
-        format.turbo_stream { redirect_and_set_flash_notice(@post, "Post was successfully updated.") }
+        format.turbo_stream
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }

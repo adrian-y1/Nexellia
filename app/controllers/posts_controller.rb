@@ -55,17 +55,9 @@ class PostsController < ApplicationController
 
   private
 
-  def redirect_and_set_flash_notice(url, notice)
-    if request.referrer.include?("#{@post.id}")
-      redirect_to url
-      flash[:notice] = notice
-    else
-      flash.now[:notice] = notice
-    end
-  end
-
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.find_by(id: params[:id])
+    redirect_to posts_url, alert: "The post you were viewing no longer exists." unless @post
   end
 
   def post_params

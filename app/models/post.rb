@@ -39,5 +39,6 @@ class Post < ApplicationRecord
   after_destroy_commit -> do 
     broadcast_remove_to [self.user.id, "posts"] 
     broadcast_remove_to self
+    broadcast_prepend_to self, target: "post_deleted", partial: "posts/post_deleted"
   end
 end

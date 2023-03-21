@@ -1,5 +1,7 @@
 <%= turbo_stream_from @post %>
 
+<%= turbo_frame_tag "post_deleted" %>
+
 <%= turbo_frame_tag @post do %>
   <%= render partial: "posts/show_page_post", locals: { post: @post, user: Current.user } %>
 <% end %>

@@ -33,7 +33,11 @@ class Post < ApplicationRecord
 
   after_update_commit -> do 
     broadcast_update_later_to [self.user.id, "posts"], locals: { post: self, user: Current.user } 
+    broadcast_update_later_to self, partial: "posts/show_page_post", locals: { post: self, user: Current.user } , target: self
   end
   
-  after_destroy_commit -> { broadcast_remove_to [self.user.id, "posts"] }
+  after_destroy_commit -> do 
+    broadcast_remove_to [self.user.id, "posts"] 
+    broadcast_remove_to self
+  end
 end

@@ -2,7 +2,7 @@
 #
 # These tests are created using Rspec + Capybara + Capybara's selenium drive
 #
-# To run the tests, run => rspec spec/system/create_post_spec.rb
+# To run the tests, run => rspec spec/system/posts/create_post_spec.rb
 
 require 'rails_helper'
 
@@ -19,7 +19,7 @@ RSpec.describe "Create Post", type: :system, js: true do
     # index page of the application. Since the form is within a Turbo Frame tag, i
     # do not need to visit a separate page to access it.
     # 
-    # I use Capybara to fill in the form and submit it. Since i'm are using Turbo Streams
+    # I use Capybara to fill in the form and submit it. Since i'm using Turbo Streams
     # instead of a full page refresh, the post is created live and the user is not
     # redirected to a new page.
     # 
@@ -34,7 +34,9 @@ RSpec.describe "Create Post", type: :system, js: true do
         click_on 'Create Post'
       end
 
-      # Confirms that the post was created live using Turbo Streams.
+      # Confirms that the post was created live using Turbo Streams and that 
+      # the user is still on the index page.
+      expect(page).to have_current_path(posts_path)
       expect(page).to have_content(content)
       expect(page).to have_content(flash_notice)
     end
@@ -45,7 +47,7 @@ RSpec.describe "Create Post", type: :system, js: true do
     # using the create post form on the index page of the application. 
     # Since the form is within a Turbo Frame tag, i do not need to visit a separate page to access it.
     # 
-    # I use Capybara to fill in the form and submit it. Since i'm are using Turbo Streams
+    # I use Capybara to fill in the form and submit it. Since i'm using Turbo Streams
     # instead of a full page refresh, the flash notice appears with no page reload.
     it "doesn't create the post and renders an error without page referesh" do
       visit posts_path
@@ -56,7 +58,9 @@ RSpec.describe "Create Post", type: :system, js: true do
       end
       
       # Since the user hasn't been redirected after creating a post,
-      # the flash notice appears right away as a result of using Turbo Streams 
+      # this confirms they are still on the index page and the flash notice
+      # is displayed as a result of using Turbo Streams 
+      expect(page).to have_current_path(posts_path)
       expect(page).to have_content("Body can't be blank")
     end
   end

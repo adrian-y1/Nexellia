@@ -8,7 +8,6 @@ require 'rails_helper'
 
 RSpec.describe "Update Post", type: :system, js: true do
   let(:user) { create(:user) }
-  let(:uri_error) { URI::InvalidURIError }
 
   before do
     login_as(user)
@@ -31,7 +30,7 @@ RSpec.describe "Update Post", type: :system, js: true do
       # page to access it.
       #
       # Since i'm using Turbo Streams, instead of a full page refresh, 
-      # the post is created live and the user is not redirected to a new page.
+      # the post is updated live and the user is not redirected to a new page.
       #
       # With this functionality in place, the test is able to check that, when a post is updated,
       # the updated content are updated live and the flash notice is displayed without 
@@ -135,7 +134,7 @@ RSpec.describe "Update Post", type: :system, js: true do
       # page to access it.
       #
       # Since i'm using Turbo Streams, instead of a full page refresh, 
-      # the post is created live and the user is not redirected to a new page.
+      # the post is updated live and the user is not redirected to a new page.
       #
       # With this functionality in place, the test is able to check that, when a post is updated,
       # the updated content are updated live and the flash notice is displayed without 

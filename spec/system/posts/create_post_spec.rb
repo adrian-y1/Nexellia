@@ -9,6 +9,7 @@ require 'rails_helper'
 RSpec.describe "Create Post", type: :system, js: true do
   let(:content) { 'My New Post!' }
   let(:flash_notice) { 'Post was successfully created.' }
+  
   before do
     login_as(create(:user))
     driven_by(:selenium_chrome_headless)

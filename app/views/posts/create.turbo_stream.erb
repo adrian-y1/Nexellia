@@ -1,2 +1,4 @@
-<%= turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } ) %>
+<%# Commented the below line out as it causes duplicate posts to be created for the current user %>
+<%# turbo_stream.prepend(@post, partial: "posts/post", locals: { post: @post, user: Current.user } ) %>
+
 <%= render_turbo_stream_flash_messages %>

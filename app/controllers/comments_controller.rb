@@ -24,8 +24,8 @@ class CommentsController < ApplicationController
     @comment.destroy
 
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "Comment was sucessfully deleted." }
-      format.html { redirect_to posts_path, notice: "Comment was sucessfully deleted." }
+      format.turbo_stream { flash.now[:notice] = "Comment was successfully deleted." }
+      format.html { redirect_to posts_path, notice: "Comment was successfully deleted." }
     end
   end
 

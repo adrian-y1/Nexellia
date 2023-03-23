@@ -1,3 +1,9 @@
+# This file contains system tests for deleting posts using Turbo Streams. 
+#
+# These tests are created using Rspec + Capybara + Capybara's selenium drive
+#
+# To run the tests, run => rspec spec/system/posts/delete_post_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe "Delete Post", type: :system, js: true do

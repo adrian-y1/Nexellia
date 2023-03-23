@@ -22,7 +22,7 @@ class Comment < ApplicationRecord
   validates :body, presence: true, length: { maximum: 255, message: "Comment length exceeded." }
 
   after_create_commit -> do
-    broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self }, locals: { user: Current.user }
+    broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
   end
 
   after_destroy_commit -> do

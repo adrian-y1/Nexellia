@@ -1,3 +1,9 @@
+# This file contains system tests for creating comments using Turbo Streams. 
+#
+# These tests are created using Rspec + Capybara + Capybara's selenium drive
+#
+# To run the tests, run => rspec spec/system/comments/create_comment_spec.rb
+
 require 'rails_helper'
 
 RSpec.describe "Create Comment", type: :system, js: true do

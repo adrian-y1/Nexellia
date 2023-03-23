@@ -19,7 +19,7 @@
             
             <ul class="list-group">
               <%= turbo_frame_tag post, "comments" do %>
-                <%= render post.comments %>
+                <%= render post.comments, user: user %>
               <% end %>
             </ul>
             <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>

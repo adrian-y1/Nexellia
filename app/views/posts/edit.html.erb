@@ -10,7 +10,7 @@
 
       <ul class="list-group">
         <%= turbo_frame_tag @post, "comments" do %>
-          <%= render @post.comments %>
+          <%= render @post.comments, user: Current.user %>
         <% end %>
       </ul>
     </div>

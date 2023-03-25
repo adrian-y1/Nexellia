@@ -21,6 +21,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  include ActionView::RecordIdentifier
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -51,5 +53,28 @@ class User < ApplicationRecord
 
   def self.authentication_keys
     [:username]
+  end
+
+  # Checks if user has liked the given post or not
+  def liked?(post)
+    liked_posts.include?(post)
+  end
+
+  # If the user has liked the given post:
+  # => Unlike the post by destroying it from the user's liked_posts
+  # Else => Like the post by inserting it into the user's liked_posts
+  #
+  # Create a public target that can be seen by every user listening.
+  # It broadcasts a replace to the stream of `[post_obj]:likes` and makes it's target the 
+  # given public target (`post_[post.id]_likes`).
+  # Then it renders the post_like partial that includes the post_likes_count
+  def like(post)
+    if liked_posts.include?(post)
+      liked_posts.destroy(post)
+    else
+      liked_posts << post
+    end
+    public_target = "#{dom_id(post)}_likes"
+    broadcast_replace_later_to [post, 'likes'], target: public_target, partial: 'post_likes/post_like', locals: { post: post }
   end
 end

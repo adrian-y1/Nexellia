@@ -3,6 +3,8 @@
 <%= turbo_frame_tag post do %>
   <div class="card mt-4" style="width: 600px;">
     <div class="card-header">
+      Author: <%= user.username %> <br>
+      Current: <%= post.user.username %> <br>
       <%= post.user.username %>
       <%= link_to "View Post", post, data: { turbo_frame: "_top" }  %>
       <div class="post-buttons" data-user-id="<%= post.user.id %>">
@@ -15,11 +17,17 @@
     <div class="card-body">
       <p class="card-text"><%= post.body %></p>
       <p class="card-text"><small class="text-muted">Created at: <%= time_ago_in_words(post.created_at) %> ago</small></p>
-      <div class="card-header">Comments (<%= post.comments_count %>)</div>
+
+      <%# PostLikes Count & button partial %>
+      <%= turbo_stream_from post, :likes %>
+      <%= render 'post_likes/post_like', post: post %>
+      <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+      <hr>
 
       <%# Comments Partials & Comment Form %>
+      <div class="card-header">Comments (<%= post.comments_count %>)</div>
       <%= turbo_stream_from post, :comments %>
-
+      
       <ul class="list-group">
         <%= turbo_frame_tag post, "comments" do %>
           <%= render post.comments, user: user %>

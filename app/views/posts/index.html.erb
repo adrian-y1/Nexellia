@@ -10,6 +10,8 @@
 
   <%= turbo_frame_tag "posts" do %>
     <%= render "posts/empty_state" %>
-    <%= render @posts, user: Current.user %>
+    <% @posts.each do |post| %>
+      <%= render "posts/post_interactions", post: post, user: Current.user %>
+    <% end %>
   <% end %>
 </div>

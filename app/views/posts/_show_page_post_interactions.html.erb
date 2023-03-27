@@ -1,0 +1,24 @@
+<div class="border border-primary mb-3 w-50 m-auto" id="<%= "show-page-post-interactions-#{post.id}" %>">
+  <%# Post Partial %>
+  <%= turbo_frame_tag post do %>
+    <%= render "posts/show_page_post", post: post, user: user %>
+  <% end %>
+  
+  <%# Post Likes %>
+  <%= turbo_stream_from post, :likes %>
+  <%= render 'post_likes/post_like', post: post %>
+  <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+  <hr>
+
+  <%# Comments %>
+  <h6 class="card-subtitle mb-2 text-muted"><%= post.comments.count %> Comments</h6>
+
+  <%= turbo_stream_from post, :comments %>
+  
+  <ul class="list-group">
+    <%= turbo_frame_tag post, "comments" do %>
+      <%= render post.comments, user: user %>
+    <% end %>
+  </ul>
+  <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+</div>

@@ -1,0 +1,22 @@
+<div class="border border-primary mb-3" id="<%= "post-interactions-#{post.id}" %>">
+  <%# Post partial %>
+  <%= render "posts/post", post: post, user: user %>
+
+  <%# PostLikes Count & button partial %>
+  <%= turbo_stream_from post, :likes %>
+  <%= render 'post_likes/post_like', post: post %>
+  <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+  <hr>
+
+  <%# Comments Partials & Comment Form %>
+  <div class="card-header">Comments (<%= post.comments_count %>)</div>
+  <%= turbo_stream_from post, :comments %>
+  
+  <ul class="list-group">
+    <%= turbo_frame_tag post, "comments" do %>
+      <%= render post.comments, user: user %>
+    <% end %>
+  </ul>
+  <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+
+</div>

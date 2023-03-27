@@ -28,17 +28,17 @@ class Post < ApplicationRecord
 
 
   after_create_commit -> do 
-    broadcast_prepend_later_to [self.user.id, "posts"], partial: "posts/post", locals: { post: self, user: Current.user }, target: "posts" 
+    broadcast_prepend_later_to [self.user.id, "posts"], partial: "posts/post_interactions", locals: { post: self, user: Current.user }, target: "posts" 
   end
 
   after_update_commit -> do 
-    broadcast_update_later_to [self.user.id, "posts"], locals: { post: self, user: Current.user } 
+    broadcast_update_later_to [self.user.id, "posts"], partial: "posts/post", locals: { post: self, user: Current.user } 
     broadcast_update_later_to self, partial: "posts/show_page_post", locals: { post: self, user: Current.user } , target: self
   end
   
   after_destroy_commit -> do 
-    broadcast_remove_to [self.user.id, "posts"] 
-    broadcast_remove_to self
+    broadcast_remove_to [self.user.id, "posts"], target: "post-interactions-#{self.id}"
+    broadcast_remove_to self, target: "show-page-post-interactions-#{self.id}"
     broadcast_prepend_to self, target: "post_deleted", partial: "posts/post_deleted"
   end
 end

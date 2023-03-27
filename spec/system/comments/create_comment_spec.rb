@@ -36,7 +36,7 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit posts_path
 
-        post_frame = find("turbo-frame#post_#{post.id}")
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: content
           click_on 'Create Comment'
@@ -66,7 +66,7 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit posts_path
 
-        post_frame = find("turbo-frame#post_#{post.id}")
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: ''
           click_on 'Create Comment'
@@ -100,7 +100,7 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit post_path(post)
 
-        post_frame = find("turbo-frame#post_#{post.id}")
+        post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: content
           click_on 'Create Comment'
@@ -130,7 +130,7 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit post_path(post)
 
-        post_frame = find("turbo-frame#post_#{post.id}")
+        post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: ''
           click_on 'Create Comment'

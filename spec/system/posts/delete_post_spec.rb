@@ -34,7 +34,7 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
     it "deletes the post and renders flash notice using Turbo Streams" do
       visit posts_path
-      post_frame = find("turbo-frame#post_#{user.posts.last.id}")
+      post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
       within(post_frame) do
         click_on "Delete"
       end
@@ -72,7 +72,7 @@ RSpec.describe "Delete Post", type: :system, js: true do
       post = user.posts.last
 
       visit post_path(post)
-      post_frame = find("turbo-frame#post_#{post.id}")
+      post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
       within(post_frame) do
         click_on "Delete"
       end

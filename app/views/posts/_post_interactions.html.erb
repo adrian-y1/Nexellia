@@ -1,24 +1,60 @@
 <%= turbo_frame_tag "post-interactions-#{post.id}" do %>
-  <div class="border border-primary mb-3">
-  
-    <%# Post partial %>
-    <%= render "posts/post", post: post, user: user %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10">
+        <div class="card mb-3">
+          <div class="card-header">
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <h5 class="card-title">
+                  <%= post.user.username %>
+                </h5>
+                <p class="card-text">
+                  <small class="text-muted"><%= time_ago_in_words(post.created_at) %> ago</small>
+                </p>
+              </div>
+              <div class="btn-group">
+                <%= link_to "View Post", post, data: { turbo_frame: "_top" }, class: "btn btn-sm btn-outline-primary"  %>
+                <div class="post-buttons" data-user-id="<%= post.user.id %>">
+                  <% if user == post.user %>
+                    <%= link_to "Edit", edit_post_path(post), data: { turbo_frame: dom_id(post) }, class: "btn btn-sm btn-outline-secondary" %>
+                    <%= link_to "Delete", post_path(post), data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-danger" %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card-body">
+            <%# Post body partial %>
+            <p class="card-text"><%= render "posts/post_body", post: post %></p>
+            <div class="d-flex justify-content-between align-iterms-center">
+              <%# Post Like Count partial and stream %>
+              <div>
+                <%= turbo_stream_from post, :likes %>
+                <small class="text-muted"><%= render 'post_likes/post_like', post: post %></small>
+                <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+              </div>
+            </div>
+          </div>
 
-    <%# PostLikes Count & button partial %>
-    <%= turbo_stream_from post, :likes %>
-    <%= render 'post_likes/post_like', post: post %>
-    <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
-    <hr>
+          <%# Comments partial and stream %>
+          <div class="card-footer">
+            <h6 class="card-subtitle mb-4 mt-2"><%= pluralize(post.comments.count, "Comment")%></h6>
+            <div class="comments">
+              <%= turbo_stream_from post, :comments %>
 
-    <%# Comments Partials & Comment Form %>
-    <div class="card-header">Comments (<%= post.comments_count %>)</div>
-    <%= turbo_stream_from post, :comments %>
-    
-    <ul class="list-group">
-      <%= turbo_frame_tag post, "comments" do %>
-        <%= render post.comments, user: user %>
-      <% end %>
-    </ul>
-    <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+              <%= turbo_frame_tag post, "comments" do %>
+                <%= render post.comments, user: user %>
+              <% end %>
+              
+              <div class="comment-form">
+                <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 <% end %>

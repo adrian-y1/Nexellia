@@ -1,16 +1,20 @@
 <%= turbo_frame_tag comment do %>
-  <li class="list-group-item">
-    <div class="d-flex align-items-center jutify-content-start" style="gap: 20px;">
-      <span class="badge text-bg-primary"><%= comment.user.username %></span> 
+  <div class="card mb-3">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <div class="comment-author">
+        <strong><%= comment.user.username %></strong>
+      </div>
+      <div class="comment-date">
+        <small class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</small>
+      </div>
       <div class="post-buttons" data-user-id="<%= comment.user.id %>">
         <% if user == comment.user %>
-          <%= link_to "Delete", post_comment_path(comment.post.id, comment.id), data: { turbo_method: :delete }, class: "badge bg-danger" %>
+          <%= link_to "Delete", post_comment_path(comment.post.id, comment.id), data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-danger" %>
         <% end %>
       </div>
     </div>
-    <div class="d-flex justify-content-between">
-      <%= comment.body %>
-      <small><%= time_ago_in_words(comment.created_at) %> ago</small>
+    <div class="card-body">
+      <p class="card-text"><%= comment.body %></p>
     </div>
-  </li>
+  </div>
 <% end %>

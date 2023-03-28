@@ -32,7 +32,7 @@ class Post < ApplicationRecord
   end
 
   after_update_commit -> do 
-    broadcast_update_later_to [self.user.id, "posts"], partial: "posts/post", locals: { post: self, user: Current.user } 
+    broadcast_update_later_to [self.user.id, "posts"], partial: "posts/post_body", locals: { post: self, user: Current.user } 
     broadcast_update_later_to self, partial: "posts/show_page_post", locals: { post: self, user: Current.user } , target: self
   end
   

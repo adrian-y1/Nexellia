@@ -39,10 +39,10 @@
           </div>
 
           <%# Comments partial and stream %>
+          <%= turbo_stream_from post, :comments %>
           <div class="card-footer">
-            <h6 class="card-subtitle mb-4 mt-2"><%= pluralize(post.comments.count, "Comment")%></h6>
+            <h6 class="card-subtitle mb-4 mt-2"><%= render 'comments/comment_count', post: post %></h6>
             <div class="comments">
-              <%= turbo_stream_from post, :comments %>
 
               <%= turbo_frame_tag post, "comments" do %>
                 <%= render post.comments, user: user %>

@@ -23,9 +23,11 @@ class Comment < ApplicationRecord
 
   after_create_commit -> do
     broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
+    broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
   end
 
   after_destroy_commit -> do
     broadcast_remove_to [post, "comments"]
+    broadcast_replace_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
   end
 end

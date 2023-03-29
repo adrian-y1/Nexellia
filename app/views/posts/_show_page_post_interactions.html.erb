@@ -40,7 +40,7 @@
             <hr>
 
             <%# Comment partial, stream & form %>
-            <h5 class="card-title"><%= pluralize(post.comments.count, "Comment")%></h5>
+            <h5 class="card-title"><%= render 'comments/comment_count', post: post %></h5>
             <div class="comments">
               <%= turbo_stream_from post, :comments %>
 

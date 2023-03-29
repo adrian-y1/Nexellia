@@ -27,6 +27,7 @@ RSpec.describe "Create Post", type: :system, js: true do
     # The test checks that the post is successfully created and that a flash notice is
     # displayed to the user. I also confirm that Turbo Streams is working by checking
     # that the post is created live without a page refresh.
+
     it "creates the post live with Turbo Streams" do
       visit posts_path
       new_post_frame = find("turbo-frame[id='new_post']")
@@ -50,6 +51,7 @@ RSpec.describe "Create Post", type: :system, js: true do
     # 
     # I use Capybara to fill in the form and submit it. Since i'm using Turbo Streams
     # instead of a full page refresh, the flash notice appears with no page reload.
+    
     it "doesn't create the post and renders an error without page referesh" do
       visit posts_path
       new_post_frame = find("turbo-frame[id='new_post']")

@@ -9,6 +9,9 @@
         <li class="nav-item">
           <%= link_to "Feed", posts_path, class: "nav-link active" if user_signed_in? %>
         </li>
+        <li class="nav-item">
+          <%= link_to "Users", users_path, class: "nav-link" if user_signed_in? %>
+        </li>
       </ul>
       <div class="d-flex gap-4">
         <% if user_signed_in? %>

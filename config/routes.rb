@@ -6,5 +6,7 @@ Rails.application.routes.draw do
     post 'like', to: 'posts#like', as: 'like'
   end
 
+  resources :users, only: [:index]
+
   root 'posts#index'
 end

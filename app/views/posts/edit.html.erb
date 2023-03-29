@@ -1,3 +1,5 @@
-<%= turbo_frame_tag @post do %>
-  <%= render "posts/form", post: @post, action: "edit" %>
+<%= turbo_frame_tag 'modal' do %>
+  <div class="modal-body">
+    <%= render "posts/form", post: @post, action: "edit" %>
+  </div>
 <% end %>

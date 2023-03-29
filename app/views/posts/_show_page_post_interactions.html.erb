@@ -14,7 +14,7 @@
               <div class="btn-group">
                 <div class="post-buttons" data-user-id="<%= post.user.id %>">
                   <% if user == post.user %>
-                    <%= link_to "Edit", edit_post_path(post), data: { turbo_frame: dom_id(post) }, class: "btn btn-sm btn-outline-secondary" %>
+                    <%= link_to "Edit", edit_post_path(post), data: { turbo_frame: 'modal' }, class: "btn btn-sm btn-outline-secondary" %>
                     <%= link_to "Delete", post_path(post), data: { turbo_method: :delete, turbo_frame: "_top" }, class: "btn btn-sm btn-outline-danger" %>
                   <% end %>
                 </div>

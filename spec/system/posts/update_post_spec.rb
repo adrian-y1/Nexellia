@@ -21,13 +21,16 @@ RSpec.describe "Update Post", type: :system, js: true do
     before do
       post = create(:post, user: user)
       visit posts_path
+      
     end
 
     describe "Valid Attributes" do
       # This test checks that a post can be successfully updated using the edit form of a post.
       # This is done by clicking the 'Edit' button on the desired post, inside the index page.
+      #
       # Since the form is within a Turbo Frame tag, i do not need to visit a seperate 
-      # page to access it.
+      # page to access it. Once the 'Edit' button is clicked, the edit form is then rendered inside 
+      # the 'modal' Turbo Frame Tag that is in application.html.erb.
       #
       # Since i'm using Turbo Streams, instead of a full page refresh, 
       # the post is updated live and the user is not redirected to a new page.
@@ -40,10 +43,18 @@ RSpec.describe "Update Post", type: :system, js: true do
         it "updates the post using Turbo Streams" do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
- 
-          edit_post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
-          within(edit_post_frame) do
+
+          # First click on "Edit" button to render the form inside the 'modal' Turbo Frame Tag
+          # and make it visibile
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
             click_on "Update Post"
           end
@@ -66,11 +77,20 @@ RSpec.describe "Update Post", type: :system, js: true do
       
       context "when updating a post with empty body" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
-          edit_post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
-          within(edit_post_frame) do
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: ''
-            click_button 'Update Post'
+            click_on "Update Post"
           end
           
           # Since the user hasn't been redirected after encountering an error with updating, 
@@ -84,11 +104,20 @@ RSpec.describe "Update Post", type: :system, js: true do
       context "when updating a post with body length > 255" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
           updated_content = Faker::Lorem.characters(number: 300)
-          edit_post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
-          within(edit_post_frame) do
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_button 'Update Post'
+            click_on "Update Post"
           end
 
           # Since the user hasn't been redirected after encountering an error with updating, 
@@ -103,18 +132,23 @@ RSpec.describe "Update Post", type: :system, js: true do
     describe "Cancel" do
       context "when user clicks on cancel instead of update post" do
         it "closes the update form and renders index page using Turbo Streams" do
-          edit_post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
-          post_frame = find("turbo-frame#post_#{user.posts.last.id}")
-          within(edit_post_frame) do
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found. Including the 'Cancel' button.
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
             click_on 'Edit'
-            within(post_frame) do
-              click_on 'Cancel'
-            end
           end
 
-          cancel_btn = find_link('Cancel')
-          expect(page).to_not have_content(cancel_btn)
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found. Including the 'Cancel' button.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            click_on "Cancel"
+          end
+
           expect(page).to have_current_path(posts_path)
+          expect(page).to have_content(user.posts.last.body)
         end
       end
     end
@@ -148,9 +182,17 @@ RSpec.describe "Update Post", type: :system, js: true do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
 
-          edit_post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-          within(edit_post_frame) do
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
             click_on "Update Post"
           end
@@ -173,9 +215,18 @@ RSpec.describe "Update Post", type: :system, js: true do
 
       context "when updating a post with empty body" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
-          edit_post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-          within(edit_post_frame) do
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: ''
             click_on "Update Post"
           end
@@ -191,9 +242,18 @@ RSpec.describe "Update Post", type: :system, js: true do
       context "when updating a post with body length > 255" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
           updated_content = Faker::Lorem.characters(number: 300)
-          edit_post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-          within(edit_post_frame) do
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
             click_on 'Edit'
+          end
+
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
             click_on "Update Post"
           end
@@ -210,18 +270,22 @@ RSpec.describe "Update Post", type: :system, js: true do
     describe "Cancel" do
       context "when user clicks on cancel instead of update post" do
         it "closes the update form and renders show page using Turbo Streams" do
-          edit_post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-          post_frame = find("turbo-frame#post_#{post.id}")
-          within(edit_post_frame) do
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found. Including the 'Cancel' button.
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
             click_on 'Edit'
-            within(post_frame) do
-              click_on "Cancel"
-            end
           end
 
-          cancel_btn = find_link('Cancel')
-          expect(page).to_not have_content(cancel_btn)
+          # After the "Edit" button is clicked, the form is rendered in the 'modal' Turbo Frame Tag
+          # and is visible to be found. Including the 'Cancel' button.
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            click_on "Cancel"
+          end
+
           expect(page).to have_current_path(post_path(post))
+          expect(page).to have_content(user.posts.last.body)
         end
       end
     end

@@ -1,5 +1,12 @@
 <%= render "shared/form_errors", object: friend_request %>
-<%= form_with model: friend_request, url: user_friend_requests_path(current_user.id) do |f| %>
-  <%= f.hidden_field :receiver_id, value: receiver_id %>
-  <%= f.submit "Add Friend", class: "btn btn-success" %>
+<% if current_user.has_sent_friend_request_to?(receiver) %>
+  <%= form_with url: user_friend_request_path(current_user, receiver), method: :delete do |f| %>
+    <%= f.hidden_field :receiver_id, value: receiver.id %>
+    <%= f.submit "Cancel", class: "btn btn-danger" %>
+  <% end %>
+<% else %>
+  <%= form_with model: friend_request, url: user_friend_requests_path(current_user.id) do |f| %>
+    <%= f.hidden_field :receiver_id, value: receiver.id %>
+    <%= f.submit "Add Friend", class: "btn btn-success" %>
+  <% end %>
 <% end %>

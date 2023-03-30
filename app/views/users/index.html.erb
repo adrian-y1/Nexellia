@@ -1,9 +1,9 @@
 <h2 class="text-center mb-5 mt-2">All Users</h2>
 <div class="list-group w-100 align-items-center d-flex justify-content-center flex-column">
   <% @users.each do |user| %>
-      <div class="list-group-item w-50">
+      <div class="list-group-item w-25 d-flex justify-content-between align-items-center">
         <%= user.username %>
-        <%= render "friend_requests/form", receiver_id: user.id, friend_request: @friend_request %>
+        <%= render "friend_requests/form", receiver: user, friend_request: @friend_request %>
       </div>
   <% end %>
 </div>

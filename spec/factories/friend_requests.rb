@@ -8,6 +8,10 @@
 #  receiver_id :integer
 #  sender_id   :integer
 #
+# Indexes
+#
+#  index_friend_requests_on_sender_id_and_receiver_id  (sender_id,receiver_id) UNIQUE
+#
 FactoryBot.define do
   factory :friend_request do
     association :sender, factory: :user

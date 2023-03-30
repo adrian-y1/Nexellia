@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     post 'like', to: 'posts#like', as: 'like'
   end
 
-  resources :users, only: [:index]
+  resources :users, only: [:index] do
+    resources :friend_requests, only: [:create, :destroy]
+  end
 
   root 'posts#index'
 end

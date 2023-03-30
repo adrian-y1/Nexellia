@@ -46,6 +46,8 @@ class User < ApplicationRecord
   has_many :comment_likes, foreign_key: "liker_id", dependent: :destroy
   has_many :liked_comments, through: :comment_likes, source: :liked_comment, foreign_key: "liked_comment_id", dependent: :destroy
 
+  scope :not_friends_with, -> (user) { where.not(id: [user.id] + user.friends.pluck(:id)) }
+
   def create_friendship(friend)
     self.friends << friend
     friend.friends << self
@@ -76,5 +78,27 @@ class User < ApplicationRecord
     end
     public_target = "#{dom_id(post)}_likes"
     broadcast_replace_later_to [post, 'likes'], target: public_target, partial: 'post_likes/post_like', locals: { post: post }
+  end
+
+  # Checks if the given user is already a friend of the current user.
+  def is_friends_with?(user)
+    self.friends.include?(user)
+  end
+
+  # Checks if the current user has already sent a friend request to the given user.
+  def has_sent_friend_request_to?(user)
+    receiver_ids = self.friend_requests_sent.pluck(:receiver_id)
+    receiver_ids.include?(user.id)
+  end
+
+  # Checks if the current user has already received a friend request from the given user.
+  def has_received_friend_request_from?(user)
+    sender_ids = self.friend_requests_received.pluck(:sender_id)
+    sender_ids.include?(user.id)
+  end
+
+  # Checks if the current user can send a friend request to the given user.
+  def can_send_friend_request?(user)
+    [is_friends_with?(user), has_sent_friend_request_to?(user), has_received_friend_request_from?(user)].all?
   end
 end

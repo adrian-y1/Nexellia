@@ -230,13 +230,97 @@ RSpec.describe User, type: :model do
   end
 
   describe "Instance Methods" do
+    let(:current_user) { create(:user) }
+    let(:given_user) { create(:user) }
+
     describe "#create_friendships" do
       it "creates a two-way friendship" do
-        user1 = create(:user)
-        user2 = create(:user)
-        user1.create_friendship(user2)
-        expect(user1.friends.first).to eq(user2)
-        expect(user2.friends.first).to eq(user1)
+        current_user.create_friendship(given_user)
+        expect(current_user.friends.first).to eq(given_user)
+        expect(given_user.friends.first).to eq(current_user)
+      end
+    end
+
+    describe "#is_friends_with?" do
+      context "when the current user is friends with the given user" do
+        it "returns true" do
+          current_user.create_friendship(given_user)
+          is_friends = current_user.is_friends_with?(given_user)
+          expect(is_friends).to be true
+        end
+      end
+      
+      context "when the current user is not friends with the given user" do
+        it "returns false" do
+          is_friends = current_user.is_friends_with?(given_user)
+          expect(is_friends).to be false
+        end
+      end
+    end
+
+    describe "#has_sent_friend_request_to?" do
+      context "when the current user has sent a friend request to the given user" do
+        it "returns true" do
+          create(:friend_request, sender: current_user, receiver: given_user)
+          has_sent_friend_request = current_user.has_sent_friend_request_to?(given_user)
+          expect(has_sent_friend_request).to be true
+        end
+      end
+
+      context "when the current user has not sent a friend request to the given user" do
+        it "returns false" do
+          has_sent_friend_request = current_user.has_sent_friend_request_to?(given_user)
+          expect(has_sent_friend_request).to be false
+        end
+      end
+    end
+
+    describe "#has_received_friend_request_from?" do
+      context "when the current user has received a friend request to the given user" do
+        it "returns true" do
+          create(:friend_request, sender: given_user, receiver: current_user)
+          has_received_friend_request = current_user.has_received_friend_request_from?(given_user)
+          expect(has_received_friend_request).to be true
+        end
+      end
+
+      context "when the current user has not received a friend request to the given user" do
+        it "returns false" do
+          has_received_friend_request = current_user.has_received_friend_request_from?(given_user)
+          expect(has_received_friend_request).to be false
+        end
+      end
+    end
+
+    describe "#can_send_friend_request?" do
+      context "when the current user has not sent/received a friend request to/from the given user and they are not friends" do
+        it "returns true" do
+          can_send_friend_request = current_user.can_send_friend_request?(given_user)
+        end
+      end
+
+      context "when the current user has received a friend request from the given user" do
+        it "returns false" do
+          create(:friend_request, sender: given_user, receiver: current_user)
+          can_send_friend_request = current_user.can_send_friend_request?(given_user)
+          expect(can_send_friend_request).to be false
+        end
+      end
+
+      context "when the current user has sent a friend request to the given user" do
+        it "returns false" do
+          create(:friend_request, sender: current_user, receiver: given_user)
+          can_send_friend_request = current_user.can_send_friend_request?(given_user)
+          expect(can_send_friend_request).to be false
+        end
+      end
+
+      context "when the current user is friends with the given user" do
+        it "returns false" do
+          current_user.create_friendship(given_user)
+          can_send_friend_request = current_user.can_send_friend_request?(given_user)
+          expect(can_send_friend_request).to be false
+        end
       end
     end
   end

@@ -1,3 +1,6 @@
-<% @users.each do |user| %>
-  <%= user.username %>
-<% end %>
+<h2 class="text-center mb-5 mt-2">All Users</h2>
+<div class="list-group w-100 align-items-center d-flex justify-content-center flex-column">
+  <% @users.each do |user| %>
+      <div class="list-group-item w-50"><%= user.username %></div>
+  <% end %>
+</div>

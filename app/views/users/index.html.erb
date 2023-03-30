@@ -3,7 +3,14 @@
   <% @users.each do |user| %>
       <div class="list-group-item w-25 d-flex justify-content-between align-items-center">
         <%= user.username %>
-        <%= render "friend_requests/form", receiver: user, friend_request: @friend_request %>
+
+        <%# Cancel Friend Request OR Send Friend Request forms %>
+        <% if current_user.has_sent_friend_request_to?(user) %>
+          <%= render "friend_requests/cancel_request_form", receiver: user %>
+        <% elsif !current_user.has_sent_friend_request_to?(user) %>
+          <%= render "friend_requests/send_request_form", receiver: user, friend_request: @friend_request %>
+        <% end %>
+        
       </div>
   <% end %>
 </div>

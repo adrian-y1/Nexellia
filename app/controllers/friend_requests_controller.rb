@@ -5,7 +5,8 @@ class FriendRequestsController < ApplicationController
     if @friend_request.save
       redirect_to request.referrer, notice: "Friend request has been sent to #{@friend_request.receiver.username}!"
     else
-      redirect_to request.referrer, status: :unprocessable_entity, alert: "Error while sending friend request."
+      @friend_request.errors.full_messages.each { |message| flash[:alert] = message }
+      redirect_to request.referrer, status: :unprocessable_entity
     end
   end
 

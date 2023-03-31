@@ -19,7 +19,7 @@ RSpec.describe "Send Friend Request", type: :system do
     # users#index page.
     
     context "when clicking the add friend button on the users#index page" do
-      it "renders a successfull flash notice message and redirects to the users#index page" do
+      it "sends a friend request, renders a successfull flash notice message and redirects to the users#index page" do
         new_user = create(:user)
         visit users_path
   

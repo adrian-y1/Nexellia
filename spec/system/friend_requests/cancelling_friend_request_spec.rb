@@ -19,7 +19,7 @@ RSpec.describe "Cancel Friend Request", type: :system do
     # users#index page.
     
     context "when clicking the cancel button on the users#index page" do
-      it "renders a successfull flash notice message and redirects to the users#index page" do
+      it "cancels the friend request, renders a successfull flash notice message and redirects to the users#index page" do
         new_user = create(:user)
         create(:friend_request, sender: user, receiver: new_user)
         visit users_path

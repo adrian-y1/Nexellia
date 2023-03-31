@@ -6,15 +6,16 @@
 
         <%# Cancel Friend Request form %>
         <% if current_user.has_sent_friend_request_to?(user) %>
-          <%= render "friend_requests/cancel_request_form", receiver: user %>
+          <%= render "friend_requests/cancel_and_decline_request_form", sender: current_user, receiver: user, action_name: 'Cancel' %>
 
-        <%# Accept Friend Request form %>
+        <%# Accept Friend Request & Decline Friend Request form %>
         <% elsif current_user.has_received_friend_request_from?(user) %>
           <%= render "friendships/accept_request_form", friend: user, friendship: @friendship %>
+          <%= render "friend_requests/cancel_and_decline_request_form", sender: user, receiver: current_user, action_name: 'Decline' %>
 
         <%# Send Friend Request form %>
         <% elsif !current_user.has_sent_friend_request_to?(user) %>
-          <%= render "friend_requests/send_request_form", receiver: user, friend_request: @friend_request %>
+          <%= render "friend_requests/send_request_form", sender: current_user, receiver: user, friend_request: @friend_request %>
         <% end %>
         
       </div>

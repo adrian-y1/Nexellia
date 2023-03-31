@@ -1,4 +1,0 @@
-<%= form_with url: user_friend_request_path(current_user, receiver), method: :delete do |f| %>
-  <%= f.hidden_field :receiver_id, value: receiver.id %>
-  <%= f.submit "Cancel", class: "btn btn-danger" %>
-<% end %>

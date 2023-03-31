@@ -1,0 +1,5 @@
+<%= form_with url: user_friend_request_path(sender, receiver), method: :delete, local: true do |f| %>
+  <%= f.hidden_field :sender_id, value: sender.id %>
+  <%= f.hidden_field :receiver_id, value: receiver.id %>
+  <%= f.submit action_name, class: "btn btn-danger" %>
+<% end %>

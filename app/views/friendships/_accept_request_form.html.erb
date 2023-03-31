@@ -1,5 +1,5 @@
 <%= render "shared/form_errors", object: friendship %>
 <%= form_with url: user_friendships_path(current_user) do |f| %>
   <%= f.hidden_field :friend_id, value: friend.id %>
-  <%= f.submit "Accept", class: "btn btn-warning" %>
+  <%= f.submit "Accept", class: "btn btn-info" %>
 <% end %>

@@ -11,10 +11,10 @@ class FriendRequestsController < ApplicationController
 
   def destroy
     @friend_request = current_user.friend_requests_sent.find_by(receiver_id: params[:receiver_id])
-    @receiver_username = @friend_request.receiver.username
-    @friend_request.destroy
-
+    
     if @friend_request
+      @receiver_username = @friend_request.receiver.username
+      @friend_request.destroy
       redirect_to request.referrer, notice: "Friend request to #{@receiver_username} has been cancelled."
     else
       redirect_to request.referrer, status: :unprocessable_entity, alert: "Error while cancelling friend request."

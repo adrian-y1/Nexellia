@@ -7,6 +7,8 @@
         <%# Cancel Friend Request OR Send Friend Request forms %>
         <% if current_user.has_sent_friend_request_to?(user) %>
           <%= render "friend_requests/cancel_request_form", receiver: user %>
+        <% elsif current_user.has_received_friend_request_from?(user) %>
+          <%= render "friendships/accept_request_form", friend: user %>
         <% elsif !current_user.has_sent_friend_request_to?(user) %>
           <%= render "friend_requests/send_request_form", receiver: user, friend_request: @friend_request %>
         <% end %>

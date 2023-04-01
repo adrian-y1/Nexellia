@@ -18,7 +18,19 @@ class FriendRequest < ApplicationRecord
 
   validate :prevent_duplicate_friend_requests
 
+  after_create_commit :broadcast_friend_request_form_replace
+
   private
+
+  def broadcast_friend_request_form_replace
+    # Sends a replace broadcast to the Sender's stream, targeting the Receiver's turbo frame to perform the form changes.
+    broadcast_replace_later_to [self.sender.id, self.receiver.id], target: "user_#{self.receiver.id}", partial: "users/friend_request_form", 
+      locals: { logged_in_user: self.sender, user: self.receiver, friend_request: self }
+
+    # Sends a replace broadcast to the Receiver's stream, targeting the Sender's turbo frame to perform the form changes.
+    broadcast_replace_later_to [self.receiver.id, self.sender.id], target: "user_#{self.sender.id}", partial: "users/friend_request_form", 
+      locals: { logged_in_user: self.receiver, user: self.sender }
+  end
 
   def prevent_duplicate_friend_requests
     if FriendRequest.exists?(sender: sender, receiver: receiver)

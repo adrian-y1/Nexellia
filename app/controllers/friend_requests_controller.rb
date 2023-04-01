@@ -2,11 +2,15 @@ class FriendRequestsController < ApplicationController
   def create
     @friend_request = current_user.friend_requests_sent.build(friend_request_params)
 
-    if @friend_request.save
-      redirect_to request.referrer, notice: "Friend request has been sent to #{@friend_request.receiver.username}!"
-    else
-      @friend_request.errors.full_messages.each { |message| flash[:alert] = message }
-      redirect_to request.referrer, status: :unprocessable_entity
+    respond_to do |format|
+      if @friend_request.save
+        notice_message = "Friend request has been sent to #{@friend_request.receiver.username}!"
+        format.turbo_stream { flash.now[:notice] = notice_message }
+        format.html { redirect_to request.referrer, notice: notice_message }
+      else
+        @friend_request.errors.full_messages.each { |message| flash[:alert] = message }
+        format.html { redirect_to request.referrer, status: :unprocessable_entity }
+      end
     end
   end
 

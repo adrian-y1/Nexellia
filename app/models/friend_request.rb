@@ -13,23 +13,32 @@
 #  index_friend_requests_on_sender_id_and_receiver_id  (sender_id,receiver_id) UNIQUE
 #
 class FriendRequest < ApplicationRecord
+  include ActionView::RecordIdentifier
+
   belongs_to :sender, class_name: "User", foreign_key: "sender_id"
   belongs_to :receiver, class_name: "User", foreign_key: "receiver_id"
 
   validate :prevent_duplicate_friend_requests
 
-  after_create_commit :broadcast_friend_request_form_replace
+  after_create_commit do 
+    broadcast_friend_request_form_replace
+  end
+  
+  after_destroy_commit do
+    broadcast_friend_request_form_replace
+  end
+  
 
   private
 
   def broadcast_friend_request_form_replace
     # Sends a replace broadcast to the Sender's stream, targeting the Receiver's turbo frame to perform the form changes.
-    broadcast_replace_later_to [self.sender.id, self.receiver.id], target: "user_#{self.receiver.id}", partial: "users/friend_request_form", 
+    broadcast_replace_later_to [self.sender.id, self.receiver.id], target: dom_id(self.receiver), partial: "users/friend_request_form", 
       locals: { logged_in_user: self.sender, user: self.receiver, friend_request: self }
 
     # Sends a replace broadcast to the Receiver's stream, targeting the Sender's turbo frame to perform the form changes.
-    broadcast_replace_later_to [self.receiver.id, self.sender.id], target: "user_#{self.sender.id}", partial: "users/friend_request_form", 
-      locals: { logged_in_user: self.receiver, user: self.sender }
+    broadcast_replace_later_to [self.receiver.id, self.sender.id], target: dom_id(self.sender), partial: "users/friend_request_form", 
+      locals: { logged_in_user: self.receiver, user: self.sender, friend_request: self }
   end
 
   def prevent_duplicate_friend_requests

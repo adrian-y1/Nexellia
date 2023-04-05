@@ -11,7 +11,7 @@
   <%= turbo_frame_tag "posts" do %>
     <%= render "posts/empty_state" %>
     <% @posts.each do |post| %>
-      <%= render "posts/post_interactions", post: post, user: Current.user, friend_request: @friend_request %>
+      <%= render "posts/post_interactions", post: post, user: Current.user %>
     <% end %>
   <% end %>
 </div>

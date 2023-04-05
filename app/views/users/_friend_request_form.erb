@@ -1,15 +1,17 @@
-<%# Cancel Friend Request form %>
-<% if logged_in_user.has_sent_friend_request_to?(user) %>
-  <%= render "friend_requests/cancel_and_decline_request_form", sender: logged_in_user, receiver: user, action_name: 'Cancel' %>
+<%= turbo_frame_tag user do %>
+  <%# Cancel Friend Request form %>
+  <% if logged_in_user.has_sent_friend_request_to?(user) %>
+    <%= render "friend_requests/cancel_and_decline_request_form", sender: logged_in_user, receiver: user, action_name: 'Cancel' %>
 
-<%# Accept Friend Request & Decline Friend Request form %>
-<% elsif logged_in_user.has_received_friend_request_from?(user) %>
-  <div class="d-flex justify-content-between align-items-center" style="gap: 30px;">
-    <%= render "friendships/accept_request_form", friend: user %>
-    <%= render "friend_requests/cancel_and_decline_request_form", sender: user, receiver: logged_in_user, action_name: 'Decline' %>
-  </div>
+  <%# Accept Friend Request & Decline Friend Request form %>
+  <% elsif logged_in_user.has_received_friend_request_from?(user) %>
+    <div class="d-flex justify-content-between align-items-center" style="gap: 30px;">
+      <%= render "friendships/accept_request_form", friend: user %>
+      <%= render "friend_requests/cancel_and_decline_request_form", sender: user, receiver: logged_in_user, action_name: 'Decline' %>
+    </div>
 
-<%# Send Friend Request form %>
-<% elsif !logged_in_user.has_sent_friend_request_to?(user) %>
-  <%= render "friend_requests/send_request_form", sender: logged_in_user, receiver: user, friend_request: friend_request %>
+  <%# Send Friend Request form %>
+  <% elsif !logged_in_user.has_sent_friend_request_to?(user) %>
+    <%= render "friend_requests/send_request_form", sender: logged_in_user, receiver: user, friend_request: friend_request %>
+  <% end %>
 <% end %>

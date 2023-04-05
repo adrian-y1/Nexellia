@@ -20,25 +20,32 @@ class FriendRequest < ApplicationRecord
 
   validate :prevent_duplicate_friend_requests
 
-  after_create_commit do 
-    broadcast_friend_request_form_replace
+  after_create_commit do
+    broadcast_friend_request
   end
-  
+   
   after_destroy_commit do
-    broadcast_friend_request_form_replace
+    broadcast_friend_request
   end
-  
+   
+   
+  def broadcast_friend_request
+    sender_stream = [self.sender.id, self.receiver.id]
+    receiver_stream = [self.receiver.id, self.sender.id]
+    partial = "users/friend_request_form"
+    sender_stream_locals = { logged_in_user: self.sender, user: self.receiver, friend_request: self }
+    receiver_stream_locals = { logged_in_user: self.receiver, user: self.sender, friend_request: self }
+    sender_frame, receiver_frame = dom_id(self.sender), dom_id(self.receiver)
 
-  private
-
-  def broadcast_friend_request_form_replace
-    # Sends a replace broadcast to the Sender's stream, targeting the Receiver's turbo frame to perform the form changes.
-    broadcast_replace_later_to [self.sender.id, self.receiver.id], target: dom_id(self.receiver), partial: "users/friend_request_form", 
-      locals: { logged_in_user: self.sender, user: self.receiver, friend_request: self }
-
-    # Sends a replace broadcast to the Receiver's stream, targeting the Sender's turbo frame to perform the form changes.
-    broadcast_replace_later_to [self.receiver.id, self.sender.id], target: dom_id(self.sender), partial: "users/friend_request_form", 
-      locals: { logged_in_user: self.receiver, user: self.sender, friend_request: self }
+    if destroyed?
+      # Synchronous broadcasting for the after_destroy_commit to fix Deserialization Error
+      broadcast_replace_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
+      broadcast_replace_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
+    else
+      # Asynchronous broadcasting for the after_create_commit
+      broadcast_replace_later_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
+      broadcast_replace_later_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
+    end
   end
 
   def prevent_duplicate_friend_requests

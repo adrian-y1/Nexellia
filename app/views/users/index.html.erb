@@ -8,9 +8,7 @@
 
     <div class="list-group-item w-75 d-flex justify-content-between align-items-center">
       <%= user.username %>
-      <%= turbo_frame_tag user do %>
-          <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
-      <% end %>
+        <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
     </div>
   <% end %>
   

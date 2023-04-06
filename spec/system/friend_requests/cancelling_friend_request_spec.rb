@@ -1,6 +1,6 @@
 # This file contains system tests for cancelling friend requests using Turbo Streams. 
 #
-# These tests are created using Rspec + Capybara + Capybara's rack_test drive
+# These tests are created using Rspec + Capybara + Capybara's selenium drive
 #
 # To run the tests, run => rspec spec/system/friend_requests/cancelling_friend_request_spec.rb
 

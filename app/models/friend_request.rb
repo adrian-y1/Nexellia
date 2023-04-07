@@ -28,7 +28,8 @@ class FriendRequest < ApplicationRecord
     broadcast_friend_request
   end
    
-   
+  private
+  
   def broadcast_friend_request
     sender_stream = [self.sender.id, self.receiver.id]
     receiver_stream = [self.receiver.id, self.sender.id]

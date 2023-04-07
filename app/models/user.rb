@@ -46,7 +46,7 @@ class User < ApplicationRecord
   has_many :comment_likes, foreign_key: "liker_id", dependent: :destroy
   has_many :liked_comments, through: :comment_likes, source: :liked_comment, foreign_key: "liked_comment_id", dependent: :destroy
 
-  scope :not_friends_with, -> (user) { where.not(id: [user.id] + user.friends.pluck(:id)) }
+  scope :excluding_user, -> (user) { where.not(id: [user.id]) }
 
   def create_friendship(friend)
     self.friends << friend

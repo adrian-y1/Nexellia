@@ -1,6 +1,11 @@
 <%= turbo_frame_tag user do %>
+
+  <%# Friends check %>
+  <% if logged_in_user.is_friends_with?(user) %>
+    <span class='badge bg-success'>Friends</span>
+
   <%# Cancel Friend Request form %>
-  <% if logged_in_user.has_sent_friend_request_to?(user) %>
+  <% elsif logged_in_user.has_sent_friend_request_to?(user) %>
     <%= render "friend_requests/cancel_and_decline_request_form", sender: logged_in_user, receiver: user, action_name: 'Cancel' %>
 
   <%# Accept Friend Request & Decline Friend Request form %>

@@ -4,6 +4,10 @@
 #
 #  id              :bigint           not null, primary key
 #  bio_description :text
+#  first_name      :string
+#  gender          :string
+#  last_name       :string
+#  public_email    :string
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  user_id         :bigint           not null
@@ -16,9 +20,16 @@
 #
 #  fk_rails_...  (user_id => users.id)
 #
+
+require "faker"
+
 FactoryBot.define do
   factory :profile do
-    user { nil }
-    bio_description { "MyText" }
+    user
+    sequence(:bio_description) { |n| "Bio Description test number #{n}" }
+    first_name { "John" }
+    last_name { "Smith" }
+    public_email { "john.smith@gmail.com" }
+    gender { "Male" }
   end
 end

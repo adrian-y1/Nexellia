@@ -13,7 +13,7 @@ class FriendshipsController < ApplicationController
     end
 
     respond_to do |format|
-      format.turbo_stream 
+      format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are now friends!" }
       format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are now friends!" }
     end
   end

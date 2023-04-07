@@ -2,15 +2,16 @@
 #
 # Table name: profiles
 #
-#  id              :bigint           not null, primary key
-#  bio_description :text
-#  first_name      :string
-#  gender          :string
-#  last_name       :string
-#  public_email    :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  user_id         :bigint           not null
+#  id                  :bigint           not null, primary key
+#  bio_description     :text
+#  first_name          :string
+#  gender              :string
+#  last_name           :string
+#  public_email        :string
+#  public_phone_number :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :bigint           not null
 #
 # Indexes
 #
@@ -28,4 +29,5 @@ class Profile < ApplicationRecord
   validates :gender, inclusion: { in: ['Male', 'Female'], message: "%{value} is not a valid choice" }, allow_blank: true
   validates :bio_description, length: { maximum: 255 }
   validates :public_email, format: { with: Devise.email_regexp }, allow_blank: true
+  validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }
 end

@@ -2,15 +2,16 @@
 #
 # Table name: profiles
 #
-#  id              :bigint           not null, primary key
-#  bio_description :text
-#  first_name      :string
-#  gender          :string
-#  last_name       :string
-#  public_email    :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  user_id         :bigint           not null
+#  id                  :bigint           not null, primary key
+#  bio_description     :text
+#  first_name          :string
+#  gender              :string
+#  last_name           :string
+#  public_email        :string
+#  public_phone_number :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :bigint           not null
 #
 # Indexes
 #
@@ -144,6 +145,44 @@ RSpec.describe Profile, type: :model do
       it "is not valid when public email is not formatted correctly" do
         profile = build(:profile, public_email: "jim@")
         expect(profile).to_not be_valid
+      end
+    end
+
+    describe "public_phone_number" do
+      it "is valid when public phone number is exactly 10 digits" do
+        expect(profile).to be_valid
+      end
+
+      it "is valid when public phone number is formatted correctly" do
+        expect(profile).to be_valid
+      end
+
+      it "is not valid when public phone number is > 10 digits" do
+        public_phone_number = "1234567891032"
+        profile = build(:profile, public_phone_number: public_phone_number)
+        expect(profile).to_not be_valid
+      end
+
+      it "is not valid when public phone number is < 10 digits" do
+        public_phone_number = "1234567"
+        profile = build(:profile, public_phone_number: public_phone_number)
+        expect(profile).to_not be_valid
+      end
+
+      it "is not valid when public phone number is not formatted correctly" do
+        public_phone_number = "123-456-789-1"
+        profile = build(:profile, public_phone_number: public_phone_number)
+        expect(profile).to_not be_valid
+      end
+    end
+  end
+
+  describe "Association" do
+    describe "User" do
+      it "belongs to a user" do
+        user = create(:user)
+        profile = create(:profile, user: user)
+        expect(profile.user).to eq(user)
       end
     end
   end

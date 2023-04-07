@@ -2,15 +2,16 @@
 #
 # Table name: profiles
 #
-#  id              :bigint           not null, primary key
-#  bio_description :text
-#  first_name      :string
-#  gender          :string
-#  last_name       :string
-#  public_email    :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  user_id         :bigint           not null
+#  id                  :bigint           not null, primary key
+#  bio_description     :text
+#  first_name          :string
+#  gender              :string
+#  last_name           :string
+#  public_email        :string
+#  public_phone_number :string
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  user_id             :bigint           not null
 #
 # Indexes
 #
@@ -31,5 +32,6 @@ FactoryBot.define do
     last_name { "Smith" }
     public_email { "john.smith@gmail.com" }
     gender { "Male" }
+    public_phone_number { "1234567891" }
   end
 end

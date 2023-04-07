@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="text-center my-5">
+        <h2 class="mt-3"><%= @user.username %></h2>
+        <p class="lead"><%= @profile.bio_description %></p>
+        <p class="text-muted">Date joined: <%= @user.created_at.strftime("%B %d, %Y") %></p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <h3 class="mb-4 text-center">Posts</h3>
+        <%= turbo_stream_from @user.id, "posts" %>
+
+        <%= turbo_frame_tag "posts" do %>
+          <% @posts.each do |post| %>
+            <%= render "posts/post_interactions", post: post, user: Current.user %>
+          <% end %>
+        <% end %>
+    </div>
+  </div>
+</div>

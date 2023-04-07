@@ -23,6 +23,9 @@
 class User < ApplicationRecord
   include ActionView::RecordIdentifier
 
+  after_create :create_profile
+  after_destroy :destroy_profile
+  
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -36,15 +39,17 @@ class User < ApplicationRecord
   has_and_belongs_to_many :friends, class_name: "User", join_table: "friendships", foreign_key: "user_id", 
                           association_foreign_key: "friend_id", dependent: :destroy
 
-  has_many :posts
+  has_many :posts, dependent: :destroy
   
   has_many :post_likes, foreign_key: "liker_id", dependent: :destroy
   has_many :liked_posts, through: :post_likes, source: :liked_post, foreign_key: "liked_post_id", dependent: :destroy
 
-  has_many :comments
+  has_many :comments, dependent: :destroy
 
   has_many :comment_likes, foreign_key: "liker_id", dependent: :destroy
   has_many :liked_comments, through: :comment_likes, source: :liked_comment, foreign_key: "liked_comment_id", dependent: :destroy
+
+  has_one :profile, dependent: :destroy
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }
 

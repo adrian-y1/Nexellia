@@ -9,6 +9,7 @@ FriendRequest.delete_all
 PostLike.delete_all
 CommentLike.delete_all
 Post.delete_all
+Profile.delete_all
 User.delete_all
 
 adrian = User.create(username: 'adrian', email: 'adrian@adrian', password: 'adrian', password_confirmation: 'adrian')

@@ -24,8 +24,8 @@
 class Profile < ApplicationRecord
   belongs_to :user
   
-  validates :first_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allowed letters" }, allow_blank: true
-  validates :last_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allowed letters" }, allow_blank: true
+  validates :first_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, allow_blank: true
+  validates :last_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, allow_blank: true
   validates :gender, inclusion: { in: ['Male', 'Female'], message: "%{value} is not a valid choice" }, allow_blank: true
   validates :bio_description, length: { maximum: 255 }
   validates :public_email, format: { with: Devise.email_regexp }, allow_blank: true

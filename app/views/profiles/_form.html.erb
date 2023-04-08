@@ -1,0 +1,46 @@
+<%= render "shared/form_errors", object: profile %>
+<%= form_with model: profile, url: user_profile_path(user, profile) do |f| %>
+
+  <div class="form-group mb-2">
+    <span class="form-group-text">First Name:</span>
+    <%= f.text_field :first_name, class: "form-control", placeholder: "Enter First Name..." %>
+  </div>
+
+  <div class="form-group mb-2">
+    <span class="form-group-text">Last Name:</span>
+    <%= f.text_field :last_name, class: "form-control", placeholder: "Enter Last Name..." %>
+  </div>
+
+  <div class="form-group mb-2">
+    <label class="form-group-text">Gender:</label>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :gender, 'Male', class: "form-check-input" %>
+      <%= f.label :gender, 'Male', class: "form-check-label" %>
+    </div>
+    <div class="form-check form-check-inline">
+      <%= f.radio_button :gender, 'Female', class: "form-check-input" %>
+      <%= f.label :gender, 'Female', class: "form-check-label" %>
+    </div>
+
+  </div>
+
+  <div>
+    <h4>Contact Information</h4>
+    <div class="form-group mb-2">
+      <span class="form-group-text">Email</span>
+      <%= f.email_field :public_email, class: "form-control", placeholder: "Enter Email.." %>
+    </div>
+
+    <div class="form-group mb-2">
+      <span class="form-group-text">Phone Number</span>
+      <%= f.telephone_field :public_phone_number, class: "form-control", placeholder: "Enter Phone Number..." %>
+    </div>
+  </div>
+
+  <div class="form-group mb-2">
+    <span class="form-group-text">Bio:</span>
+    <%= f.text_area :bio_description, size: "7x5", class: "form-control", placeholder: "Tell us about you..." %>
+  </div>
+
+  <%= f.submit "Update Profile", class: "btn btn-primary" %>
+<% end %>

@@ -157,6 +157,11 @@ RSpec.describe Profile, type: :model do
         expect(profile).to be_valid
       end
 
+      it "is valid when public phone number is blank" do
+        profile = build(:profile, public_phone_number: '')
+        expect(profile).to be_valid
+      end
+
       it "is not valid when public phone number is > 10 digits" do
         public_phone_number = "1234567891032"
         profile = build(:profile, public_phone_number: public_phone_number)

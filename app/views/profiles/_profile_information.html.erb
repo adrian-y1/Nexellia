@@ -1,0 +1,35 @@
+<%= turbo_frame_tag "profile_information" do %>
+  <div class="card">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">
+        Profile Information 
+        <% if current_user == user %>
+          <%= link_to "Edit", edit_user_profile_path(user, profile), data: { turbo_frame: 'edit_profile_modal' }, class: "btn btn-sm btn-warning" %>
+        <% end %>
+      </h5>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-muted"><%= profile.first_name %><%= profile.last_name %></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-muted"><%= profile.gender %></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-muted"><%= profile.public_email %></p>
+          <p class="text-muted"><%= profile.public_phone_number %></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-muted"><%= profile.bio_description %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

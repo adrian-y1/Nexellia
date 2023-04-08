@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "edit_profile_modal" do %>
+  <div class="modal-body">
+    <%= render "profiles/form", user: @user, profile: @profile %>
+  </div>
+<% end %>

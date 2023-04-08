@@ -32,6 +32,7 @@
     <div class="containter mt-5">
       <%= yield %>
       
+      <%# Edit Post Modal %>
       <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
@@ -40,6 +41,19 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
             </div>
             <%= turbo_frame_tag 'modal' %>
+          </div>
+        </div>
+      </div>
+
+      <%# Edit Profile Modal %>
+      <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Edit Profile</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <%= turbo_frame_tag 'edit_profile_modal' %>
           </div>
         </div>
       </div>

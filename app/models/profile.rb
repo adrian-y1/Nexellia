@@ -29,5 +29,5 @@ class Profile < ApplicationRecord
   validates :gender, inclusion: { in: ['Male', 'Female'], message: "%{value} is not a valid choice" }, allow_blank: true
   validates :bio_description, length: { maximum: 255 }
   validates :public_email, format: { with: Devise.email_regexp }, allow_blank: true
-  validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }
+  validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }, allow_blank: true
 end

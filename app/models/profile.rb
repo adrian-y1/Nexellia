@@ -34,8 +34,8 @@ class Profile < ApplicationRecord
   validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }, allow_blank: true
 
   def picture_thumbnail
-    if picture.attached?
-      picture.variant(resize_to_limit: [100, 100]).processed
+    if picture.representable?
+      picture.representation(resize_to_limit: [100, 100]).processed
     else
       'default.png'
     end

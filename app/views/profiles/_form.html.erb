@@ -1,5 +1,21 @@
 <%= render "shared/form_errors", object: profile %>
-<%= form_with model: profile, url: user_profile_path(user, profile) do |f| %>
+<%= form_with model: profile, url: user_profile_path(user, profile), html: { multipart: true } do |f| %>
+
+  <div>
+    <h5>Current:</h5>
+    <%= render "profiles/picture", profile: profile %>
+  </div>
+
+  <div class="form-group mb-2" data-controller="image-preview">
+    <%= f.label :picture %>
+    <%= f.file_field :picture, data: { action: "change->image-preview#preview"} %>
+    <div class="new-picture-container" data-image-preview-target="newPictureContainer">
+      <h5>New: </h5>
+      <%= image_tag "", data: { image_preview_target: "newPicture" }, class: "rounded-circle", size: "100x100", alt: "Profile pic" %>
+    </div>
+  </div>
+
+
 
   <div class="form-group mb-2">
     <span class="form-group-text">First Name:</span>

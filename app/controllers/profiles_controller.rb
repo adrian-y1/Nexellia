@@ -10,9 +10,17 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])
     @user = User.find(params[:user_id])
-
+    picture = params[:profile][:picture]
+  
     respond_to do |format|
-      if @profile.update(profile_params)
+      if @profile.update(profile_params.except(:picture))
+
+        # The file is only attached if it was uploaded successfully and exists as a blob.
+        # This prevents the ActiveStorage::FileNotFoundError from being raised when the form submission fails.
+        if picture
+          @profile.picture.attach(picture)
+        end
+
         format.turbo_stream { flash.now[:notice] = "Profile information have been updated" }
         format.html { redirect_to user_path(@profile.user), notice: "Profile information have been updated" }
       else
@@ -24,6 +32,6 @@ class ProfilesController < ApplicationController
   private
 
   def profile_params
-    params.require(:profile).permit(:user_id, :first_name, :last_name, :gender, :bio_description, :public_email, :public_phone_number)
+    params.require(:profile).permit(:user_id, :first_name, :last_name, :gender, :bio_description, :public_email, :public_phone_number, :picture)
   end
 end

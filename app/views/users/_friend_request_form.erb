@@ -1,6 +1,6 @@
 <%= turbo_frame_tag user do %>
 
-  <%# Friends check %>
+  <%# Friends check + Friend Remove Form %>
   <% if logged_in_user.is_friends_with?(user) %>
     <div class="d-flex justify-content-end align-items-center" style="gap: 20px;">
       <div class='btn btn-warning'>Friends</div>

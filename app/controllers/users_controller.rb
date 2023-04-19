@@ -9,5 +9,6 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     @profile = @user.profile
     @posts = @user.posts
+    @friend_request = FriendRequest.new
   end
 end

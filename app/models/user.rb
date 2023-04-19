@@ -58,6 +58,11 @@ class User < ApplicationRecord
     friend.friends << self
   end
 
+  def destroy_friendship(friend)
+    self.friends.destroy(friend)
+    friend.friends.destroy(self)
+  end
+
   def self.authentication_keys
     [:username]
   end

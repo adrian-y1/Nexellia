@@ -2,8 +2,11 @@
 
   <%# Friends check %>
   <% if logged_in_user.is_friends_with?(user) %>
-    <span class='badge bg-success'>Friends</span>
-
+    <div class="d-flex justify-content-end align-items-center" style="gap: 20px;">
+      <div class='btn btn-warning'>Friends</div>
+      <%= render "friendships/delete_friend_form", friend: user, destroyer: logged_in_user %>
+    </div>
+    
   <%# Cancel Friend Request form %>
   <% elsif logged_in_user.has_sent_friend_request_to?(user) %>
     <%= render "friend_requests/cancel_and_decline_request_form", sender: logged_in_user, receiver: user, action_name: 'Cancel' %>

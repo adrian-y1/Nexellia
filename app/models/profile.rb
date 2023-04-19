@@ -24,7 +24,7 @@
 class Profile < ApplicationRecord
   belongs_to :user
   
-  has_one_attached :picture
+  has_one_attached :picture, dependent: :destroy
 
   validates :first_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, allow_blank: true
   validates :last_name, length: { maximum: 20 }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }, allow_blank: true
@@ -34,7 +34,7 @@ class Profile < ApplicationRecord
   validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }, allow_blank: true
 
   def picture_thumbnail
-    if picture.representable?
+    if picture.attached? && picture.representable?
       picture.representation(resize_to_limit: [100, 100]).processed
     else
       'default.png'

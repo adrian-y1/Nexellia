@@ -2,6 +2,7 @@
   <div class="card mb-3">
     <div class="card-header d-flex justify-content-between align-items-center">
       <div class="comment-author">
+        <%= render "profiles/picture", profile: comment.user.profile, size: "25x25" %>
         <strong><%= link_to comment.user.username, comment.user, data: { turbo_frame: "_top" } %></strong>
       </div>
       <div class="comment-date">

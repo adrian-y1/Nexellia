@@ -6,7 +6,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Update Profile", type: :system, js: true do
+RSpec.describe "Upload Profile Picture", type: :system, js: true do
   let(:user) { create(:user) }
 
   before do

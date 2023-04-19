@@ -7,8 +7,11 @@
     <%= turbo_stream_from [current_user.id, user.id] %>
 
     <div class="list-group-item w-75 d-flex justify-content-between align-items-center">
-      <%= link_to user.username, user_path(user) %>
-        <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
+      <div>
+        <%= render "profiles/picture", profile: user.profile, size: "50x50" %>
+        <%= link_to user.username, user_path(user) %>
+      </div>
+      <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
     </div>
   <% end %>
   

@@ -21,6 +21,9 @@ class Comment < ApplicationRecord
 
   validates :body, presence: true, length: { maximum: 255, message: "Comment length exceeded." }
 
+  # Eager load the user, profile, :picture_attachment and :blob to solve N + 1 queries problem
+  scope :with_user_and_profile_includes, -> { includes(user: { profile: { picture_attachment: :blob } }) }
+
   after_create_commit -> do
     broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }

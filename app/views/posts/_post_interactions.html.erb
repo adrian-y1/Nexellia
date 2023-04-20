@@ -46,7 +46,7 @@
             <div class="comments">
 
               <%= turbo_frame_tag post, "comments" do %>
-                <%= render post.comments, user: user %>
+                <%= render post.comments.with_user_and_profile_includes, user: user %>
               <% end %>
               
               <div class="comment-form">

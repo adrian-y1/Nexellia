@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def index
-    @users = User.excluding_user(current_user)
+    # eager load Profile and :profile_attachment to solve N + 1 queries problem
+    @users = User.excluding_user(current_user).includes(profile: :picture_attachment)
     @friendship = current_user.friends.new
     @friend_request = FriendRequest.new
   end

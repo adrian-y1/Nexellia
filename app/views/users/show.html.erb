@@ -8,9 +8,11 @@
         <%# Adding friend partial and turbo stream %>
         <%= turbo_stream_from [current_user.id, @user.id] %>
         
-        <div class="d-flex justify-content-center align-items-center">
-          <%= render "users/friend_request_form", logged_in_user: Current.user, user: @user, friend_request: @friend_request %>
-        </div>
+        <% unless @is_current_user %>
+          <div class="d-flex justify-content-center align-items-center">
+            <%= render "users/friend_request_form", logged_in_user: Current.user, user: @user, friend_request: @friend_request %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>

@@ -10,5 +10,6 @@ class UsersController < ApplicationController
     @profile = @user.profile
     @posts = @user.posts
     @friend_request = FriendRequest.new
+    @is_current_user = current_user == @user
   end
 end

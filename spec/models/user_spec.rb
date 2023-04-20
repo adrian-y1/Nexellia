@@ -233,11 +233,23 @@ RSpec.describe User, type: :model do
     let(:current_user) { create(:user) }
     let(:given_user) { create(:user) }
 
-    describe "#create_friendships" do
+    describe "#create_friendship" do
       it "creates a two-way friendship" do
         current_user.create_friendship(given_user)
         expect(current_user.friends.first).to eq(given_user)
         expect(given_user.friends.first).to eq(current_user)
+      end
+    end
+
+    describe "#destroy_friendship" do
+      it "destroys the two-way friendship" do
+        current_user.create_friendship(given_user)
+        expect(current_user.friends.first).to eq(given_user)
+        expect(given_user.friends.first).to eq(current_user)
+
+        current_user.destroy_friendship(given_user)
+        expect(current_user.friends.length).to eq(0)
+        expect(given_user.friends.length).to eq(0)
       end
     end
 

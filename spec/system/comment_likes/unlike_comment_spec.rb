@@ -31,7 +31,8 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
 
     context "when unliking a comment on the posts#index page" do
       it "decrements the likes counter and displays like button live using Turbo Streams" do
-        comment = create(:comment, user: user)
+        post = create(:post, user: user)
+        comment = create(:comment, post: post, user: user)
         user.like(comment)
         visit posts_path
 

@@ -28,7 +28,8 @@ RSpec.describe "Like Comment", type: :system, js: true do
 
     context "when liking a comment on the index page" do
       it "increments the likes counter and displays unlike button live using Turbo Streams" do
-        comment = create(:comment, user: user)
+        post = create(:post, user: user)
+        comment = create(:comment, post: post, user: user)
         visit posts_path
 
         expect(page).to have_button('Like')

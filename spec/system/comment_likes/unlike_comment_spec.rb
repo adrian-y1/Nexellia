@@ -36,6 +36,8 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
         user.like(comment)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
@@ -70,6 +72,8 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
         comment = create(:comment, post: post, user: user)
         user.like(comment)
         visit post_path(post)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')

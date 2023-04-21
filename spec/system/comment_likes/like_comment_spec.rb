@@ -32,6 +32,8 @@ RSpec.describe "Like Comment", type: :system, js: true do
         comment = create(:comment, post: post, user: user)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Like')
         expect(page).to have_content('0 Likes')
 
@@ -65,6 +67,8 @@ RSpec.describe "Like Comment", type: :system, js: true do
         post = create(:post, user: user)
         comment = create(:comment, post: post, user: user)
         visit post_path(post)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         expect(page).to have_button('Like')
         expect(page).to have_content('0 Likes')

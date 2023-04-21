@@ -35,6 +35,8 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         user.like(post)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
@@ -69,6 +71,8 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         user.like(post)
         visit post_path(post)
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
@@ -79,7 +83,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
 
         expect(page).to have_current_path(post_path(post))
         expect(page).to have_button('Like')
-        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes", wait: 10)
+        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes")
         expect(page).to have_content('0 Likes')
       end
     end

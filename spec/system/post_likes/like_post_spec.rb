@@ -31,6 +31,8 @@ RSpec.describe "Like Post", type: :system, js: true do
         post = create(:post, user: user)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Like')
         expect(page).to have_content('0 Likes')
 
@@ -64,6 +66,8 @@ RSpec.describe "Like Post", type: :system, js: true do
         post = create(:post, user: user)
         visit post_path(post)
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         expect(page).to have_button('Like')
         expect(page).to have_content('0 Likes')
 
@@ -74,7 +78,7 @@ RSpec.describe "Like Post", type: :system, js: true do
         
         expect(page).to have_current_path(post_path(post))
         expect(page).to have_button('Unlike')
-        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes", wait: 10)
+        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes")
         expect(page).to have_content('1 Like')
       end
     end

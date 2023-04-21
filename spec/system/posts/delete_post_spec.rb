@@ -17,16 +17,19 @@ RSpec.describe "Delete Post", type: :system, js: true do
     driven_by(:selenium_chrome_headless)
   end
 
-  describe "Index Page" do
-    # This test checks that a post can be successfully deleted inside the index page.
-    # Since the post is within a Turbo Frame tag, i do not need to visit a seperate 
-    # page to access it.
-    #
-    # Since i'm using Turbo Streams, instead of a full page refresh, 
-    # the post is deleted live and the user is not redirected to a new page.
-    #
-    # With this functionality in place, the test is able to check that, when a post is deleted,
-    # the flash notice is displayed without a page refresh.
+  # These test check that a post can be successfully deleted using Turbo Streams.
+  # Since the post is within a Turbo Frame tag, i do not need to visit a seperate 
+  # page to access it.
+  #
+  # Since i'm using Turbo Streams, instead of a full page refresh, 
+  # the post is deleted live and the user is not redirected to a new page.
+  #
+  # With this functionality in place, the tests are able to check that, when a post is deleted,
+  # the flash notice is displayed without a page refresh.
+
+  describe "posts#index Page" do
+    # This test checks that a post can be successfully deleted in the posts#index page
+    # using Turbo Streams.
 
     before do
       post = create(:post, user: user)
@@ -39,22 +42,34 @@ RSpec.describe "Delete Post", type: :system, js: true do
         click_on "Delete"
       end
 
-      # Confirms that the user has not been redirected after deleting post,
-      # and is still on the index page with the flash notice displayed. 
-      # Meaning that Turbo Streams works.
       expect(page).to have_current_path(posts_path)
       expect(page).to have_content(flash_notice)
     end
   end
 
-  describe "Show Page" do
-    # This test checks that a post can be successfully deleted inside the show page.
-    # Since the post is within a Turbo Frame tag, i do not need to visit a seperate 
-    # page to access it.
+  describe "users#show Page" do
+    # This test checks that a post can be successfully deleted in the users#show page
+    # using Turbo Streams.
+
+    before do
+      post = create(:post, user: user)
+    end
+
+    it "deletes the post and renders flash notice using Turbo Streams" do
+      visit user_path(user)
+      post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+      within(post_frame) do
+        click_on "Delete"
+      end
+
+      expect(page).to have_current_path(user_path(user))
+      expect(page).to have_content(flash_notice)
+    end
+  end
+
+  describe "posts#show Page" do
+    # This test checks that a post can be successfully deleted inside the posts#show page.
     #
-    # Since i'm using Turbo Streams, instead of a full page refresh, 
-    # the post is deleted live. 
-    
     # With the use of a stimulus controller, i created a functionality that redirects
     # every user that was/is on the show page of the deleted post after 5 seconds.
     # This is done through broadcasting to the "post_deleted" stream that renders the 
@@ -76,14 +91,7 @@ RSpec.describe "Delete Post", type: :system, js: true do
       within(post_frame) do
         click_on "Delete"
       end
-      
-      # First i confirm that the user is still on the post page after the post 
-      # is deleted whilst also rendering the flash notice. This verifies that Turbo
-      # Streams is working.
-      #
-      # Secondly, since the redirect happens after 5 seconds, i use the sleep method
-      # to wait for that redirect and then confirm that the user has been redirected to 
-      # the index page.
+
       expect(page).to have_current_path(post_path(post))
       expect(page).to have_content(flash_notice)
       expect(page).to have_content('Redirecting to the feed page in')

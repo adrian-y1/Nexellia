@@ -67,27 +67,25 @@ class User < ApplicationRecord
     [:username]
   end
 
-  # Checks if user has liked the given post or not
-  def liked?(post)
-    liked_posts.include?(post)
+  # Checks if user has liked the given likeable (post or comment) or not
+  def liked?(likeable)
+    items = liked_items(likeable)
+    items.include?(likeable)
   end
 
-  # If the user has liked the given post:
-  # => Unlike the post by destroying it from the user's liked_posts
-  # Else => Like the post by inserting it into the user's liked_posts
-  #
-  # Create a public target that can be seen by every user listening.
-  # It broadcasts a replace to the stream of `[post_obj]:likes` and makes it's target the 
-  # given public target (`post_[post.id]_likes`).
-  # Then it renders the post_like partial that includes the post_likes_count
-  def like(post)
-    if liked_posts.include?(post)
-      liked_posts.destroy(post)
+  # If the user has liked the given likeable (post or comment):
+  #   => Unlike the likeable by destroying it from the user's liked_posts/liked_comments
+  # Else 
+  #   => Like the likeable by inserting it into the user's liked_posts/liked_comments
+  # brooadcast the likes to the likeable's stream
+  def like(likeable)
+    items = liked_items(likeable)
+    if items.include?(likeable)
+      items.destroy(likeable)
     else
-      liked_posts << post
+      items << likeable
     end
-    public_target = "#{dom_id(post)}_likes"
-    broadcast_replace_later_to [post, 'likes'], target: public_target, partial: 'post_likes/post_like', locals: { post: post }
+    broadcast_likes_to_likeable(likeable)
   end
 
   # Checks if the given user is already a friend of the current user.
@@ -110,5 +108,26 @@ class User < ApplicationRecord
   # Checks if the current user can send a friend request to the given user.
   def can_send_friend_request?(user)
     [is_friends_with?(user), has_sent_friend_request_to?(user), has_received_friend_request_from?(user)].all?
+  end
+
+  private
+
+  # Create a public target (`likeable_id_likes`) that can be seen by every user listening.
+  # It broadcasts a replace to the stream of `likeable_id:likes` depending on if the likeable
+  # is a Post or a Comment which updates the likes count for the likeable in real-time.
+  def broadcast_likes_to_likeable(likeable)
+    public_target = "#{dom_id(likeable)}_likes"
+    stream_name = [likeable, 'likes']
+    if likeable.is_a?(Post)
+      broadcast_replace_later_to stream_name, target: public_target, partial: 'post_likes/post_like', locals: { post: likeable }
+    else
+      broadcast_replace_later_to stream_name, target: public_target, partial: 'comment_likes/comment_like', locals: { comment: likeable }
+    end
+  end
+
+  # If the given likeable is a Post, then get all the user's liked_posts
+  # else, get his/her liked_comments
+  def liked_items(likeable)
+    likeable.is_a?(Post) ? liked_posts : liked_comments
   end
 end

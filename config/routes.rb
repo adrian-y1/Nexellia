@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   devise_for :users
 
   resources :posts do
-    resources :comments, only: [:new, :create, :destroy]
+    resources :comments, only: [:new, :create, :destroy] do
+      post 'like', to: 'comments#like', as: 'like'
+    end
     post 'like', to: 'posts#like', as: 'like'
   end
 

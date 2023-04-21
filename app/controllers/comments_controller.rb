@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
-  
+  include ActionView::RecordIdentifier
+
   def new
     @comment = Comment.new
   end
@@ -29,7 +30,24 @@ class CommentsController < ApplicationController
     end
   end
 
+  def like
+    @comment = Comment.find(params[:comment_id])
+    current_user.like(@comment)
+    respond_to do |format|
+      format.turbo_stream do
+        render turbo_stream: private_stream
+      end
+    end
+  end
+
   private
+
+  def private_stream
+    @comment = Comment.find(params[:comment_id])
+    private_target = "#{dom_id(@comment)} private_likes"
+    turbo_stream.replace(private_target, partial: "comment_likes/like_button", 
+        locals: { comment: @comment, post: @comment.post, like_status: current_user.liked?(@comment) })
+  end
 
   def comment_params
     params.require(:comment).permit(:body, :user_id, :post_id)

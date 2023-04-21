@@ -253,6 +253,158 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe "#liked?" do
+      describe "Post" do
+        context "when the user has liked the given post" do
+          it "returns true" do
+            post = create(:post, user: given_user)
+            current_user.like(post)
+            liked = current_user.liked?(post)
+            expect(liked).to be true
+          end
+        end
+  
+        context "when the user has not liked the given post" do
+          it "returns false" do
+            post = create(:post, user: given_user)
+            liked = current_user.liked?(post)
+            expect(liked).to be false
+          end
+        end
+      end 
+
+      describe "Comment" do
+        context "when the user has liked the given comment" do
+          it "returns true" do
+            post = create(:post, user: given_user)
+            comment = create(:comment, post: post, user: current_user)
+            current_user.like(comment)
+            liked = current_user.liked?(comment)
+            expect(liked).to be true
+          end
+        end
+  
+        context "when the user has not liked the given comment" do
+          it "returns false" do
+            post = create(:post, user: given_user)
+            comment = create(:comment, post: post, user: current_user)
+            liked = current_user.liked?(comment)
+            expect(liked).to be false
+          end
+        end
+      end 
+    end
+
+    describe "#like" do
+      describe "Post" do
+        context "when the user is not in the liked_posts list" do
+          let(:post) { create(:post, user: given_user) }
+
+          it "calls the #liked_items method" do
+            expect(current_user).to receive(:liked_items).with(post)
+            current_user.like(post)
+          end
+
+          it "adds the user as one of the likers of the post" do
+            current_user.like(post)
+            expect(post.likers).to include(current_user)
+          end
+
+          it "increments the likes of the post" do
+            expect { current_user.like(post) }.to change { post.post_likes_count }.from(0).to(1)
+          end
+    
+          it "calls #broadcast_likes_to_likeable" do
+            expect(current_user).to receive(:broadcast_likes_to_likeable).with(post)
+            current_user.like(post)
+          end
+        end
+
+        context "when the user is in the liked_posts list" do
+          let(:post) { create(:post, user: given_user) }
+
+          before do
+            create(:post_like, liked_post: post, liker: current_user)
+          end
+
+          it "calls the #liked_items method" do
+            expect(current_user).to receive(:liked_items).with(post)
+            current_user.like(post)
+          end
+
+          it "removes the user as one of the likers of the post" do
+            current_user.like(post)
+            expect(post.likers).not_to include(current_user)
+          end
+ 
+          # Have to use .reload to reload the record from the database to assert the change
+          it "decrements the likes of the post" do
+            expect { current_user.like(post) }.to change { post.reload.post_likes_count }.from(1).to(0)
+          end
+    
+          it "calls #broadcast_likes_to_likeable" do
+            expect(current_user).to receive(:broadcast_likes_to_likeable).with(post)
+            current_user.like(post)
+          end
+        end
+      end
+
+      describe "Comment" do
+        context "when the user is not in the liked_comments list" do
+          let(:post) { create(:post, user: given_user) }
+          let(:comment) { create(:comment, post: post, user: current_user) }
+
+          it "calls the #liked_items method" do
+            expect(current_user).to receive(:liked_items).with(comment)
+            current_user.like(comment)
+          end
+
+          it "adds the user as one of the likers of the comment" do
+            current_user.like(comment)
+            expect(comment.likers).to include(current_user)
+          end
+
+          it "increments the likes of the comment" do
+            expect { current_user.like(comment) }.to change { comment.comment_likes_count }.from(0).to(1)
+          end
+    
+          it "calls #broadcast_likes_to_likeable" do
+            expect(current_user).to receive(:broadcast_likes_to_likeable).with(comment)
+            current_user.like(comment)
+          end
+        end
+
+        context "when the user is in the liked_comments list" do
+          let(:post) { create(:post, user: given_user) }
+          let(:comment) { create(:comment, post: post, user: current_user) }
+          
+          before do
+            create(:comment_like, liked_comment: comment, liker: current_user)
+          end
+
+          it "calls the #liked_items method" do
+            expect(current_user).to receive(:liked_items).with(comment)
+            current_user.like(comment)
+          end
+
+          it "removes the user as one of the likers of the comment" do
+            current_user.like(comment)
+            expect(comment.likers).not_to include(current_user)
+          end
+ 
+          # Have to use .reload to reload the record from the database to assert the change
+          it "decrements the likes of the comment" do
+            expect { current_user.like(comment) }.to change { comment.reload.comment_likes_count }.from(1).to(0)
+          end
+    
+          it "calls #broadcast_likes_to_likeable" do
+            expect(current_user).to receive(:broadcast_likes_to_likeable).with(comment)
+            current_user.like(comment)
+          end
+        end
+      end
+    end
+
     describe "#is_friends_with?" do
       context "when the current user is friends with the given user" do
         it "returns true" do

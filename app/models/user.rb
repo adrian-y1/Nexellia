@@ -63,10 +63,6 @@ class User < ApplicationRecord
     friend.friends.destroy(self)
   end
 
-  def self.authentication_keys
-    [:username]
-  end
-
   # Checks if user has liked the given likeable (post or comment) or not
   def liked?(likeable)
     items = liked_items(likeable)
@@ -78,16 +74,19 @@ class User < ApplicationRecord
   # Else 
   #   => Like the likeable by inserting it into the user's liked_posts/liked_comments
   # brooadcast the likes to the likeable's stream
+  #
+  # Also used the safe navigation operator, "&.", which is a shorthand for 
+  # checking if an object is not nil before calling a method on it
   def like(likeable)
     items = liked_items(likeable)
-    if items.include?(likeable)
+    if items&.include?(likeable)
       items.destroy(likeable)
     else
-      items << likeable
+      items&.<< likeable
     end
     broadcast_likes_to_likeable(likeable)
   end
-
+  
   # Checks if the given user is already a friend of the current user.
   def is_friends_with?(user)
     self.friends.include?(user)
@@ -129,5 +128,9 @@ class User < ApplicationRecord
   # else, get his/her liked_comments
   def liked_items(likeable)
     likeable.is_a?(Post) ? liked_posts : liked_comments
+  end
+
+  def self.authentication_keys
+    [:username]
   end
 end

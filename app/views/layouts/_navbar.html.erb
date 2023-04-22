@@ -15,7 +15,18 @@
       </ul>
       <div class="d-flex gap-4">
         <% if user_signed_in? %>
-          <div class="text-white"><%= current_user.username %></div>
+          <div class="text-white">
+            <div class="card-body">
+              <div class="row align-items-center">
+                <div class="col-auto">
+                  <%= render "profiles/picture", profile: current_user.profile, size: "50x50" %>
+                </div>
+                <div class="col">
+                  <h5 class="card-title"><%= current_user.username %></h5>
+                </div>
+              </div>
+            </div>
+          </div>
           <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-primary" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "btn btn-primary" %>

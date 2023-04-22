@@ -81,3 +81,4 @@ gem 'responders'
 gem 'redis'
 gem 'redis-rails'
 gem 'faker'
+gem "noticed", "~> 1.6"

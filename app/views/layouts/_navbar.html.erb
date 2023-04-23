@@ -22,7 +22,7 @@
                   <%= render "profiles/picture", profile: current_user.profile, size: "50x50" %>
                 </div>
                 <div class="col">
-                  <h5 class="card-title"><%= current_user.username %></h5>
+                  <h5 class="card-title"><%= link_to current_user.username, current_user %></h5>
                 </div>
               </div>
             </div>

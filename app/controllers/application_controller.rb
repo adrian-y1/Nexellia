@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_current_user, if: :user_signed_in?
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_notifications
 
   protected
 
@@ -19,5 +20,12 @@ class ApplicationController < ActionController::Base
 
   def set_current_user
     Current.user = current_user
+  end
+
+  def set_notifications
+    return unless current_user
+    
+    current_user.notifications.mark_as_read!
+    @notifications = current_user.notifications.unread.reverse
   end
 end

@@ -27,10 +27,24 @@ class Comment < ApplicationRecord
   after_create_commit -> do
     broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
+    broadcast_notifications
   end
 
   after_destroy_commit -> do
     broadcast_remove_to [post, "comments"]
     broadcast_replace_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
+  end
+
+  private
+
+  def broadcast_notifications
+    return if user == post.user
+
+    CommentNotification.with(message: self).deliver_later(post.user)
+
+    broadcast_prepend_later_to "notifications_#{post.user.id}",
+                                target: "notifications_#{post.user.id}",
+                                partial: "notifications/notification",
+                                locals: {user:, post:, unread: true }
   end
 end

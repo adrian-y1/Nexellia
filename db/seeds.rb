@@ -11,6 +11,7 @@ CommentLike.delete_all
 Comment.delete_all
 Post.delete_all
 Profile.delete_all
+Notification.delete_all
 User.delete_all
 
 adrian = User.create(username: 'adrian', email: 'adrian@adrian', password: 'adrian', password_confirmation: 'adrian')

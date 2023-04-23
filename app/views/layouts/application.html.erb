@@ -27,6 +27,9 @@
 
     <div id="flash" class="flash">
       <%= render "layouts/flash" %>
+      <%= turbo_frame_tag "notifications" do %>
+        <%= render "notifications/notifications", notifications: @notifications, user: current_user %>
+      <% end %>
     </div>
 
     <div class="containter mt-5">

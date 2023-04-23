@@ -1,0 +1,27 @@
+<ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="notificationsDropdown" 
+                  style="max-height: 400px; overflow-x: hidden; overflow-y: auto; width: 25rem; background-color: #fff;
+                  box-shadow: 0 2px 4px rgba(0,0,0,.2);">
+  <h5 class="text-black">Notifciations</h5>
+
+  <% all_notifications.each do |notification| %>
+    <li class="list-group-item border-0 py-3">
+      <div class="row align-items-center">
+        <div class="col-auto">
+          <%= render "profiles/picture", profile: notification.to_notification.creator_profile, size: "50x50" %>
+        </div>
+        <div class="col">
+          <div class="fw-bold"><%= notification.to_notification.creator.username %></div>
+          <div class="text-muted small">commented on your post</div>
+        </div>
+        <div class="col-auto">
+          <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
+        </div>
+      </div>
+    </li>
+  <% end %>
+
+  <% if all_notifications.empty? %>
+    <li class="list-group-item border-0 text-center py-3">No notifications to display</li>
+  <% end %>
+
+</ul>

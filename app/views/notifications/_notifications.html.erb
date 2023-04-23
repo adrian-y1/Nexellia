@@ -2,7 +2,7 @@
   <div class="container">
     <%= turbo_stream_from "notifications_#{user.id}" %>
     <%= turbo_frame_tag "notifications_#{user.id}" do %>
-      <% @notifications.each do |notification| %>
+      <% @unread_notifications.each do |notification| %>
         <%= render notification,
                     user: notification.to_notification.creator,
                     post: notification.to_notification.post,

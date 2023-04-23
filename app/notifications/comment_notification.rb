@@ -25,6 +25,10 @@ class CommentNotification < Noticed::Base
     comment.user
   end
 
+  def creator_profile
+    comment.user.profile
+  end
+
   def post
     comment.post
   end

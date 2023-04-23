@@ -3,7 +3,7 @@
       <span>(Unread)</span>
     <% end %>
 
-  <%= link_to user.username, user, data: { turbo_frame: "_top" } %> commented on your <%= link_to "post", post, data: { turbo_frame: "_top" } %>.
+  <strong><%= link_to user.username, user, data: { turbo_frame: "_top" } %></strong> commented on your <%= link_to "post", post, data: { turbo_frame: "_top" } %>.
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 

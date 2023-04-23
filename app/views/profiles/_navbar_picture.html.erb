@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "navbar_picture" do %>
+  <%= image_tag current_user.profile.picture_thumbnail, class: "rounded-circle", size: "50x50", alt: "Profile pic" %>
+<% end %>

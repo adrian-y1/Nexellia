@@ -1,3 +1,4 @@
 <%= turbo_stream.update("profile_information", partial: "profiles/profile_information", locals: { user: @user, profile: @profile }) %>
 <%= turbo_stream.update("picture", partial: "profiles/picture", locals: { profile: @profile, size: "100x100" }) %>
+<%= turbo_stream.update("navbar_picture", partial: "profiles/navbar_picture") %>
 <%= render_turbo_stream_flash_messages %>

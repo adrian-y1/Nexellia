@@ -33,7 +33,7 @@ class User < ApplicationRecord
   
   validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 15, message: "must be between 3-15 characters," }
 
-  has_many :notifications, as: :recipient
+  has_many :notifications, as: :recipient, dependent: :destroy
 
   has_many :friend_requests_sent, class_name: "FriendRequest", foreign_key: "sender_id", dependent: :destroy
   has_many :friend_requests_received, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy

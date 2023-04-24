@@ -42,9 +42,20 @@ class Comment < ApplicationRecord
 
     CommentNotification.with(message: self).deliver_later(post.user)
 
-    broadcast_prepend_later_to "notifications_#{post.user.id}",
-                                target: "notifications_#{post.user.id}",
-                                partial: "notifications/unread_notification",
-                                locals: {user:, post:, unread: true }
+    broadcast_to_unread_notifications
+    broadcast_to_all_notifications
+  end
+
+  # Broadcasts the new notification to the user's unread_notifications which is displayed under the navbar
+  def broadcast_to_unread_notifications
+    broadcast_prepend_later_to "unread_notifications_#{post.user.id}", target: "unread_notifications_#{post.user.id}",
+      partial: "notifications/unread_notification", locals: {user:, post:, unread: true }
+  end
+
+  # Broadcasts a prepend to the user's all_notifications drop menu list
+  def broadcast_to_all_notifications
+    broadcast_prepend_later_to "all_notifications_#{post.user.id}", target: "all_notifications_#{post.user.id}",
+      partial: "notifications/all_notifications_item",
+      locals: { created_at: Time.current, post: self.post, user: self.user, comment: self, profile: self.user.profile }
   end
 end

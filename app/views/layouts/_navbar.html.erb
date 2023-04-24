@@ -19,6 +19,7 @@
             <div class="card-body">
               <div class="row align-items-center">
                 <div class="col-auto">
+                  <%# User's navbar profile picture %>
                   <%= render "profiles/navbar_picture" %>
                 </div>
                 <div class="col">
@@ -27,7 +28,9 @@
               </div>
             </div>
           </div>
-          <%= render "layouts/notifications_dropdown", all_notifications: all_notifications %>
+
+          <%# Notifications Dropdown menu %>
+          <%= render "layouts/notifications_dropdown", all_notifications: all_notifications, user: current_user %>
           <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-primary" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "btn btn-primary" %>

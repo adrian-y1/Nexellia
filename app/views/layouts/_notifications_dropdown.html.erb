@@ -2,5 +2,6 @@
   <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
     <i class="bi bi-bell-fill"></i>
   </button>
-  <%= render "notifications/all_notifications", all_notifications: all_notifications %>
+  
+  <%= render "notifications/all_notifications", all_notifications: all_notifications, user: user %>
 </div>

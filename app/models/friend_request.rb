@@ -25,8 +25,6 @@ class FriendRequest < ApplicationRecord
     create_notification
   end
 
-  before_destroy :destroy_notifications
-
   after_destroy_commit do
     broadcast_friend_request
   end
@@ -54,12 +52,6 @@ class FriendRequest < ApplicationRecord
 
   def create_notification
     FriendRequestNotification.with(message: self).deliver_later(receiver)
-  end
-
-  # Destroys all notifications associated with this friend request
-  def destroy_notifications
-    notifications = Notification.where(recipient_id: self.receiver, type: "FriendRequestNotification", params: { message: self })
-    notifications.destroy_all
   end
 
   def prevent_duplicate_friend_requests

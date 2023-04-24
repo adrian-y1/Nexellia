@@ -5,6 +5,7 @@
       <span>(Unread)</span>
     <% end %>
 
+  <%# Conditionally render the partial for the type of notification %>
   <% if noticed_obj.is_a?(CommentNotification) %>
     <%= render "notifications/comment_notification", noticed_obj: noticed_obj, context: :unread %>
   <% elsif noticed_obj.is_a?(PostLikeNotification) %>

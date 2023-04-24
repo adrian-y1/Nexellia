@@ -9,6 +9,7 @@ class FriendshipsController < ApplicationController
     @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
     if @friend_request
       broadcast_friend_creation(@friend_request, @friend)
+      destroy_notifications(@friend_request)
       @friend_request.delete
     end
 
@@ -56,5 +57,11 @@ class FriendshipsController < ApplicationController
     # Broadcast the changes to the person that is getting removed
     Turbo::StreamsChannel.broadcast_replace_to [friend.id, current_user.id], target: dom_id(current_user), partial: "users/friend_request_form",
       locals: { logged_in_user: friend, user: Current.user, friend_request: FriendRequest.new }
+  end
+
+  # Destroys all notifications associated with this friend request
+  def destroy_notifications(friend_request)
+    notifications = Notification.where(recipient_id: friend_request.receiver, type: "FriendRequestNotification", params: { message: friend_request })
+    notifications.destroy_all
   end
 end

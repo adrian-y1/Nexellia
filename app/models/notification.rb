@@ -30,7 +30,7 @@ class Notification < ApplicationRecord
     stream_name = "unread_notifications_#{recipient.id}"
 
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/unread_notification",
-      locals: { unread_notification: self, unread: true }
+      locals: { unread_notification: self, unread: true, context: :unread }
   end
 
   # Broadcasts a prepend to the user's all_notifications drop menu list
@@ -39,6 +39,6 @@ class Notification < ApplicationRecord
     stream_name = "all_notifications_#{recipient.id}"
 
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/all_notifications_item",
-      locals: { notification: self, unread: true }
+      locals: { notification: self, unread: true, context: :all }
   end
 end

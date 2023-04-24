@@ -5,8 +5,12 @@
       <span>(Unread)</span>
     <% end %>
 
-  <strong><%= link_to noticed_obj.creator.username, noticed_obj.creator, data: { turbo_frame: "_top" } %></strong> 
-  commented on your <%= link_to "post", noticed_obj.post, data: { turbo_frame: "_top" } %>.
+  <% if noticed_obj.is_a?(CommentNotification) %>
+    <%= render "notifications/comment_notification", noticed_obj: noticed_obj, context: :unread %>
+  <% elsif noticed_obj.is_a?(PostLikeNotification) %>
+    <%= render "notifications/post_like_notification", noticed_obj: noticed_obj, context: :unread %>
+  <% end %>
+
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
 

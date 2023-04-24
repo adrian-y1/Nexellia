@@ -1,19 +1,20 @@
 <% noticed_obj = notification.to_notification %>
 
-<%= link_to noticed_obj.post, data: { turbo_frame: "_top" }, class: "text-decoration-none" do %>
+<%= link_to noticed_obj.url, data: { turbo_frame: "_top" }, class: "text-decoration-none" do %>
   <% if notification.unread? %>
     <li class="list-group-item border-0 py-3" style="background-color: lightblue;">
   <% else %>
     <li class="list-group-item border-0 py-3">
   <% end %>
     <div class="row align-items-center">
-      <div class="col-auto">
-        <%= render "profiles/picture", profile: noticed_obj.creator_profile, size: "50x50" %>
-      </div>
-      <div class="col">
-        <div class="fw-bold"><%= noticed_obj.creator.username %></div>
-        <div class="text-muted small">commented on your post</div>
-      </div>
+    
+      <%# Conditionally render the partial for the type of notification %>
+      <% if noticed_obj.is_a?(CommentNotification) %>
+        <%= render "notifications/comment_notification", noticed_obj: noticed_obj, context: :all %>
+      <% elsif noticed_obj.is_a?(PostLikeNotification) %>
+        <%= render "notifications/post_like_notification", noticed_obj: noticed_obj, context: :all %>
+      <% end %>
+
       <div class="col-auto">
         <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
       </div>

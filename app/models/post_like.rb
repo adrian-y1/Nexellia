@@ -17,4 +17,23 @@ class PostLike < ApplicationRecord
   belongs_to :liked_post, class_name: "Post", foreign_key: "liked_post_id", counter_cache: true
 
   validates :liker, uniqueness: { scope: :liked_post_id, message: "has already liked this post" }
+
+  has_noticed_notifications
+
+  after_create_commit :create_notification
+  before_destroy :destroy_notifications
+
+  private
+  
+  def create_notification
+    return if liker == liked_post.user
+    
+    PostLikeNotification.with(message: self).deliver_later(liked_post.user)
+  end
+
+  # Destroys all notifications associated with this like
+  def destroy_notifications
+    notifications = Notification.where(recipient_id: self.liked_post.user, type: "PostLikeNotification", params: { message: self })
+    notifications.destroy_all
+  end
 end

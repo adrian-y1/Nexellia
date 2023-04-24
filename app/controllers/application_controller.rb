@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
     return unless current_user
     
     current_user.notifications.mark_as_read!
-    @unread_notifications = current_user.notifications.unread.reverse
+    @unread_notifications = current_user.notifications.unread.newest_first
   end
 
   def set_all_notifications

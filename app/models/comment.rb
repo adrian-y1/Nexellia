@@ -16,6 +16,8 @@ class Comment < ApplicationRecord
   belongs_to :user
   belongs_to :post, counter_cache: true
 
+  has_noticed_notifications model_name: 'Notification'
+
   has_many :comment_likes, foreign_key: "liked_comment_id", dependent: :destroy
   has_many :likers, through: :comment_likes, source: :liker, foreign_key: "liker_id", dependent: :destroy
 
@@ -29,6 +31,8 @@ class Comment < ApplicationRecord
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
     broadcast_notifications
   end
+  
+  before_destroy :destroy_notifications
 
   after_destroy_commit -> do
     broadcast_remove_to [post, "comments"]
@@ -57,5 +61,11 @@ class Comment < ApplicationRecord
     broadcast_prepend_later_to "all_notifications_#{post.user.id}", target: "all_notifications_#{post.user.id}",
       partial: "notifications/all_notifications_item",
       locals: { created_at: Time.current, post: self.post, user: self.user, comment: self, profile: self.user.profile }
+  end
+
+  # Destroys all notifications associated with this comment
+  def destroy_notifications
+    notifications = Notification.where(recipient_id: self.post.user, type: "CommentNotification", params: { message: self })
+    notifications.destroy_all
   end
 end

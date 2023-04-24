@@ -30,7 +30,7 @@
     <div id="flash" class="flash">
       <%= render "layouts/flash" %>
       <%= turbo_frame_tag "notifications" do %>
-        <%= render "notifications/notifications", unread_notifications: @unread_notifications, user: current_user %>
+        <%= render "notifications/unread_notifications", unread_notifications: @unread_notifications, user: current_user %>
       <% end %>
     </div>
 

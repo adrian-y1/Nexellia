@@ -44,7 +44,7 @@ class Comment < ApplicationRecord
 
     broadcast_prepend_later_to "notifications_#{post.user.id}",
                                 target: "notifications_#{post.user.id}",
-                                partial: "notifications/notification",
+                                partial: "notifications/unread_notification",
                                 locals: {user:, post:, unread: true }
   end
 end

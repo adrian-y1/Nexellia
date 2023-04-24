@@ -8,15 +8,9 @@
 
   <%= turbo_frame_tag "all_notifications_#{user.id}" do %>
     <% all_notifications.each do |notification| %>
-      <% notification_obj = notification.to_notification %>
-
-      <% if notification_obj.comment %>
-        <%= render "notifications/all_notifications_item", 
-          user: notification_obj.creator,
-          post: notification_obj.post,
-          profile: notification_obj.creator_profile,
-          created_at: notification.created_at 
-        %>
+    
+      <% if notification.to_notification.comment %>
+        <%= render "notifications/all_notifications_item", notification: notification %>
       <% end %>
       
     <% end %>

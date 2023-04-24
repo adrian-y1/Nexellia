@@ -33,6 +33,10 @@ class CommentNotification < Noticed::Base
     comment.post
   end
 
+  def post_author
+    comment.post.user
+  end
+
   def url
     post_path(params[:post])
   end

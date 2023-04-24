@@ -29,7 +29,7 @@ class Comment < ApplicationRecord
   after_create_commit -> do
     broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
-    broadcast_notifications
+    create_notification
   end
   
   before_destroy :destroy_notifications
@@ -41,26 +41,10 @@ class Comment < ApplicationRecord
 
   private
 
-  def broadcast_notifications
+  def create_notification
     return if user == post.user
 
     CommentNotification.with(message: self).deliver_later(post.user)
-
-    broadcast_to_unread_notifications
-    broadcast_to_all_notifications
-  end
-
-  # Broadcasts the new notification to the user's unread_notifications which is displayed under the navbar
-  def broadcast_to_unread_notifications
-    broadcast_prepend_later_to "unread_notifications_#{post.user.id}", target: "unread_notifications_#{post.user.id}",
-      partial: "notifications/unread_notification", locals: {user:, post:, unread: true }
-  end
-
-  # Broadcasts a prepend to the user's all_notifications drop menu list
-  def broadcast_to_all_notifications
-    broadcast_prepend_later_to "all_notifications_#{post.user.id}", target: "all_notifications_#{post.user.id}",
-      partial: "notifications/all_notifications_item",
-      locals: { created_at: Time.current, post: self.post, user: self.user, comment: self, profile: self.user.profile }
   end
 
   # Destroys all notifications associated with this comment

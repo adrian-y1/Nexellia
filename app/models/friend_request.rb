@@ -22,8 +22,11 @@ class FriendRequest < ApplicationRecord
 
   after_create_commit do
     broadcast_friend_request
+    create_notification
   end
-   
+
+  before_destroy :destroy_notifications
+
   after_destroy_commit do
     broadcast_friend_request
   end
@@ -47,6 +50,16 @@ class FriendRequest < ApplicationRecord
       broadcast_replace_later_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
       broadcast_replace_later_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
     end
+  end
+
+  def create_notification
+    FriendRequestNotification.with(message: self).deliver_later(receiver)
+  end
+
+  # Destroys all notifications associated with this friend request
+  def destroy_notifications
+    notifications = Notification.where(recipient_id: self.receiver, type: "FriendRequestNotification", params: { message: self })
+    notifications.destroy_all
   end
 
   def prevent_duplicate_friend_requests

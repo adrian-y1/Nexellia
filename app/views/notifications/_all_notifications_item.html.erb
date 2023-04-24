@@ -15,6 +15,8 @@
         <%= render "notifications/post_like_notification", noticed_obj: noticed_obj, context: :all %>
       <% elsif noticed_obj.is_a?(CommentLikeNotification) %>
         <%= render "notifications/comment_like_notification", noticed_obj: noticed_obj, context: :all %>
+      <% elsif noticed_obj.is_a?(FriendRequestNotification) %>
+        <%= render "notifications/friend_request_notification", noticed_obj: noticed_obj, context: :all %>
       <% end %>
 
       <div class="col-auto">

@@ -1,0 +1,12 @@
+<% if context == :all %>
+  <div class="col-auto">
+    <%= render "profiles/picture", profile: noticed_obj.liker_profile, size: "50x50" %>
+  </div>
+  <div class="col">
+    <div class="fw-bold"><%= noticed_obj.liker.username %></div>
+    <div class="text-muted small">liked your comment</div>
+  </div>
+<% elsif context == :unread %>
+  <strong><%= link_to noticed_obj.liker.username, noticed_obj.liker, data: { turbo_frame: "_top" } %></strong> 
+  liked your <%= link_to "comment", noticed_obj.url, data: { turbo_frame: "_top" } %>
+<% end %>

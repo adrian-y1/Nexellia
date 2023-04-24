@@ -7,12 +7,14 @@
     <li class="list-group-item border-0 py-3">
   <% end %>
     <div class="row align-items-center">
-    
+
       <%# Conditionally render the partial for the type of notification %>
       <% if noticed_obj.is_a?(CommentNotification) %>
         <%= render "notifications/comment_notification", noticed_obj: noticed_obj, context: :all %>
       <% elsif noticed_obj.is_a?(PostLikeNotification) %>
         <%= render "notifications/post_like_notification", noticed_obj: noticed_obj, context: :all %>
+      <% elsif noticed_obj.is_a?(CommentLikeNotification) %>
+        <%= render "notifications/comment_like_notification", noticed_obj: noticed_obj, context: :all %>
       <% end %>
 
       <div class="col-auto">

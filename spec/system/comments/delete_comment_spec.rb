@@ -33,6 +33,9 @@ RSpec.describe "Delete Comment", type: :system, js: true do
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
       visit posts_path
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       comment_frame = find("turbo-frame#comment_#{user.posts.last.comments.last.id}")
       within(comment_frame) do
         click_on "Delete"
@@ -52,6 +55,8 @@ RSpec.describe "Delete Comment", type: :system, js: true do
     it "deletes the comment and renders flash notice using Turbo Streams" do
       post = user.posts.last
       visit post_path(post)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
       comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
       within(comment_frame) do
@@ -74,6 +79,8 @@ RSpec.describe "Delete Comment", type: :system, js: true do
     it "deletes the comment and renders flash notice using Turbo Streams" do
       post = user.posts.last
       visit user_path(post.user)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
       comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
       within(comment_frame) do

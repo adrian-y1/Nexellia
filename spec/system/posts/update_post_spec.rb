@@ -46,6 +46,8 @@ RSpec.describe "Update Post", type: :system, js: true do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
 
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           # First click on "Edit" button to render the form inside the 'modal' Turbo Frame Tag
           # and make it visibile
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
@@ -75,6 +77,8 @@ RSpec.describe "Update Post", type: :system, js: true do
       
       context "when updating a post with empty body" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+    
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
             click_on 'Edit'
@@ -95,6 +99,8 @@ RSpec.describe "Update Post", type: :system, js: true do
       context "when updating a post with body length > 255" do
         it "Fails to update the post with empty content and shows error message using Turbo Streams" do
           updated_content = Faker::Lorem.characters(number: 300)
+
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
@@ -117,6 +123,8 @@ RSpec.describe "Update Post", type: :system, js: true do
     describe "Cancel" do
       context "when user clicks on cancel instead of update post" do
         it "closes the update form and renders posts#index page using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
             click_on 'Edit'
@@ -163,6 +171,8 @@ RSpec.describe "Update Post", type: :system, js: true do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
 
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
             click_on 'Edit'
@@ -190,6 +200,8 @@ RSpec.describe "Update Post", type: :system, js: true do
 
       context "when updating a post with empty body" do
         it "Fails to update the post with empty content and posts#show error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
             click_on 'Edit'
@@ -210,6 +222,8 @@ RSpec.describe "Update Post", type: :system, js: true do
       context "when updating a post with body length > 255" do
         it "Fails to update the post with empty content and posts#show error message using Turbo Streams" do
           updated_content = Faker::Lorem.characters(number: 300)
+
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
@@ -232,6 +246,8 @@ RSpec.describe "Update Post", type: :system, js: true do
     describe "Cancel" do
       context "when user clicks on cancel instead of update post" do
         it "closes the update form and renders posts#show page using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
             click_on 'Edit'
@@ -278,6 +294,8 @@ RSpec.describe "Update Post", type: :system, js: true do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
 
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
             click_on 'Edit'
@@ -305,6 +323,8 @@ RSpec.describe "Update Post", type: :system, js: true do
 
       context "when updating a post with empty body" do
         it "Fails to update the post with empty content and users#show error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
             click_on 'Edit'
@@ -325,6 +345,8 @@ RSpec.describe "Update Post", type: :system, js: true do
       context "when updating a post with body length > 255" do
         it "Fails to update the post with empty content and users#show error message using Turbo Streams" do
           updated_content = Faker::Lorem.characters(number: 300)
+
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
@@ -347,6 +369,8 @@ RSpec.describe "Update Post", type: :system, js: true do
     describe "Cancel" do
       context "when user clicks on cancel instead of update post" do
         it "closes the update form and renders users#show page using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
             click_on 'Edit'

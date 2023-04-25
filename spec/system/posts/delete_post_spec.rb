@@ -37,6 +37,9 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
     it "deletes the post and renders flash notice using Turbo Streams" do
       visit posts_path
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
       within(post_frame) do
         click_on "Delete"
@@ -57,6 +60,9 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
     it "deletes the post and renders flash notice using Turbo Streams" do
       visit user_path(user)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
       within(post_frame) do
         click_on "Delete"
@@ -85,8 +91,10 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
     it "deletes the post, renders flash notice and redirects all subscribed users to index page after 5 seconds using Turbo Streams" do
       post = user.posts.last
-
       visit post_path(post)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
       within(post_frame) do
         click_on "Delete"

@@ -30,6 +30,9 @@ RSpec.describe "Create Post", type: :system, js: true do
 
     it "creates the post live with Turbo Streams" do
       visit posts_path
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       new_post_frame = find("turbo-frame[id='new_post']")
       within(new_post_frame) do
         fill_in 'post[body]', with: content
@@ -54,6 +57,9 @@ RSpec.describe "Create Post", type: :system, js: true do
     
     it "doesn't create the post and renders an error without page referesh" do
       visit posts_path
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
       new_post_frame = find("turbo-frame[id='new_post']")
       within(new_post_frame) do
         fill_in 'post[body]', with: ''

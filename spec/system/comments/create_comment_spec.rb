@@ -37,6 +37,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: content
@@ -58,6 +60,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit post_path(post)
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: content
@@ -78,6 +82,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
       it "creates the comment with Turbo Streams" do
         post = create(:post, user: user)
         visit user_path(post.user)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do
@@ -111,6 +117,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit posts_path
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: ''
@@ -129,6 +137,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
         post = create(:post, user: user)
         visit post_path(post)
 
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
         post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: ''
@@ -146,6 +156,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
       it "doesn't create the comment and renders an error with Turbo Streams" do
         post = create(:post, user: user)
         visit user_path(post.user)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         post_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_frame) do

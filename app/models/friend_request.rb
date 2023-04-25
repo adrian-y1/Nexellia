@@ -20,10 +20,14 @@ class FriendRequest < ApplicationRecord
 
   validate :prevent_duplicate_friend_requests
 
+  has_noticed_notifications model_name: 'Notification'
+
   after_create_commit do
     broadcast_friend_request
     create_notification
   end
+
+  before_destroy :destroy_notifications
 
   after_destroy_commit do
     broadcast_friend_request
@@ -52,6 +56,12 @@ class FriendRequest < ApplicationRecord
 
   def create_notification
     FriendRequestNotification.with(message: self).deliver_later(receiver)
+  end
+
+  # Destroys all notifications associated with this friend request
+  def destroy_notifications
+    notifications = Notification.where(recipient_id: receiver, type: "FriendRequestNotification", params: { message: self })
+    notifications.destroy_all
   end
 
   def prevent_duplicate_friend_requests

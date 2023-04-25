@@ -20,8 +20,7 @@ RSpec.describe "Liking Comment Notification", type: :system, js: true do
   # element (the dropdown notifications list or the unread notification in the flash section)
   #
   # First, ensure that the subscription to the stream has been connected before the broadcast gets called to avoid flaky tests
-  # Then, create a CommentLike object
-  # After that, Find the Turbo Frame tag for the respective Turbo Frame tag associated with the creator.
+  # Then, create a CommentLike object and find the Turbo Frame tag associated with the creator.
   #
   # Lastly, the expectations for the notification and the current path, ensures
   # that the user is receiving the notification in real-time, without a page refresh/reload.

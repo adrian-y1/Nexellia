@@ -9,6 +9,7 @@ class FriendshipsController < ApplicationController
     @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
     if @friend_request
       broadcast_friend_creation(@friend_request, @friend)
+      FriendshipNotification.with(friendship: @friendship).deliver(@friend_request.sender)
       destroy_notifications(@friend_request)
       @friend_request.delete
     end

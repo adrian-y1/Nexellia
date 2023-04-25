@@ -55,16 +55,6 @@ class User < ApplicationRecord
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }
 
-  def create_friendship(friend)
-    self.friends << friend
-    friend.friends << self
-  end
-
-  def destroy_friendship(friend)
-    self.friends.destroy(friend)
-    friend.friends.destroy(self)
-  end
-
   # Checks if user has liked the given likeable (post or comment) or not
   def liked?(likeable)
     items = liked_items(likeable)

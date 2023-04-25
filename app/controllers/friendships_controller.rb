@@ -2,27 +2,29 @@ class FriendshipsController < ApplicationController
   include ActionView::RecordIdentifier
 
   def create
-    @friend = User.find(params[:friend_id])
-    @friendship = current_user.create_friendship(@friend)
-
-    # Once two users become friends, delete their friend request
-    @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
-    if @friend_request
-      broadcast_friend_creation(@friend_request, @friend)
-      FriendshipNotification.with(friendship: @friendship).deliver(@friend_request.sender)
-      destroy_notifications(@friend_request)
-      @friend_request.delete
-    end
+    @friendship = current_user.friendships.build(friend_id: params[:friend_id])
 
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are now friends!" }
-      format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are now friends!" }
+      if @friendship.save
+        @friend = @friendship.friend
+        @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
+        if @friend_request
+          broadcast_friend_creation(@friend_request, @friend)
+          destroy_notifications(@friend_request)
+          @friend_request.delete
+        end
+        format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are now friends!" }
+        format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are now friends!" }
+      else
+        format.html { redirect_to request.referrer, notice: "Error while creating friendship" }
+      end
     end
   end
 
   def destroy
-    @friend = User.find(params[:friend_id])
-    current_user.destroy_friendship(@friend)
+    @friendship = Friendship.find_by(user: current_user)
+    @friend = @friendship.friend
+    @friendship.destroy
 
     respond_to do |format|
       broadcast_friend_destruction(@friend)

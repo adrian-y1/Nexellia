@@ -169,21 +169,22 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe "friendship" do
-      it "can create many friendships between users" do
+    describe "Friendship" do
+      it "can have many friends" do
         user1 = create(:user)
         user2 = create(:user)
         user3 = create(:user)
-        user1.friends << user2
-        user1.friends << user3
-        user2.friends << user3
-        user2.friends << user1
-        user3.friends << user1
-        user3.friends << user2
-
+        create(:friendship, user: user1, friend: user2)
+        create(:friendship, user: user1, friend: user3)
         expect(user1.friends).to include(user2, user3)
-        expect(user2.friends).to include(user1, user3)
-        expect(user3.friends).to include(user1, user2)
+      end
+
+      it "creates the friendship two-way" do
+        user1 = create(:user)
+        user2 = create(:user)
+        create(:friendship, user: user1, friend: user2)
+        expect(user1.friends).to include(user2)
+        expect(user2.friends).to include(user1)
       end
     end
 
@@ -232,26 +233,6 @@ RSpec.describe User, type: :model do
   describe "Instance Methods" do
     let(:current_user) { create(:user) }
     let(:given_user) { create(:user) }
-
-    describe "#create_friendship" do
-      it "creates a two-way friendship" do
-        current_user.create_friendship(given_user)
-        expect(current_user.friends.first).to eq(given_user)
-        expect(given_user.friends.first).to eq(current_user)
-      end
-    end
-
-    describe "#destroy_friendship" do
-      it "destroys the two-way friendship" do
-        current_user.create_friendship(given_user)
-        expect(current_user.friends.first).to eq(given_user)
-        expect(given_user.friends.first).to eq(current_user)
-
-        current_user.destroy_friendship(given_user)
-        expect(current_user.friends.length).to eq(0)
-        expect(given_user.friends.length).to eq(0)
-      end
-    end
 
     describe "#liked?" do
       describe "Post" do
@@ -408,7 +389,7 @@ RSpec.describe User, type: :model do
     describe "#is_friends_with?" do
       context "when the current user is friends with the given user" do
         it "returns true" do
-          current_user.create_friendship(given_user)
+          create(:friendship, user: current_user, friend: given_user)
           is_friends = current_user.is_friends_with?(given_user)
           expect(is_friends).to be true
         end
@@ -481,7 +462,7 @@ RSpec.describe User, type: :model do
 
       context "when the current user is friends with the given user" do
         it "returns false" do
-          current_user.create_friendship(given_user)
+          create(:friendship, user: current_user, friend: given_user)
           can_send_friend_request = current_user.can_send_friend_request?(given_user)
           expect(can_send_friend_request).to be false
         end

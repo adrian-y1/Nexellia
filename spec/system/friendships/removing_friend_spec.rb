@@ -31,7 +31,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
       it "successfully removes the friend on the users#index page using Turbo Streams" do
         new_user = create(:user)
         create(:friend_request, sender: new_user, receiver: user)
-        user.create_friendship(new_user)
+        create(:friendship, user: user, friend: new_user)
         
         visit users_path
         
@@ -58,7 +58,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
       it "successfully removes the friend on the users#show page using Turbo Streams" do
         new_user = create(:user)
         create(:friend_request, sender: new_user, receiver: user)
-        user.create_friendship(new_user)
+        create(:friendship, user: user, friend: new_user)
         
         visit user_path(new_user)
         

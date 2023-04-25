@@ -19,9 +19,24 @@ class Friendship < ApplicationRecord
   belongs_to :friend, class_name: "User"
 
   after_create :create_inverse_friendship
+  before_destroy :destroy_notifications
   after_destroy :destroy_inverse_friendship
 
+  after_create_commit do 
+    create_notification
+  end
+
   private
+
+  def create_notification
+    FriendshipNotification.with(message: self).deliver_later(user)
+  end
+
+  # Destroys all notifications associated with this friend request
+  def destroy_notifications
+    notifications = Notification.where(recipient_id: user, type: "FriendshipNotification", params: { message: self })
+    notifications.destroy_all
+  end
 
   def create_inverse_friendship
     friend.friendships.create(friend: user)

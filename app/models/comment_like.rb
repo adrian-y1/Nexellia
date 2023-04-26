@@ -9,6 +9,7 @@
 #  liker_id         :integer
 #
 class CommentLike < ApplicationRecord
+  include NotificationCreatable
   include NotificationDestroyable
 
   belongs_to :liker, class_name: "User", foreign_key: "liker_id", counter_cache: true
@@ -17,14 +18,4 @@ class CommentLike < ApplicationRecord
   validates :liker, uniqueness: { scope: :liked_comment_id, message: "has already liked this comment" }
 
   has_noticed_notifications
-
-  after_create_commit :create_notification
-  
-  private
-
-  def create_notification
-    return if liker == liked_comment.user
-
-    CommentLikeNotification.with(message: self).deliver_later(liked_comment.user)
-  end
 end

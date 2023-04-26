@@ -13,8 +13,9 @@
 #  index_friendships_on_user_id_and_friend_id  (user_id,friend_id) UNIQUE
 #
 class Friendship < ApplicationRecord
+  include NotificationCreatable
   include NotificationDestroyable
-
+  
   validates :user, uniqueness: { scope: :friend_id, message: "already friends" }
 
   belongs_to :user
@@ -25,15 +26,8 @@ class Friendship < ApplicationRecord
   after_create :create_inverse_friendship
   after_destroy :destroy_inverse_friendship
 
-  after_create_commit do 
-    create_notification
-  end
 
   private
-
-  def create_notification
-    FriendshipNotification.with(message: self).deliver_later(user)
-  end
 
   def create_inverse_friendship
     friend.friendships.create(friend: user)

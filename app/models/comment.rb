@@ -12,6 +12,7 @@
 #
 class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
+  include NotificationCreatable
   include NotificationDestroyable
   
   belongs_to :user
@@ -30,19 +31,10 @@ class Comment < ApplicationRecord
   after_create_commit -> do
     broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
-    create_notification
   end
 
   after_destroy_commit -> do
     broadcast_remove_to [post, "comments"]
     broadcast_replace_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
-  end
-
-  private
-
-  def create_notification
-    return if user == post.user
-
-    CommentNotification.with(message: self).deliver_later(post.user)
   end
 end

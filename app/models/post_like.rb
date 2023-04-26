@@ -13,6 +13,7 @@
 #  index_post_likes_on_liker_id_and_liked_post_id  (liker_id,liked_post_id) UNIQUE
 #
 class PostLike < ApplicationRecord
+  include NotificationCreatable
   include NotificationDestroyable
   
   belongs_to :liker, class_name: "User", foreign_key: "liker_id", counter_cache: true
@@ -21,14 +22,4 @@ class PostLike < ApplicationRecord
   validates :liker, uniqueness: { scope: :liked_post_id, message: "has already liked this post" }
 
   has_noticed_notifications
-
-  after_create_commit :create_notification
-
-  private
-  
-  def create_notification
-    return if liker == liked_post.user
-    
-    PostLikeNotification.with(message: self).deliver_later(liked_post.user)
-  end
 end

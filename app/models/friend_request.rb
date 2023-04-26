@@ -14,6 +14,7 @@
 #
 class FriendRequest < ApplicationRecord
   include ActionView::RecordIdentifier
+  include NotificationCreatable
   include NotificationDestroyable
 
   belongs_to :sender, class_name: "User", foreign_key: "sender_id"
@@ -25,7 +26,6 @@ class FriendRequest < ApplicationRecord
 
   after_create_commit do
     broadcast_friend_request
-    create_notification
   end
 
   after_destroy_commit do
@@ -51,10 +51,6 @@ class FriendRequest < ApplicationRecord
       broadcast_replace_later_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
       broadcast_replace_later_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
     end
-  end
-
-  def create_notification
-    FriendRequestNotification.with(message: self).deliver_later(receiver)
   end
 
   def prevent_duplicate_friend_requests

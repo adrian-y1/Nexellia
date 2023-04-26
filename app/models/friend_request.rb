@@ -28,12 +28,17 @@ class FriendRequest < ApplicationRecord
     broadcast_friend_request
   end
 
-  after_destroy_commit do
-    broadcast_friend_request
-  end
+  # This sets up an `after_destroy_commit` callback to broadcast the friend request when it is destroyed,
+  # unless the two users are already friends. This prevents the broadcast from being triggered
+  # when the `FriendRequest` object is destroyed in the `FriendshipsController` after the two users become friends.
+  after_destroy_commit :broadcast_friend_request, unless: :are_friends?
    
   private
   
+  def are_friends? 
+    receiver.is_friends_with?(sender) || sender.is_friends_with?(receiver)
+  end
+
   def broadcast_friend_request
     sender_stream = [self.sender.id, self.receiver.id]
     receiver_stream = [self.receiver.id, self.sender.id]

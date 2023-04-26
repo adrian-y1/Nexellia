@@ -3,7 +3,7 @@ class FriendshipsController < ApplicationController
 
   def create
     @friendship = current_user.friendships.build(friend_id: params[:friend_id])
-
+    
     respond_to do |format|
       if @friendship.save
         @friend = @friendship.friend
@@ -32,7 +32,7 @@ class FriendshipsController < ApplicationController
 
   def handle_friendship_creation
     @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
-    
+
     if @friend_request
       @friendship.broadcast_friend_creation(@friend_request)
       @friend_request.destroy

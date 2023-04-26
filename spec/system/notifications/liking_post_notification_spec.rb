@@ -40,7 +40,7 @@ RSpec.describe "Liking Post Notification", type: :system, js: true do
 
         all_notifications_frame = find("turbo-frame#all_notifications_#{author.id}")
 
-        expect(all_notifications_frame).to have_content("#{liker.username}\nliked your post")
+        expect(all_notifications_frame).to have_content("#{liker.username} liked your post")
         expect(page).to have_current_path(posts_path)
       end
     end

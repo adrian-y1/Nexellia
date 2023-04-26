@@ -1,29 +1,18 @@
 <% noticed_obj = notification.to_notification %>
 
-<%= link_to noticed_obj.url, data: { turbo_frame: "_top" }, class: "text-decoration-none" do %>
-  <% if notification.unread? %>
-    <li class="list-group-item border-0 py-3" style="background-color: lightblue;">
-  <% else %>
-    <li class="list-group-item border-0 py-3">
-  <% end %>
-    <div class="row align-items-center">
-
-      <%# Conditionally render the partial for the type of notification %>
-      <% if noticed_obj.is_a?(CommentNotification) %>
-        <%= render "notifications/comment_notification", noticed_obj: noticed_obj, context: :all %>
-      <% elsif noticed_obj.is_a?(PostLikeNotification) %>
-        <%= render "notifications/post_like_notification", noticed_obj: noticed_obj, context: :all %>
-      <% elsif noticed_obj.is_a?(CommentLikeNotification) %>
-        <%= render "notifications/comment_like_notification", noticed_obj: noticed_obj, context: :all %>
-      <% elsif noticed_obj.is_a?(FriendRequestNotification) %>
-        <%= render "notifications/friend_request_notification", noticed_obj: noticed_obj, context: :all %>
-      <% elsif noticed_obj.is_a?(FriendshipNotification) %>
-        <%= render "notifications/friendship_notification", noticed_obj: noticed_obj, context: :all %>
-      <% end %>
-
-      <div class="col-auto">
-        <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
-      </div>
+<div class="alert alert-primary alert-dismissible fade show" role="alert">
+  <div class="row align-items-center">
+    <div class="col-auto">
+      <%= render "profiles/picture", profile: noticed_obj.actor.profile, size: "50x50" %>
     </div>
-  </li>
-<% end %>
+    <div class="col">
+      <strong><%= noticed_obj.message %></strong>
+    </div>
+    <div class="col-auto">
+      <% if notification.unread? %>
+        <span class="badge bg-primary">New</span>
+      <% end %>
+      <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
+    </div>
+  </div>
+</div>

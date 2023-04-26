@@ -1,40 +1,19 @@
-# To deliver this notification:
-#
-# FriendRequestNotification.with(post: @post).deliver_later(current_user)
-# FriendRequestNotification.with(post: @post).deliver(current_user)
-
 class FriendRequestNotification < Noticed::Base
-  # Add your delivery methods
-  #
   deliver_by :database
-  # deliver_by :email, mailer: "UserMailer"
-  # deliver_by :slack
-  # deliver_by :custom, class: "MyDeliveryMethod"
-
-  # Add required params
-  #
-  # param :post
-
-  # Define helper methods to make rendering easier.
-  #
 
   def friend_request
     params[:message]
   end
-
-  def receiver
-    friend_request.receiver
-  end
-
-  def sender_profile
-    friend_request.sender.profile
-  end
   
-  def sender
+  def actor
     friend_request.sender
   end
 
+  def message
+    "#{actor.username} sent you a friend request"
+  end
+
   def url
-    user_path(sender)
+    user_path(actor)
   end
 end

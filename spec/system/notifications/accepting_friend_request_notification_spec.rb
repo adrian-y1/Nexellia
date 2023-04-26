@@ -54,7 +54,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
 
           receiver_all_notifications_frame = find("turbo-frame#all_notifications_#{receiver.id}")
   
-          expect(receiver_all_notifications_frame).to have_content("You and\n#{sender.username}\nare now friends")
+          expect(receiver_all_notifications_frame).to have_content("You and #{sender.username} are now friends")
           expect(page).to have_current_path(posts_path)
         end
         
@@ -63,7 +63,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
 
           sender_all_notifications_frame = find("turbo-frame#all_notifications_#{sender.id}")
 
-          expect(sender_all_notifications_frame).to have_content("You and\n#{receiver.username}\nare now friends")
+          expect(sender_all_notifications_frame).to have_content("You and #{receiver.username} are now friends")
           expect(page).to have_current_path(posts_path)
         end
       end

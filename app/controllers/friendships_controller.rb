@@ -7,11 +7,8 @@ class FriendshipsController < ApplicationController
     respond_to do |format|
       if @friendship.save
         @friend = @friendship.friend
-        @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
-        if @friend_request
-          @friendship.broadcast_friend_creation(@friend_request)
-          @friend_request.destroy
-        end
+        handle_friendship_creation
+
         format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are now friends!" }
         format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are now friends!" }
       else
@@ -28,6 +25,17 @@ class FriendshipsController < ApplicationController
     respond_to do |format|
       format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are no longer friends!" }
       format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are no longer friends!" }
+    end
+  end
+
+  private 
+
+  def handle_friendship_creation
+    @friend_request = current_user.friend_requests_received.find_by(sender: @friend)
+    
+    if @friend_request
+      @friendship.broadcast_friend_creation(@friend_request)
+      @friend_request.destroy
     end
   end
 end

@@ -24,7 +24,7 @@ class FriendRequest < ApplicationRecord
 
   has_noticed_notifications model_name: 'Notification'
 
-  after_create_commit do
+  after_create_commit do 
     broadcast_friend_request
   end
 
@@ -40,22 +40,45 @@ class FriendRequest < ApplicationRecord
   end
 
   def broadcast_friend_request
-    sender_stream = [self.sender.id, self.receiver.id]
-    receiver_stream = [self.receiver.id, self.sender.id]
-    partial = "users/friend_request_form"
-    sender_stream_locals = { logged_in_user: self.sender, user: self.receiver, friend_request: self }
-    receiver_stream_locals = { logged_in_user: self.receiver, user: self.sender, friend_request: self }
-    sender_frame, receiver_frame = dom_id(self.sender), dom_id(self.receiver)
+    broadcast_data = streams_and_locals
 
     if destroyed?
-      # Synchronous broadcasting for the after_destroy_commit to fix Deserialization Error
-      broadcast_replace_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
-      broadcast_replace_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
+      broadcast_friend_request_destruction(broadcast_data)
     else
-      # Asynchronous broadcasting for the after_create_commit
-      broadcast_replace_later_to sender_stream, target: receiver_frame, partial: partial, locals: sender_stream_locals
-      broadcast_replace_later_to receiver_stream, target: sender_frame, partial: partial, locals: receiver_stream_locals
+      broadcast_friend_request_creation(broadcast_data)
     end
+  end
+
+  # Broadcasts the approperiate friend request form after a friend request is destroyed,
+  # based on the conditions in the partial, for both the sender and the receiver
+  # Synchronous broadcasting avoid fix Deserialization Error
+  def broadcast_friend_request_destruction(broadcast_data)
+    broadcast_replace_to broadcast_data[:sender_stream], target: broadcast_data[:receiver_frame], partial: broadcast_data[:partial], 
+      locals: broadcast_data[:sender_locals]
+    broadcast_replace_to broadcast_data[:receiver_stream], target: broadcast_data[:sender_frame], partial: broadcast_data[:partial],
+      locals: broadcast_data[:receiver_locals]
+  end
+
+  # Broadcasts the approperiate friend request form after a friend request is created,
+  # based on the conditions in the partial, for both the sender and the receiver
+  def broadcast_friend_request_creation(broadcast_data)
+    broadcast_replace_later_to broadcast_data[:sender_stream], target: broadcast_data[:receiver_frame], partial: broadcast_data[:partial], 
+      locals: broadcast_data[:sender_locals]
+    broadcast_replace_later_to broadcast_data[:receiver_stream], target: broadcast_data[:sender_frame], partial: broadcast_data[:partial],
+      locals: broadcast_data[:receiver_locals]
+  end
+
+  # Returns a hash containing the data required for broadcasting friend request
+  def streams_and_locals
+    {
+      sender_stream: [sender.id, receiver.id],
+      receiver_stream: [receiver.id, sender.id],
+      sender_frame: dom_id(sender),
+      receiver_frame: dom_id(receiver),
+      sender_locals: { logged_in_user: sender, user: receiver, friend_request: self },
+      receiver_locals: { logged_in_user: receiver, user: sender, friend_request: self },
+      partial: "users/friend_request_form"
+    }
   end
 
   def prevent_duplicate_friend_requests

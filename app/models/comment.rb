@@ -12,6 +12,7 @@
 #
 class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
+  include NotificationDestroyable
   
   belongs_to :user
   belongs_to :post, counter_cache: true
@@ -31,8 +32,6 @@ class Comment < ApplicationRecord
     broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
     create_notification
   end
-  
-  before_destroy :destroy_notifications
 
   after_destroy_commit -> do
     broadcast_remove_to [post, "comments"]
@@ -45,11 +44,5 @@ class Comment < ApplicationRecord
     return if user == post.user
 
     CommentNotification.with(message: self).deliver_later(post.user)
-  end
-
-  # Destroys all notifications associated with this comment
-  def destroy_notifications
-    notifications = Notification.where(recipient_id: self.post.user, type: "CommentNotification", params: { message: self })
-    notifications.destroy_all
   end
 end

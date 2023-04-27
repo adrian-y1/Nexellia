@@ -1,0 +1,3 @@
+<%= turbo_frame_tag post, :likes do %>
+  <%= pluralize(post.likes_count, "Like") %>
+<% end %>

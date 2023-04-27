@@ -7,12 +7,11 @@
 #   Character.create(name: "Luke", movie: movies.first)
 FriendRequest.delete_all
 Friendship.delete_all
-PostLike.delete_all
-CommentLike.delete_all
 Comment.delete_all
 Post.delete_all
 Profile.delete_all
 Notification.delete_all
+Like.delete_all
 User.delete_all
 
 adrian = User.create(username: 'adrian', email: 'adrian@adrian', password: 'adrian', password_confirmation: 'adrian')
@@ -28,5 +27,5 @@ michael.comments.create(body: "Cool read!", post_id: michael.posts.first.id)
 michael.comments.create(body: "wowww!", post_id: adrian.posts.first.id)
 jim.comments.create(body: "Awesome read!", post_id: jim.posts.first.id)
 
-adrian.create_friendship(jim)
-jim.create_friendship(michael)
+adrian.friendships.create(friend: jim)
+jim.friendships.create(friend: michael)

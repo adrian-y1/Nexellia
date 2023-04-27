@@ -2,13 +2,13 @@
 #
 # Table name: posts
 #
-#  id               :bigint           not null, primary key
-#  body             :text
-#  comments_count   :integer          default(0)
-#  post_likes_count :integer          default(0)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  user_id          :integer
+#  id             :bigint           not null, primary key
+#  body           :text
+#  comments_count :integer          default(0)
+#  likes_count    :integer          default(0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  user_id        :integer
 #
 # Indexes
 #
@@ -56,18 +56,14 @@ RSpec.describe Post, type: :model do
       end
     end
 
-    describe "PostLike" do
+    describe "Like" do
       before do
-        create(:post_like, liked_post: post)
-        create(:post_like, liked_post: post)
+        create(:like, likeable: post)
+        create(:like, likeable: post)
       end
 
       it "can have many post likes" do
-        expect(post.post_likes_count).to eq(2)
-      end
-
-      it "can have many likers" do 
-        expect(post.likers.count).to eq(2)
+        expect(post.likes_count).to eq(2)
       end
     end
   end

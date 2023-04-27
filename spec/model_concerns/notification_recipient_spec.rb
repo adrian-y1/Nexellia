@@ -5,8 +5,8 @@ RSpec.describe NotificationRecipient, type: :concern do
   let(:user) { create(:user) }
   let(:post) { create(:post, user: author) }
   let(:comment) { create(:comment, user: user, post: post) }
-  let(:comment_like) { create(:comment_like, liked_comment: comment, liker: author) }
-  let(:post_like) { create(:post_like, liked_post: post, liker: user) }
+  let(:comment_like) { create(:like, likeable: comment, user: author) }
+  let(:post_like) { create(:like, likeable: post, user: user) }
   let(:friendship) { create(:friendship, user: user, friend: author) }
   let(:friend_request) { create(:friend_request, sender: user, receiver: author) }
   
@@ -15,11 +15,11 @@ RSpec.describe NotificationRecipient, type: :concern do
       expect(comment.notification_recipient).to eq(post.user)
     end
 
-    it "returns the comment creator as the notification recipient for a CommentLike" do
+    it "returns the comment creator as the notification recipient for a comment Like" do
       expect(comment_like.notification_recipient).to eq(comment.user)
     end
 
-    it "returns the post author as the notification recipient for a PostLike" do
+    it "returns the post author as the notification recipient for a post Like" do
       expect(post_like.notification_recipient).to eq(post.user)
     end
 

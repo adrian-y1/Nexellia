@@ -2,13 +2,13 @@
 #
 # Table name: comments
 #
-#  id                  :bigint           not null, primary key
-#  body                :text
-#  comment_likes_count :integer          default(0)
-#  created_at          :datetime         not null
-#  updated_at          :datetime         not null
-#  post_id             :integer
-#  user_id             :integer
+#  id          :bigint           not null, primary key
+#  body        :text
+#  likes_count :integer          default(0)
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  post_id     :integer
+#  user_id     :integer
 #
 require 'rails_helper'
 
@@ -63,16 +63,10 @@ RSpec.describe Comment, type: :model do
       end
     end
 
-    describe "CommentLike" do
-      it "can have many comment likes" do
-        comment_like = create(:comment_like, liked_comment: comment)
-        expect(comment.comment_likes).to include(comment_like)
-      end
-
-      it "can have many likers" do
-        like1 = create(:comment_like, liked_comment: comment)
-        like2 = create(:comment_like, liked_comment: comment)
-        expect(comment.likers.count).to eq(2)
+    describe "Like" do
+      it "a comment can have many likes" do
+        like = create(:like, likeable: comment)
+        expect(comment.likes).to include(like)
       end
     end
   end

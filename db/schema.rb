@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_25_020028) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_27_121556) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,20 +42,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_020028) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "comment_likes", force: :cascade do |t|
-    t.integer "liker_id"
-    t.integer "liked_comment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "comments", force: :cascade do |t|
     t.text "body"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "comment_likes_count", default: 0
     t.integer "user_id"
     t.integer "post_id"
+    t.integer "likes_count", default: 0
   end
 
   create_table "friend_requests", force: :cascade do |t|
@@ -74,6 +67,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_020028) do
     t.index ["user_id", "friend_id"], name: "index_friendships_on_user_id_and_friend_id", unique: true
   end
 
+  create_table "likes", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "likeable_type", null: false
+    t.bigint "likeable_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["likeable_type", "likeable_id"], name: "index_likes_on_likeable"
+    t.index ["user_id", "likeable_type", "likeable_id"], name: "index_likes_on_user_id_and_likeable_type_and_likeable_id", unique: true
+    t.index ["user_id"], name: "index_likes_on_user_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.string "recipient_type", null: false
     t.bigint "recipient_id", null: false
@@ -86,21 +90,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_020028) do
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
   end
 
-  create_table "post_likes", force: :cascade do |t|
-    t.integer "liker_id"
-    t.integer "liked_post_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["liker_id", "liked_post_id"], name: "index_post_likes_on_liker_id_and_liked_post_id", unique: true
-  end
-
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "post_likes_count", default: 0
     t.integer "comments_count", default: 0
+    t.integer "likes_count", default: 0
     t.index ["user_id"], name: "index_posts_on_user_id"
   end
 
@@ -127,13 +123,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_25_020028) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "posts_count", default: 0
-    t.integer "post_likes_count", default: 0
-    t.integer "comment_likes_count", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "likes", "users"
   add_foreign_key "profiles", "users"
 end

@@ -20,12 +20,10 @@ class FriendRequestsController < ApplicationController
     
     respond_to do |format|
       if @friend_request
-        @receiver_username = @friend_request.receiver.username
-        @sender_username = @friend_request.sender.username
         @friend_request.destroy
 
-        format.turbo_stream { flash.now[:notice] = destroy_alert_message(@sender_username, @receiver_username) }
-        format.html { redirect_to request.referrer, notice: destroy_alert_message(@sender_username, @receiver_username) }
+        format.turbo_stream { flash.now[:notice] = destroy_alert_message }
+        format.html { redirect_to request.referrer, notice: destroy_alert_message }
       else
         format.html {redirect_to request.referrer, status: :unprocessable_entity, alert: "Error while cancelling friend request."}
       end
@@ -34,10 +32,10 @@ class FriendRequestsController < ApplicationController
 
   private
 
-  def destroy_alert_message(sender_username, receiver_username)
-    receiver_msg = "You have declined #{sender_username}'s friend request."
-    sender_msg = "Friend request to #{receiver_username} has been cancelled."
-    sender_username == current_user.username ? sender_msg : receiver_msg
+  def destroy_alert_message
+    receiver_msg = "You have declined #{ @friend_request.sender.username}'s friend request."
+    sender_msg = "Friend request to #{ @friend_request.receiver.username} has been cancelled."
+    @friend_request.sender.username == current_user.username ? sender_msg : receiver_msg
   end
 
   def friend_request_params

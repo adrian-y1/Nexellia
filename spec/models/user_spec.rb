@@ -3,10 +3,8 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  comment_likes_count    :integer          default(0)
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  post_likes_count       :integer          default(0)
 #  posts_count            :integer          default(0)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -196,17 +194,35 @@ RSpec.describe User, type: :model do
       end
     end
 
-    describe "PostLike" do
-      it "can have many post likes" do
-        like1 = create(:post_like, liker: user)
-        like2 = create(:post_like, liker: user)
-        expect(user.post_likes.count).to eq(2)
+    describe "Like" do
+      describe "posts" do
+        it "can have many likes on posts" do
+          like1 = create(:like, :post, user: user)
+          like2 = create(:like, :post, user: user)
+          expect(user.likes.count).to eq(2)
+        end
+  
+        it "can have many liked posts" do
+          like1 = create(:like, :post, user: user)
+          like2 = create(:like, :post, user: user)
+          liked_posts = user.likes.where(likeable_type: 'Post').count
+          expect(liked_posts).to eq(2)
+        end
       end
 
-      it "can have many liked posts" do
-        like1 = create(:post_like, liker: user)
-        like2 = create(:post_like, liker: user)
-        expect(user.liked_posts.count).to eq(2)
+      describe "comments" do
+        it "can have many likes on comments" do
+          like2 = create(:like, :comment, user: user)
+          like1 = create(:like, :comment, user: user)
+          expect(user.likes.count).to eq(2)
+        end
+  
+        it "can have many liked comments" do
+          like1 = create(:like, :comment, user: user)
+          like2 = create(:like, :comment, user: user)
+          liked_comments = user.likes.where(likeable_type: "Comment").count
+          expect(liked_comments).to eq(2)
+        end
       end
     end
 
@@ -214,18 +230,6 @@ RSpec.describe User, type: :model do
       it "can have many comments" do
         comment = create(:comment, user: user)
         expect(user.comments.count).to eq(1)
-      end
-    end
-
-    describe "CommentLike" do
-      it "can have many comment likes" do
-        comment_like = create(:comment_like, liker: user)
-        expect(user.comment_likes.count).to eq(1)
-      end
-
-      it "can have many liked comments" do
-        comment_like = create(:comment_like, liker: user)
-        expect(user.liked_comments.count).to eq(1)
       end
     end
   end
@@ -278,21 +282,16 @@ RSpec.describe User, type: :model do
 
     describe "#like" do
       describe "Post" do
-        context "when the user is not in the liked_posts list" do
+        context "when the user has not liked the post before" do
           let(:post) { create(:post, user: given_user) }
 
-          it "calls the #liked_items method" do
-            expect(current_user).to receive(:liked_items).with(post)
+          it "likes the post for the user" do
             current_user.like(post)
-          end
-
-          it "adds the user as one of the likers of the post" do
-            current_user.like(post)
-            expect(post.likers).to include(current_user)
+            expect(post.likes.last.user).to eq(current_user)
           end
 
           it "increments the likes of the post" do
-            expect { current_user.like(post) }.to change { post.post_likes_count }.from(0).to(1)
+            expect { current_user.like(post) }.to change { post.likes_count }.from(0).to(1)
           end
     
           it "calls #broadcast_likes_to_likeable" do
@@ -301,26 +300,21 @@ RSpec.describe User, type: :model do
           end
         end
 
-        context "when the user is in the liked_posts list" do
+        context "when the user has liked the post before" do
           let(:post) { create(:post, user: given_user) }
 
           before do
-            create(:post_like, liked_post: post, liker: current_user)
+            create(:like, likeable: post, user: current_user)
           end
 
-          it "calls the #liked_items method" do
-            expect(current_user).to receive(:liked_items).with(post)
+          it "removes the user as one of the likers" do
             current_user.like(post)
-          end
-
-          it "removes the user as one of the likers of the post" do
-            current_user.like(post)
-            expect(post.likers).not_to include(current_user)
+            expect(post.likes.last).to be_nil
           end
  
           # Have to use .reload to reload the record from the database to assert the change
           it "decrements the likes of the post" do
-            expect { current_user.like(post) }.to change { post.reload.post_likes_count }.from(1).to(0)
+            expect { current_user.like(post) }.to change { post.reload.likes_count }.from(1).to(0)
           end
     
           it "calls #broadcast_likes_to_likeable" do
@@ -331,22 +325,17 @@ RSpec.describe User, type: :model do
       end
 
       describe "Comment" do
-        context "when the user is not in the liked_comments list" do
+        context "when the user has not liked the comment before" do
           let(:post) { create(:post, user: given_user) }
           let(:comment) { create(:comment, post: post, user: current_user) }
 
-          it "calls the #liked_items method" do
-            expect(current_user).to receive(:liked_items).with(comment)
+          it "likes the post for the user" do
             current_user.like(comment)
-          end
-
-          it "adds the user as one of the likers of the comment" do
-            current_user.like(comment)
-            expect(comment.likers).to include(current_user)
+            expect(comment.likes.last.user).to eq(current_user)
           end
 
           it "increments the likes of the comment" do
-            expect { current_user.like(comment) }.to change { comment.comment_likes_count }.from(0).to(1)
+            expect { current_user.like(comment) }.to change { comment.likes_count }.from(0).to(1)
           end
     
           it "calls #broadcast_likes_to_likeable" do
@@ -355,27 +344,22 @@ RSpec.describe User, type: :model do
           end
         end
 
-        context "when the user is in the liked_comments list" do
+        context "when the user has liked the comment before" do
           let(:post) { create(:post, user: given_user) }
           let(:comment) { create(:comment, post: post, user: current_user) }
           
           before do
-            create(:comment_like, liked_comment: comment, liker: current_user)
-          end
-
-          it "calls the #liked_items method" do
-            expect(current_user).to receive(:liked_items).with(comment)
-            current_user.like(comment)
+            create(:like, likeable: comment, user: current_user)
           end
 
           it "removes the user as one of the likers of the comment" do
             current_user.like(comment)
-            expect(comment.likers).not_to include(current_user)
+            expect(comment.likes.last).to be_nil
           end
  
           # Have to use .reload to reload the record from the database to assert the change
           it "decrements the likes of the comment" do
-            expect { current_user.like(comment) }.to change { comment.reload.comment_likes_count }.from(1).to(0)
+            expect { current_user.like(comment) }.to change { comment.reload.likes_count }.from(1).to(0)
           end
     
           it "calls #broadcast_likes_to_likeable" do

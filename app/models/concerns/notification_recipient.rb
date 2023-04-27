@@ -5,14 +5,12 @@ module NotificationRecipient
     case self.class.name
     when "Comment"
       self.post.user
-    when "CommentLike" 
-      self.liked_comment.user
-    when "PostLike"
-      self.liked_post.user
     when "Friendship"
       self.user
     when "FriendRequest"
       self.receiver
+    when "Like"
+      self.likeable.user
     end
   end
 end

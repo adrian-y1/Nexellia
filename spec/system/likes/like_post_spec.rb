@@ -2,7 +2,7 @@
 #
 # These tests are created using Rspec + Capybara + Capybara's selenium drive
 #
-# To run the tests, run => rspec spec/system/post_likes/like_post_spec.rb
+# To run the tests, run => rspec spec/system/likes/like_post_spec.rb
 
 require 'rails_helper'
 

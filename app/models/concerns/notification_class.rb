@@ -5,14 +5,12 @@ module NotificationClass
     case self.class.name
     when "Comment"
       CommentNotification
-    when "CommentLike" 
-      CommentLikeNotification
-    when "PostLike"
-      PostLikeNotification
     when "Friendship"
       FriendshipNotification
     when "FriendRequest"
       FriendRequestNotification
+    when "Like"
+      LikeNotification
     end
   end
 end

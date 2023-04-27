@@ -33,8 +33,8 @@
               <%# Post Like Count partial and stream %>
               <div>
                 <%= turbo_stream_from post, :likes %>
-                <small class="text-muted"><%= render 'post_likes/post_like', post: post %></small>
-                <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+                <small class="text-muted"><%= render 'likes/post_likes_count', post: post %></small>
+                <%= render 'likes/post_like_button', post: post, like_status: user.liked?(post) %>
               </div>
             </div>
           </div>

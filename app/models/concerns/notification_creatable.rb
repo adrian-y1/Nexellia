@@ -9,7 +9,6 @@ module NotificationCreatable
 
   def create_notification
     return if actor == notification_recipient
-
     notification_class.with(message: self).deliver_later(notification_recipient)
   end
 
@@ -19,10 +18,8 @@ module NotificationCreatable
     case self.class.name
     when "Comment"
       self.user
-    when "CommentLike" 
-      self.liker
-    when "PostLike"
-      self.liker
+    when "Like"
+      self.user
     end
   end
 end

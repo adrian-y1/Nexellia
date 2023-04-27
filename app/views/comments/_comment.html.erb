@@ -12,7 +12,7 @@
       <%# Comment Like partial and stream %>
       <div>
         <%= turbo_stream_from comment, :likes %>
-        <%= render 'comment_likes/like_button', comment: comment, post: comment.post, like_status: user.liked?(comment) %>
+        <%= render 'likes/comment_like_button', comment: comment, post: comment.post, like_status: user.liked?(comment) %>
       </div>
 
       <div class="post-buttons" data-user-id="<%= comment.user.id %>">
@@ -25,7 +25,7 @@
       <p class="card-text col-9"><%= comment.body %></p>
       
       <%# Comment Likes Count partial %>
-      <small class="text-muted col-3 d-flex float-end"><%= render 'comment_likes/comment_like', comment: comment %></small>
+      <small class="text-muted col-3 d-flex float-end"><%= render 'likes/comment_likes_count', comment: comment %></small>
     </div>
   </div>
 <% end %>

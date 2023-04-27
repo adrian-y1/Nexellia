@@ -2,13 +2,13 @@
 #
 # Table name: posts
 #
-#  id               :bigint           not null, primary key
-#  body             :text
-#  comments_count   :integer          default(0)
-#  post_likes_count :integer          default(0)
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  user_id          :integer
+#  id             :bigint           not null, primary key
+#  body           :text
+#  comments_count :integer          default(0)
+#  likes_count    :integer          default(0)
+#  created_at     :datetime         not null
+#  updated_at     :datetime         not null
+#  user_id        :integer
 #
 # Indexes
 #
@@ -19,8 +19,7 @@ class Post < ApplicationRecord
 
   belongs_to :user, counter_cache: true
 
-  has_many :post_likes, foreign_key: "liked_post_id", dependent: :destroy
-  has_many :likers, through: :post_likes, source: :liker, foreign_key: "liker_id", dependent: :destroy
+  has_many :likes, as: :likeable
 
   has_many :comments
 

@@ -3,10 +3,8 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
-#  comment_likes_count    :integer          default(0)
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
-#  post_likes_count       :integer          default(0)
 #  posts_count            :integer          default(0)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
@@ -43,13 +41,10 @@ class User < ApplicationRecord
 
   has_many :posts, dependent: :destroy
   
-  has_many :post_likes, foreign_key: "liker_id", dependent: :destroy
-  has_many :liked_posts, through: :post_likes, source: :liked_post, foreign_key: "liked_post_id", dependent: :destroy
+  has_many :likes
+  
 
   has_many :comments, dependent: :destroy
-
-  has_many :comment_likes, foreign_key: "liker_id", dependent: :destroy
-  has_many :liked_comments, through: :comment_likes, source: :liked_comment, foreign_key: "liked_comment_id", dependent: :destroy
 
   has_one :profile, dependent: :destroy
 
@@ -57,24 +52,20 @@ class User < ApplicationRecord
 
   # Checks if user has liked the given likeable (post or comment) or not
   def liked?(likeable)
-    items = liked_items(likeable)
-    items.include?(likeable)
+    likes.where(likeable: likeable).exists?
   end
 
   # If the user has liked the given likeable (post or comment):
-  #   => Unlike the likeable by destroying it from the user's liked_posts/liked_comments
+  #   => Unlike the likeable by destroying it from the user's likes
   # Else 
-  #   => Like the likeable by inserting it into the user's liked_posts/liked_comments
+  #   => Like the likeable by inserting it into the user's likes
   # brooadcast the likes to the likeable's stream
-  #
-  # Also used the safe navigation operator, "&.", which is a shorthand for 
-  # checking if an object is not nil before calling a method on it
   def like(likeable)
-    items = liked_items(likeable)
-    if items&.include?(likeable)
-      items.destroy(likeable)
+    like = likes.find_by(likeable: likeable)
+    if like
+      like.destroy
     else
-      items&.<< likeable
+      likes.create(likeable: likeable)
     end
     broadcast_likes_to_likeable(likeable)
   end
@@ -110,16 +101,10 @@ class User < ApplicationRecord
     public_target = "#{dom_id(likeable)}_likes"
     stream_name = [likeable, 'likes']
     if likeable.is_a?(Post)
-      broadcast_replace_later_to stream_name, target: public_target, partial: 'post_likes/post_like', locals: { post: likeable }
+      broadcast_replace_later_to stream_name, target: public_target, partial: 'likes/post_likes_count', locals: { post: likeable }
     else
-      broadcast_replace_later_to stream_name, target: public_target, partial: 'comment_likes/comment_like', locals: { comment: likeable }
+      broadcast_replace_later_to stream_name, target: public_target, partial: 'likes/comment_likes_count', locals: { comment: likeable }
     end
-  end
-
-  # If the given likeable is a Post, then get all the user's liked_posts
-  # else, get his/her liked_comments
-  def liked_items(likeable)
-    likeable.is_a?(Post) ? liked_posts : liked_comments
   end
 
   def self.authentication_keys

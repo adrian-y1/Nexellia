@@ -45,7 +45,7 @@ class CommentsController < ApplicationController
   def private_stream
     @comment = Comment.find(params[:comment_id])
     private_target = "#{dom_id(@comment)} private_likes"
-    turbo_stream.replace(private_target, partial: "comment_likes/like_button", 
+    turbo_stream.replace(private_target, partial: "likes/comment_like_button", 
         locals: { comment: @comment, post: @comment.post, like_status: current_user.liked?(@comment) })
   end
 

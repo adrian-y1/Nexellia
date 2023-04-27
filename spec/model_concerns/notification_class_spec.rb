@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe NotificationClass, type: :concern do
   let(:post) { create(:post) }
   let(:comment) { create(:comment) }
-  let(:comment_like) { create(:comment_like) }
-  let(:post_like) { create(:post_like) }
+  let(:comment_like) { create(:like, :comment) }
+  let(:post_like) { create(:like, :post) }
   let(:friendship) { create(:friendship) }
   let(:friend_request) { create(:friend_request) }
 
@@ -13,12 +13,12 @@ RSpec.describe NotificationClass, type: :concern do
       expect(comment.notification_class).to eq(CommentNotification)
     end
 
-    it "returns the CommentLikeNotification class for a CommentLike" do
-      expect(comment_like.notification_class).to eq(CommentLikeNotification)
+    it "returns the LikeNotification class for a post Like" do
+      expect(post_like.notification_class).to eq(LikeNotification)
     end
 
-    it "returns the PostLikeNotification class for a PostLike" do
-      expect(post_like.notification_class).to eq(PostLikeNotification)
+    it "returns the LikeNotification class for a comment Like" do
+      expect(comment_like.notification_class).to eq(LikeNotification)
     end
 
     it "returns the FriendshipNotification class for a Friendship" do

@@ -37,8 +37,8 @@
             <div class="">
               <%= turbo_stream_from post, :likes %>
 
-              <%= render 'post_likes/post_like', post: post %>
-              <%= render 'post_likes/button', post: post, like_status: user.liked?(post) %>
+              <%= render 'likes/post_likes_count', post: post %>
+              <%= render 'likes/post_like_button', post: post, like_status: user.liked?(post) %>
             </div>
             <hr>
 

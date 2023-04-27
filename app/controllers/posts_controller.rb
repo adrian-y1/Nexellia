@@ -81,7 +81,7 @@ class PostsController < ApplicationController
   def private_stream
     @post = Post.find(params[:post_id])
     private_target = "#{dom_id(@post)} private_likes"
-    turbo_stream.replace(private_target, partial: "post_likes/button", locals: { post: @post, like_status: current_user.liked?(@post) } )
+    turbo_stream.replace(private_target, partial: "likes/post_like_button", locals: { post: @post, like_status: current_user.liked?(@post) } )
   end
 
   def set_post

@@ -1,22 +1,23 @@
 <% noticed_obj = notification.to_notification %>
 
 <%= link_to noticed_obj.url, style: "text-decoration: none;", data: { turbo_frame: "_top" } do %>
-  <div class="row align-items-center border-bottom border-light py-2">
-    <div class="col-auto">
-      <%= render "profiles/picture", profile: noticed_obj.actor.profile, size: "50x50" %>
-    </div>
-    <div class="col">
-      <strong><%= noticed_obj.message %></strong>
-    </div>
-    <div class="col-auto">
+  <div class="card my-3 bg-light">
+    <div class="card-body">
       <div class="row">
+        <div class="col-auto">
+          <%= render "profiles/picture", profile: noticed_obj.actor.profile, size: "50x50" %>
+        </div>
         <div class="col">
-          <% if notification.unread? %>
-            <span class="badge bg-primary">New</span>
-          <% end %>
+          <div class="fw-bold d-flex justify-content-between align-items-center">
+            <%= noticed_obj.actor.username %>
+            <% if notification.unread? %>
+              <span class="badge bg-danger">new</span>
+            <% end %>
+          </div>
+          <div><%= noticed_obj.message %></div>
+          <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
         </div>
       </div>
-      <div class="text-muted small"><%= time_ago_in_words(notification.created_at) %> ago</div>
     </div>
   </div>
 <% end %>

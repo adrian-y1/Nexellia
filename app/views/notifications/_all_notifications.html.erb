@@ -12,4 +12,8 @@
       <%= render "notifications/all_notifications_item", notification: notification %>
     <% end %>
   <% end %>
+  
+  <div class="w-100 d-flex justify-content-center align-items-center">
+    <%= link_to "View All", notifications_path, style: "text-decoration: none;", class: "text-black w-100 text-center" %>
+  </div>
 </ul>

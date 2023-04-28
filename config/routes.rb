@@ -14,5 +14,7 @@ Rails.application.routes.draw do
     resources :friendships, only: [:create, :destroy]
   end
 
+  resources :notifications, only: [:index]
+
   root 'posts#index'
 end

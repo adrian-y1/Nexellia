@@ -25,7 +25,7 @@
   </head>
 
   <body>
-    <%= render "layouts/navbar", all_notifications: @all_notifications %>
+    <%= render "layouts/navbar", all_notifications: @all_notifications, unread_notifications_count: @unread_notifications_count %>
 
     <div id="flash" class="flash">
       <%= render "layouts/flash" %>

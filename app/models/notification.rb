@@ -20,7 +20,11 @@ class Notification < ApplicationRecord
   include Noticed::Model
   belongs_to :recipient, polymorphic: true
 
-  after_create_commit :broadcast_to_recipient_unread_notifications, :broadcast_to_recipient_all_notifications
+  after_create_commit do 
+    broadcast_to_recipient_unread_notifications
+    broadcast_to_recipient_all_notifications
+    broadcast_notifications_count
+  end
 
   private 
   
@@ -29,7 +33,7 @@ class Notification < ApplicationRecord
     stream_name = "unread_notifications_#{recipient.id}"
 
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/unread_notification",
-      locals: { unread_notification: self, unread: true, context: :unread }
+      locals: { unread_notification: self, unread: true}
   end
 
   # Broadcasts a prepend to the user's all_notifications drop menu list
@@ -37,6 +41,14 @@ class Notification < ApplicationRecord
     stream_name = "all_notifications_#{recipient.id}"
 
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/all_notifications_item",
-      locals: { notification: self, unread: true, context: :all }
+      locals: { notification: self, unread: true }
+  end
+
+  # Broadcasts the unread notifications count for the recipient
+  def broadcast_notifications_count
+    stream_name = "user_#{recipient.id}_notifications_count"
+    
+    broadcast_replace_later_to stream_name, target: stream_name, partial: "notifications/notifications_count",
+      locals: { unread_notifications_count: recipient.notifications.unread.newest_first.count, user: recipient } 
   end
 end

@@ -1,7 +1,9 @@
 <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-    <i class="bi bi-bell-fill"></i>
-  </button>
-  
+  <a class="nav-link dropdown-toggle p-2" href="#" id="notificationsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <%# Notifications Count partial and stream %>
+    <%= turbo_stream_from "user_#{user.id}_notifications_count" %>
+    <%= render "notifications/notifications_count", unread_notifications_count: unread_notifications_count, user: user %>
+  </a>
+
   <%= render "notifications/all_notifications", all_notifications: all_notifications, user: user %>
 </div>

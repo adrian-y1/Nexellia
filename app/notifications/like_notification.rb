@@ -16,7 +16,7 @@ class LikeNotification < Noticed::Base
 
   def url
     post = get_post_from_likeable
-    post_path(post)
+    post_path(post, notification_id: self.record.id)
   end
 
   private 

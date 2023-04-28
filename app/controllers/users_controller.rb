@@ -11,5 +11,16 @@ class UsersController < ApplicationController
     @posts = @user.posts
     @friend_request = FriendRequest.new
     @is_current_user = current_user == @user
+    mark_notification_as_read
+  end
+  
+  private
+
+  # Mark the the current_user's notification as read if the notification_id parameter exists
+  def mark_notification_as_read
+    if params[:notification_id]
+      @notification = Notification.find_by(id: params[:notification_id], recipient: current_user)
+      @notification.mark_as_read! if @notification
+    end
   end
 end

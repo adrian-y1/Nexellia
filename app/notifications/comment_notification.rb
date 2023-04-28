@@ -14,6 +14,6 @@ class CommentNotification < Noticed::Base
   end
 
   def url
-    post_path(comment.post)
+    post_path(comment.post, notification_id: self.record.id)
   end
 end

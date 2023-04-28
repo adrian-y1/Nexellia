@@ -14,6 +14,6 @@ class FriendshipNotification < Noticed::Base
   end
 
   def url
-    user_path(actor)
+    user_path(actor, notification_id: self.record.id)
   end
 end

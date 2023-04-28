@@ -26,6 +26,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find_by(id: params[:id])
+    mark_notification_as_read
     redirect_to posts_url, alert: "The post you were viewing no longer exists." unless @post
   end
 
@@ -82,6 +83,14 @@ class PostsController < ApplicationController
     @post = Post.find(params[:post_id])
     private_target = "#{dom_id(@post)} private_likes"
     turbo_stream.replace(private_target, partial: "likes/post_like_button", locals: { post: @post, like_status: current_user.liked?(@post) } )
+  end
+
+  # Mark the the current_user's notification as read if the notification_id parameter exists
+  def mark_notification_as_read
+    if params[:notification_id]
+      @notification = Notification.find_by(id: params[:notification_id], recipient: current_user)
+      @notification.mark_as_read! if @notification
+    end
   end
 
   def set_post

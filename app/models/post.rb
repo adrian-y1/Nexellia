@@ -26,7 +26,6 @@ class Post < ApplicationRecord
   # Added eager loading for user, profile, picture_attachment and blob to avoid N+1 queries problem
   scope :user_and_friends_posts, -> (user) { includes(user: { profile: { picture_attachment: :blob } }).where(user_id: [user.id] + user.friends.pluck(:id)).order(id: :desc) }
 
-
   after_create_commit -> do 
     broadcast_prepend_later_to [self.user.id, "posts"], partial: "posts/post_interactions", locals: { post: self, user: Current.user }, target: "posts" 
   end

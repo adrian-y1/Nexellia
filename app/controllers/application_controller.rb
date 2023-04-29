@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :set_current_user, if: :user_signed_in?
   before_action :configure_permitted_parameters, if: :devise_controller?
-  before_action :set_unread_notifications, :set_all_notifications
+  before_action :set_notifications
 
   protected
 
@@ -22,16 +22,11 @@ class ApplicationController < ActionController::Base
     Current.user = current_user
   end
 
-  def set_unread_notifications
+  def set_notifications
     return unless current_user
-  
-    @unread_notifications = current_user.notifications.unread.newest_first
-    @unread_notifications_count = @unread_notifications.count
-  end
 
-  def set_all_notifications
-    return unless current_user
-    
-    @all_notifications = current_user.notifications.newest_first
+    notifications = Notification.where(recipient: current_user).newest_first
+    @all_notifications = notifications.includes(:recipient)
+    @unread_notifications = notifications.unread
   end
 end

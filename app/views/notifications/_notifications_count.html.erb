@@ -2,7 +2,7 @@
   <button type="button" class="btn btn-primary position-relative">
     <i class="bi bi-bell-fill"></i>
     <span class="position-absolute top-0 start-100 translate-middle py-0 px-2 bg-danger border rounded-circle">
-      <span class="text-center"><%= unread_notifications_count >= 9 ? "9+" : unread_notifications_count %></span>
+      <span class="text-center"><%= unread_notifications.count >= 9 ? "9+" : unread_notifications.count %></span>
     </span>
   </button>
 <% end %>

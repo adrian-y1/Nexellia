@@ -23,11 +23,17 @@ class Notification < ApplicationRecord
   after_create_commit do 
     broadcast_to_recipient_unread_notifications
     broadcast_to_recipient_all_notifications
-    broadcast_notifications_count
+    broadcast_notifications_count_async
   end
 
   after_update_commit do 
-    broadcast_notifications_count
+    broadcast_notifications_count_async
+  end
+
+  after_destroy_commit do
+    broadcast_unread_notification_destruction
+    broadcast_all_notification_destruction
+    broadcast_notifications_count_sync
   end
 
   private 
@@ -36,7 +42,7 @@ class Notification < ApplicationRecord
   def broadcast_to_recipient_unread_notifications
     stream_name = "unread_notifications_#{recipient.id}"
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/unread_notification",
-      locals: { unread_notification: self, unread: true}
+      locals: { unread_notification: self, unread: true, user: recipient }
   end
 
   # Broadcasts a prepend to the user's all_notifications drop menu list
@@ -47,9 +53,23 @@ class Notification < ApplicationRecord
   end
 
   # Broadcasts the unread notifications count for the recipient
-  def broadcast_notifications_count
+  def broadcast_notifications_count_async
     stream_name = "user_#{recipient.id}_notifications_count"
     broadcast_replace_later_to stream_name, target: stream_name, partial: "notifications/notifications_count",
       locals: { unread_notifications: recipient.notifications.unread.newest_first.to_a, user: recipient } 
+  end
+
+  def broadcast_notifications_count_sync
+    stream_name = "user_#{recipient.id}_notifications_count"
+    broadcast_replace_to stream_name, target: stream_name, partial: "notifications/notifications_count",
+      locals: { unread_notifications: recipient.notifications.unread.newest_first.to_a, user: recipient } 
+  end
+
+  def broadcast_unread_notification_destruction
+    broadcast_remove_to "unread_notifications_#{recipient.id}", target: "unread_notification_#{recipient.id}_#{id}"
+  end
+
+  def broadcast_all_notification_destruction
+    broadcast_remove_to "all_notifications_#{recipient.id}", target: "all_notification_#{recipient.id}_#{id}"
   end
 end

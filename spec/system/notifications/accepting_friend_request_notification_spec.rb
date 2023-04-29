@@ -16,7 +16,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
 
   # These tests are for sending a notification to both users in real-time when the
   # friend request receiver accepts the friend request. They also check if the notification is prepended to the correct 
-  # element (the dropdown notifications list or the unread notification in the flash section)
+  # element (the dropdown notifications list or the new notifications in the flash section)
   #
   # With the help of Capybara's #using_session helper, we can login both the sender and receiver simultaneously
   # in two different sessions. This will help determine that they both receive the notification in real-time without
@@ -31,7 +31,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
   #
   # Similar process is done for the sender.
 
-  describe "Notifications Dropdown List" do
+  describe "Dropdown Notifications" do
     context "when a user accepts a friend request" do
       it "sends a real-time notification to both users and prepends it to their dropdown notifications list" do
         create(:friend_request, sender: sender, receiver: receiver)
@@ -52,27 +52,27 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
           create(:friendship, user: receiver, friend: sender)
           find(:id, 'notificationsDropdown').click
 
-          receiver_all_notifications_frame = find("turbo-frame#all_notifications_#{receiver.id}")
+          receiver_new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
   
-          expect(receiver_all_notifications_frame).to have_content("You and #{sender.username} are now friends")
+          expect(receiver_new_notifications_frame).to have_content("You and #{sender.username} are now friends")
           expect(page).to have_current_path(posts_path)
         end
         
         using_session :sender do
           find(:id, 'notificationsDropdown').click
 
-          sender_all_notifications_frame = find("turbo-frame#all_notifications_#{sender.id}")
+          sender_new_notifications_frame = find("turbo-frame#new_notifications_#{sender.id}")
 
-          expect(sender_all_notifications_frame).to have_content("You and #{receiver.username} are now friends")
+          expect(sender_new_notifications_frame).to have_content("You and #{receiver.username} are now friends")
           expect(page).to have_current_path(posts_path)
         end
       end
     end
   end  
 
-  describe "Unread Notification" do
+  describe "New Notifications" do
     context "when a user accepts a friend request" do
-      it "sends a real-time notification to both users and displays it at the top of their pages" do
+      it "sends a real-time notification to both users and prepends it to their new_notifications frame under navbar" do
         create(:friend_request, sender: sender, receiver: receiver)
 
         using_session :receiver do 
@@ -91,16 +91,16 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
           create(:friendship, user: receiver, friend: sender)
           notifications_frame = find("turbo-frame#notifications")
           within(notifications_frame) do
-            receiver_unread_notifications_frame = find("turbo-frame#unread_notifications_#{receiver.id}")
-            expect(receiver_unread_notifications_frame).to have_content("You and #{sender.username} are now friends")
+            receiver_new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
+            expect(receiver_new_notifications_frame).to have_content("You and #{sender.username} are now friends")
           end
         end
         
         using_session :sender do
           notifications_frame = find("turbo-frame#notifications")
           within(notifications_frame) do
-            sender_unread_notifications_frame = find("turbo-frame#unread_notifications_#{sender.id}")
-            expect(sender_unread_notifications_frame).to have_content("You and #{receiver.username} are now friends")
+            sender_new_notifications_frame = find("turbo-frame#new_notifications_#{sender.id}")
+            expect(sender_new_notifications_frame).to have_content("You and #{receiver.username} are now friends")
           end
         end
       end

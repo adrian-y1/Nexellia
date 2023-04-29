@@ -30,7 +30,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
   # Then, create a database record for the respective notification type for the test examples.
   #
   # Then, find the notification url for the respective notification type and open the notifications dropdown.
-  # Find the user's all_notifications Turbo Frame and click on the notification link found earlier.
+  # Find the user's dropdown_notifications Turbo Frame and click on the notification link found earlier.
   #
   # Lastly, the expectations for the notification count decrementing and the current path, ensures that the recipient is 
   # receiving the updated notifications count in real-time, without a page refresh/reload.
@@ -67,8 +67,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
         sender_notification_url = "/users/#{user.id}?notification_id=#{recipient.notifications.last.id}"
 
         find(:id, 'notificationsDropdown').click
-        all_notifications_frame = find("turbo-frame#all_notifications_#{recipient.id}")
-        within all_notifications_frame do
+        dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
+        within dropdown_notifications_frame do
           find("a[href=\"#{sender_notification_url}\"]").click
         end
 
@@ -111,8 +111,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
         post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
 
         find(:id, 'notificationsDropdown').click
-        all_notifications_frame = find("turbo-frame#all_notifications_#{recipient.id}")
-        within all_notifications_frame do
+        dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
+        within dropdown_notifications_frame do
           find("a[href=\"#{post_notification_url}\"]").click
         end
 
@@ -156,8 +156,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
   
           find(:id, 'notificationsDropdown').click
-          all_notifications_frame = find("turbo-frame#all_notifications_#{recipient.id}")
-          within all_notifications_frame do
+          dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
+          within dropdown_notifications_frame do
             find("a[href=\"#{post_notification_url}\"]").click
           end
   
@@ -202,8 +202,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
   
           find(:id, 'notificationsDropdown').click
-          all_notifications_frame = find("turbo-frame#all_notifications_#{recipient.id}")
-          within all_notifications_frame do
+          dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
+          within dropdown_notifications_frame do
             find("a[href=\"#{post_notification_url}\"]").click
           end
   
@@ -275,8 +275,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           expect(notifications_count_frame).to have_content('2')
 
           friend_notifications_url = "/users/#{user.id}?notification_id=#{recipient.notifications.last.id}"
-          all_notifications_frame = find("turbo-frame#all_notifications_#{recipient.id}")
-          within all_notifications_frame do
+          dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
+          within dropdown_notifications_frame do
             find("a[href=\"#{friend_notifications_url}\"]").click
           end
 
@@ -291,8 +291,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           expect(notifications_count_frame).to have_content('1')
 
           friend_notifications_url = "/users/#{recipient.id}?notification_id=#{user.notifications.last.id}"
-          all_notifications_frame = find("turbo-frame#all_notifications_#{user.id}")
-          within all_notifications_frame do
+          dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{user.id}")
+          within dropdown_notifications_frame do
             find("a[href=\"#{friend_notifications_url}\"]").click
           end
 

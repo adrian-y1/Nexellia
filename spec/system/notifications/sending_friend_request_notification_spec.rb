@@ -17,7 +17,7 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
 
   # These tests are for sending a real-time notification to the friend request receiver when a 
   # user sends them a friend request. They also check if the notification is prepended to the correct 
-  # element (the dropdown notifications list or the unread notification in the flash section)
+  # element (the dropdown notifications list or the new notifications in the flash section)
   #
   # First, ensure that the subscription to the stream has been connected before the broadcast gets called to avoid flaky tests
   # Then, create a friend request and find the Turbo Frame tag associated with the receiver.
@@ -26,7 +26,7 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
   # that the receiver is receiving the notification in real-time, without a page refresh/reload.
   # Meaning Turbo Streams is working.
 
-  describe "Notifications Dropdown List" do
+  describe "Dropdown Notifications" do
     context "when a user sends a friend request" do
       it "sends a real-time notification to the friend request receiver and prepends it to their dropdown notifications list" do
         visit posts_path
@@ -37,17 +37,17 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
 
         find(:id, 'notificationsDropdown').click
 
-        all_notifications_frame = find("turbo-frame#all_notifications_#{receiver.id}")
+        dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{receiver.id}")
 
-        expect(all_notifications_frame).to have_content("#{sender.username} sent you a friend request")
+        expect(dropdown_notifications_frame).to have_content("#{sender.username} sent you a friend request")
         expect(page).to have_current_path(posts_path)
       end
     end
   end  
 
-  describe "Unread Notification" do
+  describe "New Notifications" do
     context "when a user sends a friend request" do
-      it "sends a real-time notification to the friend request receiver and displays it at the top of the page" do
+      it "sends a real-time notification to the friend request receiver and prepends it to their new_notifications frame under navbar" do
         visit user_path(receiver)
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
@@ -56,8 +56,8 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
 
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
-          unread_notifications_frame = find("turbo-frame#unread_notifications_#{receiver.id}")
-          expect(unread_notifications_frame).to have_content("#{sender.username} sent you a friend request")
+          new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
+          expect(new_notifications_frame).to have_content("#{sender.username} sent you a friend request")
         end
 
         expect(page).to have_current_path(user_path(receiver))

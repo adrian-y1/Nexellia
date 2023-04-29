@@ -30,7 +30,7 @@
           </div>
 
           <%# Notifications Dropdown menu %>
-          <%= render "layouts/notifications_dropdown", all_notifications: all_notifications, unread_notifications: unread_notifications, user: current_user %>
+          <%= render "layouts/notifications_dropdown_menu", all_notifications: all_notifications, unread_notifications: unread_notifications, user: current_user %>
           <%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-primary" %>
         <% else %>
           <%= link_to "Sign in", new_user_session_path, class: "btn btn-primary" %>

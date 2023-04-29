@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "all_notification_#{notification.recipient.id}_#{notification.id}" do %>
+<%= turbo_frame_tag "dropdown_notification_#{notification.recipient.id}_#{notification.id}" do %>
   <% noticed_obj = notification.to_notification %>
 
   <div class="card my-3 bg-light">

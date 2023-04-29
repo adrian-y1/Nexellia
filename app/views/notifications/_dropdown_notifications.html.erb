@@ -4,12 +4,12 @@
   
   <h5 class="text-black">Notifications</h5>
 
-  <%= turbo_stream_from "all_notifications_#{user.id}" %>
+  <%= turbo_stream_from "dropdown_notifications_#{user.id}" %>
 
-  <%= turbo_frame_tag "all_notifications_#{user.id}" do %>
+  <%= turbo_frame_tag "dropdown_notifications_#{user.id}" do %>
     <%= render "notifications/empty_state" %>
     <% all_notifications.each do |notification| %>
-      <%= render "notifications/all_notifications_item", notification: notification %>
+      <%= render "notifications/dropdown_notification", notification: notification %>
     <% end %>
   <% end %>
   

@@ -21,8 +21,8 @@ class Notification < ApplicationRecord
   belongs_to :recipient, polymorphic: true
 
   after_create_commit do 
-    broadcast_to_recipient_unread_notifications
-    broadcast_to_recipient_all_notifications
+    broadcast_to_new_notifications
+    broadcast_to_dropdown_notifications
     broadcast_notifications_count_async
   end
 
@@ -31,45 +31,48 @@ class Notification < ApplicationRecord
   end
 
   after_destroy_commit do
-    broadcast_unread_notification_destruction
-    broadcast_all_notification_destruction
+    broadcast_remove_new_notification
+    broadcast_remove_dropdown_notification
     broadcast_notifications_count_sync
   end
 
   private 
   
-  # Broadcasts the new notification to the user's unread_notifications which is displayed under the navbar
-  def broadcast_to_recipient_unread_notifications
-    stream_name = "unread_notifications_#{recipient.id}"
-    broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/unread_notification",
+  # Broadcasts the new notification to the user's new_notifications stream which is displayed under the navbar
+  def broadcast_to_new_notifications
+    stream_name = "new_notifications_#{recipient.id}"
+    broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/new_notification",
       locals: { unread_notification: self, unread: true, user: recipient }
   end
 
-  # Broadcasts a prepend to the user's all_notifications drop menu list
-  def broadcast_to_recipient_all_notifications
-    stream_name = "all_notifications_#{recipient.id}"
-    broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/all_notifications_item",
+  # Broadcasts a prepend to the user's dropdown_notifications stream
+  def broadcast_to_dropdown_notifications
+    stream_name = "dropdown_notifications_#{recipient.id}"
+    broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/dropdown_notification",
       locals: { notification: self, unread: true }
   end
 
-  # Broadcasts the unread notifications count for the recipient
+  # Broadcasts the unread notifications count for the recipient (Asynchronously)
   def broadcast_notifications_count_async
     stream_name = "user_#{recipient.id}_notifications_count"
     broadcast_replace_later_to stream_name, target: stream_name, partial: "notifications/notifications_count",
       locals: { unread_notifications: recipient.notifications.unread.newest_first.to_a, user: recipient } 
   end
 
+  # Broadcasts the unread notifications count for the recipient (Synchronously)
   def broadcast_notifications_count_sync
     stream_name = "user_#{recipient.id}_notifications_count"
     broadcast_replace_to stream_name, target: stream_name, partial: "notifications/notifications_count",
       locals: { unread_notifications: recipient.notifications.unread.newest_first.to_a, user: recipient } 
   end
 
-  def broadcast_unread_notification_destruction
-    broadcast_remove_to "unread_notifications_#{recipient.id}", target: "unread_notification_#{recipient.id}_#{id}"
+  # Broadcasts a remove action to the specified notification to the new_notifications stream
+  def broadcast_remove_new_notification
+    broadcast_remove_to "new_notifications_#{recipient.id}", target: "new_notification_#{recipient.id}_#{id}"
   end
 
-  def broadcast_all_notification_destruction
-    broadcast_remove_to "all_notifications_#{recipient.id}", target: "all_notification_#{recipient.id}_#{id}"
+  # Broadcasts a remove action to the specified notification to the dropdown_notifications stream
+  def broadcast_remove_dropdown_notification
+    broadcast_remove_to "dropdown_notifications_#{recipient.id}", target: "dropdown_notification_#{recipient.id}_#{id}"
   end
 end

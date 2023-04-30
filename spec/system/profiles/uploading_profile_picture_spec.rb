@@ -74,7 +74,7 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
         it "updates the profile picture and displays success message using Turbo Stream Template" do
           visit user_path(user)
   
-          expect(page).to have_css('img[src*="default"]')
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
           profile_information_frame = find("turbo-frame#profile_information")
           within(profile_information_frame) do
@@ -103,11 +103,11 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
       # and the selected image is removed, all done without page refresh/reload using
       # Turbo Frames and Turbo Streams.
 
-      context "when updating a profile with an invalid field and selecting an image" do
+      context "when updating a profile with an invalid first name field and selecting an image" do
         it "removes the selected image and displays error message using Turbo Stream Template" do
           visit user_path(user)
   
-          expect(page).to have_css('img[src*="default"]')
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
           profile_information_frame = find("turbo-frame#profile_information")
           within(profile_information_frame) do
@@ -121,7 +121,7 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
             click_on "Update Profile"
           end
 
-          expect(page).to have_css('img[src*="default"]')
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
           expect(page).to_not have_css('img[src$="avatar2.png"]')
           expect(page).to have_content('First name only allows letters')
           expect(page).to have_current_path(user_path(user))

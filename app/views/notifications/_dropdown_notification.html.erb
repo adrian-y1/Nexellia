@@ -21,9 +21,5 @@
         </div>
       </div>
     <% end %>
-    <% if noticed_obj.is_a?(FriendRequestNotification) %>
-      <%= turbo_stream_from [notification.recipient, noticed_obj.actor] %>
-      <%= render "users/friend_request_form", logged_in_user: notification.recipient, user: noticed_obj.actor %>
-    <% end %>
   </div>
 <% end %>

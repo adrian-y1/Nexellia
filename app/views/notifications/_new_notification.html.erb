@@ -12,10 +12,6 @@
         <br>
         <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
       </div>
-      <% if noticed_obj.is_a?(FriendRequestNotification) %>
-        <%= turbo_stream_from [notification.recipient, noticed_obj.actor] %>
-        <%= render "users/friend_request_form", logged_in_user: notification.recipient, user: noticed_obj.actor %>
-      <% end %>
     </div>
     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
   </div>

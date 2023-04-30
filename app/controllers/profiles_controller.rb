@@ -11,17 +11,18 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
     @user = User.find(params[:user_id])
     
+    # Store the original picture object in an instance variable
+    @original_picture = @profile.picture.blob if @profile.picture.attached?
+    
     respond_to do |format|
-      if @profile.update(profile_params.except(:picture))
-
-        # The file is only attached if it was uploaded successfully and exists as a blob.
-        # This prevents the ActiveStorage::FileNotFoundError from being raised when the form submission fails.
+      if @profile.update(profile_params)
         attach_picture
-
         format.turbo_stream { flash.now[:notice] = "Profile information have been updated" }
         format.html { redirect_to user_path(@profile.user), notice: "Profile information have been updated" }
       else
-        format.html { render :edit, status: :unprocessable_entity, alert: "Error while updating profile" }
+        # Re-attach the original picture object to the profile object
+        @profile.picture.attach(@original_picture) if @original_picture.present?
+        format.html { render :edit, status: :unprocessable_entity, locals: { profile: @profile }, alert: "Error while updating profile" }
       end
     end
   end

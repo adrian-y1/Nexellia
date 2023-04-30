@@ -32,12 +32,16 @@ class Profile < ApplicationRecord
   validates :bio_description, length: { maximum: 255 }
   validates :public_email, format: { with: Devise.email_regexp }, allow_blank: true
   validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }, allow_blank: true
+  validate :picture_type
+  
+  private
 
-  def picture_thumbnail
-    if picture.attached? && picture.representable?
-      picture.representation(resize_to_limit: [100, 100]).processed
-    else
-      'default.png'
+  def picture_type
+    return unless picture.attached?
+    
+    acceptable_types = %w[image/jpeg image/jpg image/png image/gif]
+    if !picture.content_type.in?(acceptable_types)
+      errors.add(:picture, "needs to be a JPEG, JPG, PNG or GIF")
     end
   end
 end

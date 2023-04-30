@@ -199,26 +199,4 @@ RSpec.describe Profile, type: :model do
       end
     end
   end
-
-  describe "Instance Methods" do
-    describe "#picture_thumbnail" do
-      context "when there is an attached picture and it's representable" do
-        it "it returns the representation of the attached picture" do
-          profile = create(:profile)
-          profile.picture.attach(fixture_file_upload('avatar2.png', 'image/png'))
-          thumbnail = profile.picture_thumbnail
-          expect(thumbnail.url).to include('avatar2.png')
-          expect(thumbnail).to be_an_instance_of(ActiveStorage::VariantWithRecord)
-        end
-      end
-
-      context "when there is not an attached picture" do
-        it "it returns the default picture" do
-          profile = create(:profile)
-          thumbnail = profile.picture_thumbnail
-          expect(thumbnail).to eq('default.png')
-        end
-      end
-    end
-  end
 end

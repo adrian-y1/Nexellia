@@ -37,6 +37,43 @@ RSpec.describe Post, type: :model do
         expect(post).to_not be_valid
       end
     end
+
+    describe "Image" do
+      it "is valid when the image is of .PNG content type" do
+        post = create(:post)
+        post.image.attach(fixture_file_upload('avatar2.png', 'image/png'))
+        expect(post).to be_valid
+      end
+
+      it "is valid when the image is of .JPG content type" do
+        post = create(:post)
+        post.image.attach(fixture_file_upload('testing_image.jpg', 'image/jpeg'))
+        expect(post).to be_valid
+      end
+
+      it "is valid when the image is of .JPEG content type" do
+        post = create(:post)
+        post.image.attach(fixture_file_upload('testing_image.jpeg', 'image/jpeg'))
+        expect(post).to be_valid
+      end
+
+      it "is valid when the image is of .GIF content type" do
+        post = create(:post)
+        post.image.attach(fixture_file_upload('test.gif', 'image/gif'))
+        expect(post).to be_valid
+      end
+
+      it "is valid when no image is provided" do
+        post = create(:post)
+        expect(post).to be_valid
+      end
+
+      it "is not valid when the image is not of PNG, JPG, JPEG or GIF content type" do
+        post = create(:post)
+        post.image.attach(fixture_file_upload('text.txt', 'image/txt'))
+        expect(post).not_to be_valid
+      end
+    end
   end
 
   describe "Associations" do

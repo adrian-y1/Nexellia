@@ -65,8 +65,7 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
     # form submissions using Turbo Frames and Turbo Streams Template.
 
     describe "Valid Submission" do
-      # This test ensures that when the user selects a new image and fills in other fields with
-      # valid attributes and updates their profile,
+      # These tests ensures that when the user selects a new image and updates their profile with valid attributes,
       # their old profile picture is updated with the new one without page refresh/reload using
       # Turbo Frames and Turbo Streams.
       
@@ -94,11 +93,102 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
           expect(page).to have_current_path(user_path(user))
         end
       end
+      
+      context "when the file type is .PNG" do
+        it "updates the profile picture using Turbo Stream Template" do
+          visit user_path(user)
+  
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+  
+          profile_information_frame = find("turbo-frame#profile_information")
+          within(profile_information_frame) do
+            click_on "Edit"
+          end
+
+          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
+          within(edit_profile_modal_frame) do
+            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
+            click_on "Update Profile"
+          end
+
+          expect(page).to have_css('img[src$="avatar2.png"]')
+          expect(page).to have_content('Profile information have been updated')
+          expect(page).to have_current_path(user_path(user))
+        end
+      end
+
+      context "when the file type is .JPG" do
+        it "updates the profile picture using Turbo Stream Template" do
+          visit user_path(user)
+  
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+  
+          profile_information_frame = find("turbo-frame#profile_information")
+          within(profile_information_frame) do
+            click_on "Edit"
+          end
+
+          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
+          within(edit_profile_modal_frame) do
+            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpg')
+            click_on "Update Profile"
+          end
+
+          expect(page).to have_css('img[src$="testing_image.jpg"]')
+          expect(page).to have_content('Profile information have been updated')
+          expect(page).to have_current_path(user_path(user))
+        end
+      end
+
+      context "when the file type is .JPEG" do
+        it "updates the profile picture using Turbo Stream Template" do
+          visit user_path(user)
+  
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+  
+          profile_information_frame = find("turbo-frame#profile_information")
+          within(profile_information_frame) do
+            click_on "Edit"
+          end
+
+          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
+          within(edit_profile_modal_frame) do
+            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpeg')
+            click_on "Update Profile"
+          end
+
+          expect(page).to have_css('img[src$="testing_image.jpeg"]')
+          expect(page).to have_content('Profile information have been updated')
+          expect(page).to have_current_path(user_path(user))
+        end
+      end
+
+      context "when the file type is .GIF" do
+        it "updates the profile picture using Turbo Stream Template" do
+          visit user_path(user)
+  
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+  
+          profile_information_frame = find("turbo-frame#profile_information")
+          within(profile_information_frame) do
+            click_on "Edit"
+          end
+
+          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
+          within(edit_profile_modal_frame) do
+            attach_file('profile[picture]', 'spec/fixtures/files/test.gif')
+            click_on "Update Profile"
+          end
+
+          expect(page).to have_css('img[src$="test.gif"]')
+          expect(page).to have_content('Profile information have been updated')
+          expect(page).to have_current_path(user_path(user))
+        end
+      end
     end
 
     describe "Invalid Submission" do
-      # This test ensures that when the user selects a new image and fills in other fields with
-      # invalid attributes and updates their profile,
+      # This test ensures that when the user selects a new image and updates their profile with invalid attributes,
       # an error message is displayed for the invalid field, their profile picture remains unchanged,
       # and the selected image is removed, all done without page refresh/reload using
       # Turbo Frames and Turbo Streams.
@@ -123,6 +213,31 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
 
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
           expect(page).to_not have_css('img[src$="avatar2.png"]')
+          expect(page).to have_content('First name only allows letters')
+          expect(page).to have_current_path(user_path(user))
+        end
+      end
+
+      context "when the file type is not PNG, JPG, JPEG or GIF" do
+        it "removes the selected image and displays error message using Turbo Stream Template" do
+          visit user_path(user)
+  
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+  
+          profile_information_frame = find("turbo-frame#profile_information")
+          within(profile_information_frame) do
+            click_on "Edit"
+          end
+
+          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
+          within(edit_profile_modal_frame) do
+            attach_file('profile[picture]', 'spec/fixtures/files/text.txt')
+            fill_in 'profile[first_name]', with: '13*72adr'
+            click_on "Update Profile"
+          end
+
+          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
+          expect(page).to_not have_css('img[src$="text.txt"]')
           expect(page).to have_content('First name only allows letters')
           expect(page).to have_current_path(user_path(user))
         end

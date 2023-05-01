@@ -182,10 +182,34 @@ RSpec.describe Profile, type: :model do
     end
 
     describe "picture" do
-      it "is valid when the picture is representable" do
+      it "is representable when the picture is of .PNG content type" do
         profile = create(:profile)
         profile.picture.attach(fixture_file_upload('avatar2.png', 'image/png'))
         expect(profile.picture).to be_representable
+      end
+
+      it "is representable when the picture is of .JPG content type" do
+        profile = create(:profile)
+        profile.picture.attach(fixture_file_upload('testing_image.jpg', 'image/jpeg'))
+        expect(profile.picture).to be_representable
+      end
+
+      it "is representable when the picture is of .JPEG content type" do
+        profile = create(:profile)
+        profile.picture.attach(fixture_file_upload('testing_image.jpeg', 'image/jpeg'))
+        expect(profile.picture).to be_representable
+      end
+
+      it "is representable when the picture is of .GIF content type" do
+        profile = create(:profile)
+        profile.picture.attach(fixture_file_upload('test.gif', 'image/gif'))
+        expect(profile.picture).to be_representable
+      end
+
+      it "is not representable when the picture is not of PNG, JPG, JPEG or GIF content type" do
+        profile = create(:profile)
+        profile.picture.attach(fixture_file_upload('text.txt', 'image/txt'))
+        expect(profile.picture).not_to be_representable
       end
     end
   end

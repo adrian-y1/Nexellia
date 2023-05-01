@@ -2,7 +2,9 @@
   <div class="row">
     <div class="col-12">
       <div class="text-center my-5">
-        <%= render "profiles/picture", profile: @profile, size: "100x100" %>
+        <div class="user-profile-picture">
+          <%= render "profiles/picture", profile: @profile, size: "100x100" %>
+        </div>
         <h2 class="mt-3"><%= @user.username %></h2>
         <p class="text-muted">Date joined: <%= @user.created_at.strftime("%B %d, %Y") %></p>
         <%# Adding friend partial and turbo stream %>

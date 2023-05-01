@@ -10,13 +10,13 @@ class ProfilesController < ApplicationController
   def update
     @profile = Profile.find(params[:id])
     @user = User.find(params[:user_id])
-    
+
     # Store the original picture object in an instance variable
     @original_picture = @profile.picture.blob if @profile.picture.attached?
-    
+
     respond_to do |format|
       if @profile.update(profile_params)
-        attach_picture
+        update_profile_picture
         format.turbo_stream { flash.now[:notice] = "Profile information have been updated" }
         format.html { redirect_to user_path(@profile.user), notice: "Profile information have been updated" }
       else
@@ -29,12 +29,18 @@ class ProfilesController < ApplicationController
 
   private
 
-  def attach_picture
+  # destroy user's current profile image if they checked the box
+  # else, attach their selected image
+  def update_profile_picture
     picture = params[:profile][:picture]
-    @profile.picture.attach(picture) if picture.present?
+    if params[:profile][:default] == "1"
+      @profile.picture.purge
+    else
+      @profile.picture.attach(picture) if picture.present?
+    end
   end
 
   def profile_params
-    params.require(:profile).permit(:user_id, :first_name, :last_name, :gender, :bio_description, :public_email, :public_phone_number, :picture)
+    params.require(:profile).permit(:user_id, :first_name, :last_name, :gender, :bio_description, :public_email, :public_phone_number, :picture, :default)
   end
 end

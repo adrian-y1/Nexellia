@@ -22,6 +22,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Profile < ApplicationRecord
+  attr_accessor :default
+  
   belongs_to :user
   
   has_one_attached :picture, dependent: :destroy

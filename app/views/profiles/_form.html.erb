@@ -17,6 +17,17 @@
     <%= f.file_field :picture, data: { action: "change->image-preview#preview" }, accept: "image/png, image/jpg, image/jpeg, image/gif" %>
   </div>
 
+  <%# Check if a blob exists for the user's current profile picture
+  If true, add an option for the user to revert back to their gravatar image %>
+  <% if profile.picture.attached? %>
+    <div class="form-group mb-2">
+      <div class="form-check form-check-inline">
+        <%= f.check_box(:default, class: "form-check-input") %>
+        <%= f.label(:default, "Default gravatar image", class: "form-check-label") %>
+      </div>
+    </div>
+  <% end %>
+
   <div class="form-group mb-2">
     <span class="form-group-text">First Name:</span>
     <%= f.text_field :first_name, class: "form-control", placeholder: "Enter First Name..." %>
@@ -37,7 +48,6 @@
       <%= f.radio_button :gender, 'Female', class: "form-check-input" %>
       <%= f.label :gender, 'Female', class: "form-check-label" %>
     </div>
-
   </div>
 
   <div>

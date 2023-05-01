@@ -1,1 +1,4 @@
-<%= post.body %>
+<p class="card-text"> <%= post.body %> </p>
+<% if post.image.attached? %>
+    <%= image_tag post.image, style: "max-width: 100%;height: auto;margin-top: 10px;border: 1px solid #ccc;border-radius: 5px;" %>
+<% end %>

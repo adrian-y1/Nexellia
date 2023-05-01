@@ -2,6 +2,8 @@
 <%= form_with model: post, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' }, local: true do |f| %>
   <div class="mb-3" style="max-width: 600px;">
     <%= f.text_area :body, size: "70x4", class: "form-control", placeholder: "What are you thinking?" %>
+    <%= f.label :image, "Add an image to your post" %> <br>
+    <%= f.file_field :image, data: { action: "change->image-preview#preview" } %>
     <div class="d-flex justify-content-end align-items-center mt-4" style="gap: 20px;">
       <%= link_to 'Cancel','#', data: { bs_dismiss: 'modal' }, class: 'btn btn-secondary' if action == 'edit' %>
       <%= f.submit class: "btn btn-primary" %>

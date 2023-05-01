@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @profile = @user.profile
-    @posts = @user.posts
+    @posts = @user.posts.includes(image_attachment: :blob)
     @friend_request = FriendRequest.new
     @is_current_user = current_user == @user
     mark_notification_as_read

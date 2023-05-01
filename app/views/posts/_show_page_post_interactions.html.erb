@@ -27,11 +27,9 @@
           
           <div class="card-body">
             <%# Post body partial %>
-            <p class="card-text"> 
-              <%= turbo_frame_tag post do %>
-                <%= render "posts/show_page_post_body", post: post, user: user %>
-              <% end %>
-            </p>
+            <%= turbo_frame_tag post do %>
+              <%= render "posts/show_page_post_body", post: post, user: user %>
+            <% end %>
             <hr>
             <%# Post Like partial and stream %>
             <div class="">

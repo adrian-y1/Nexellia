@@ -15,13 +15,13 @@
 #  index_posts_on_user_id  (user_id)
 #
 class Post < ApplicationRecord
-  validates :body, presence: true, length: { maximum: 255, message: "Post description length exceeded." }
-
   belongs_to :user, counter_cache: true
-
   has_many :likes, as: :likeable
-
   has_many :comments
+  has_one_attached :image
+  
+  validates :body, presence: true, length: { maximum: 255, message: "Post description length exceeded." }
+  validate :image_type
 
   # Added eager loading for user, profile, picture_attachment and blob to avoid N+1 queries problem
   scope :user_and_friends_posts, -> (user) { includes(user: { profile: { picture_attachment: :blob } }).where(user_id: [user.id] + user.friends.pluck(:id)).order(id: :desc) }
@@ -39,5 +39,16 @@ class Post < ApplicationRecord
     broadcast_remove_to [self.user.id, "posts"], target: "post-interactions-#{self.id}"
     broadcast_remove_to self, target: "show-page-post-interactions-#{self.id}"
     broadcast_prepend_to self, target: "post_deleted", partial: "posts/post_deleted"
+  end
+
+  private
+
+  def image_type
+    return unless image.attached?
+    
+    acceptable_types = %w[image/jpeg image/jpg image/png image/gif]
+    if !image.content_type.in?(acceptable_types)
+      errors.add(:image, "needs to be a JPEG, JPG, PNG or GIF")
+    end
   end
 end

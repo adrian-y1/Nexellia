@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update, :destroy]
   
   def index
-    @posts = Post.user_and_friends_posts(current_user)
+    @posts = Post.user_and_friends_posts(current_user).includes(image_attachment: :blob)
   end
 
   def new
@@ -99,6 +99,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:body, :user_id)
+    params.require(:post).permit(:body, :user_id, :image)
   end
 end

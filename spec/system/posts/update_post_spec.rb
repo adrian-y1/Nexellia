@@ -25,23 +25,20 @@ RSpec.describe "Update Post", type: :system, js: true do
     end
 
     describe "Valid Attributes" do
-      # This test checks that a post can be successfully updated using the edit form of a post.
-      # This is done by clicking the 'Edit' button on the desired post, inside the posts#index page.
-      # 
-      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate 
-      # page to access it. 
+      # These tests check that a post can be successfully updated using the edit form modal of a post.
       #
       # Once the 'Edit' button is clicked, the edit form is then rendered inside 
       # the 'modal' Turbo Frame Tag that is in application.html.erb.
       #
-      # Since i'm using Turbo Streams, instead of a full page refresh, 
-      # the post is updated live and the user is not redirected to a new page.
+      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate page to access it. 
+      # After the post is filled and updated, the changes happen in real-time without page reload and 
+      # the user is not redirected to a new page.
       #
       # With this functionality in place, the test is able to check that, when a post is updated,
       # the updated content are updated live and the flash notice is displayed without 
       # a page refresh.
       
-      context "when updating a post" do
+      context "when post body is provided" do
         it "updates the post using Turbo Streams" do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
@@ -64,6 +61,90 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_current_path(posts_path)
           expect(page).to have_content(updated_content)
           expect(page).to have_content(flash_notice)
+        end
+      end
+
+      context "when image is of type PNG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(posts_path)
+          expect(page).to have_css('img[src$="avatar2.png"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(posts_path)
+          expect(page).to have_css('img[src$="testing_image.jpg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPEG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(posts_path)
+          expect(page).to have_css('img[src$="testing_image.jpeg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type GIF" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/test.gif')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(posts_path)
+          expect(page).to have_css('img[src$="test.gif"]')
+          expect(page).to have_content('Post was successfully updated.')
         end
       end
     end
@@ -118,6 +199,27 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_selector('form')
         end
       end
+
+      context "when image is not of type PNG, JPG, JPEG or GIF" do
+        it "fails to update the post and shows error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/text.txt')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(posts_path)
+          expect(page).not_to have_css('img[src$="text.txt"]')
+          expect(page).to have_content('Image needs to be a JPEG, JPG, PNG or GIF')
+        end
+      end
     end
 
     describe "Cancel" do
@@ -153,20 +255,20 @@ RSpec.describe "Update Post", type: :system, js: true do
     end
 
     describe "Valid Attributes" do
-      # This test checks that a post can be successfully updated using the edit form of a post.
-      # This is done by clicking the 'Edit' button on the desired post, inside the posts#show page.
+      # These tests check that a post can be successfully updated using the edit form modal of a post.
       #
-      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate 
-      # page to access it.
+      # Once the 'Edit' button is clicked, the edit form is then rendered inside 
+      # the 'modal' Turbo Frame Tag that is in application.html.erb.
       #
-      # Since i'm using Turbo Streams, instead of a full page refresh, 
-      # the post is updated live and the user is not redirected to a new page.
+      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate page to access it. 
+      # After the post is filled and updated, the changes happen in real-time without page reload and 
+      # the user is not redirected to a new page.
       #
       # With this functionality in place, the test is able to check that, when a post is updated,
       # the updated content are updated live and the flash notice is displayed without 
       # a page refresh.
 
-      context "when updating a post" do
+      context "when post body is provided" do
         it "updates the post with Turbo Streams" do
           updated_content = 'I updated the post.'
           flash_notice = 'Post was successfully updated.'
@@ -187,6 +289,90 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_current_path(post_path(post))
           expect(page).to have_content(updated_content)
           expect(page).to have_content(flash_notice)
+        end
+      end
+
+      context "when image is of type PNG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(post_path(post))
+          expect(page).to have_css('img[src$="avatar2.png"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(post_path(post))
+          expect(page).to have_css('img[src$="testing_image.jpg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPEG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(post_path(post))
+          expect(page).to have_css('img[src$="testing_image.jpeg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type GIF" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/test.gif')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(post_path(post))
+          expect(page).to have_css('img[src$="test.gif"]')
+          expect(page).to have_content('Post was successfully updated.')
         end
       end
     end
@@ -239,6 +425,27 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_current_path(post_path(post))
           expect(page).to have_content("Body Post description length exceeded")
           expect(page).to have_selector('form')
+        end
+      end
+
+      context "when image is not of type PNG, JPG, JPEG or GIF" do
+        it "fails to update the post and shows error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
+          within(show_page_post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/text.txt')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(post_path(post))
+          expect(page).not_to have_css('img[src$="text.txt"]')
+          expect(page).to have_content('Image needs to be a JPEG, JPG, PNG or GIF')
         end
       end
     end
@@ -276,14 +483,14 @@ RSpec.describe "Update Post", type: :system, js: true do
     end
 
     describe "Valid Attributes" do
-      # This test checks that a post can be successfully updated using the edit form of a post.
-      # This is done by clicking the 'Edit' button on the desired post, inside the users#show page.
+      # These tests check that a post can be successfully updated using the edit form modal of a post.
       #
-      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate 
-      # page to access it.
+      # Once the 'Edit' button is clicked, the edit form is then rendered inside 
+      # the 'modal' Turbo Frame Tag that is in application.html.erb.
       #
-      # Since i'm using Turbo Streams, instead of a full page refresh, 
-      # the post is updated live and the user is not redirected to a new page.
+      # Since the form is within a Turbo Frame tag, i do not need to visit a seperate page to access it. 
+      # After the post is filled and updated, the changes happen in real-time without page reload and 
+      # the user is not redirected to a new page.
       #
       # With this functionality in place, the test is able to check that, when a post is updated,
       # the updated content are updated live and the flash notice is displayed without 
@@ -310,6 +517,90 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_current_path(user_path(post.user))
           expect(page).to have_content(updated_content)
           expect(page).to have_content(flash_notice)
+        end
+      end
+
+      context "when image is of type PNG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(user_path(post.user))
+          expect(page).to have_css('img[src$="avatar2.png"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(user_path(post.user))
+          expect(page).to have_css('img[src$="testing_image.jpg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type JPEG" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(user_path(post.user))
+          expect(page).to have_css('img[src$="testing_image.jpeg"]')
+          expect(page).to have_content('Post was successfully updated.')
+        end
+      end
+
+      context "when image is of type GIF" do
+        it "updates the post using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/test.gif')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(user_path(post.user))
+          expect(page).to have_css('img[src$="test.gif"]')
+          expect(page).to have_content('Post was successfully updated.')
         end
       end
     end
@@ -362,6 +653,27 @@ RSpec.describe "Update Post", type: :system, js: true do
           expect(page).to have_current_path(user_path(post.user))
           expect(page).to have_content("Body Post description length exceeded")
           expect(page).to have_selector('form')
+        end
+      end
+
+      context "when image is not of type PNG, JPG, JPEG or GIF" do
+        it "fails to update the post and shows error message using Turbo Streams" do
+          expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+          post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
+          within(post_interactions_frame) do
+            click_on 'Edit'
+          end
+
+          modal_form_frame = find("turbo-frame#modal")
+          within(modal_form_frame) do
+            attach_file('post[image]', 'spec/fixtures/files/text.txt')
+            click_on "Update Post"
+          end
+          
+          expect(page).to have_current_path(user_path(post.user))
+          expect(page).not_to have_css('img[src$="text.txt"]')
+          expect(page).to have_content('Image needs to be a JPEG, JPG, PNG or GIF')
         end
       end
     end

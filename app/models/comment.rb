@@ -2,13 +2,19 @@
 #
 # Table name: comments
 #
-#  id          :bigint           not null, primary key
-#  body        :text
-#  likes_count :integer          default(0)
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  post_id     :integer
-#  user_id     :integer
+#  id               :bigint           not null, primary key
+#  body             :text
+#  commentable_type :string
+#  likes_count      :integer          default(0)
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  commentable_id   :bigint
+#  parent_id        :integer
+#  user_id          :integer
+#
+# Indexes
+#
+#  index_comments_on_commentable  (commentable_type,commentable_id)
 #
 class Comment < ApplicationRecord
   include ActionView::RecordIdentifier
@@ -16,11 +22,13 @@ class Comment < ApplicationRecord
   include NotificationDestroyable
   
   belongs_to :user
-  belongs_to :post, counter_cache: true
+  belongs_to :commentable, polymorphic: true
+  belongs_to :parent, class_name: "Comment", optional: true
+  has_many :comments, as: :commentable, dependent: :destroy
+  has_many :likes, as: :likeable, dependent: :destroy
 
   has_noticed_notifications model_name: 'Notification'
 
-  has_many :likes, as: :likeable
 
   validates :body, presence: true, length: { maximum: 255, message: "Comment length exceeded." }
 
@@ -28,12 +36,15 @@ class Comment < ApplicationRecord
   scope :with_user_and_profile_includes, -> { includes(user: { profile: { picture_attachment: :blob } }) }
 
   after_create_commit -> do
-    broadcast_append_later_to [post, "comments"], target: "#{dom_id(post)}_comments", partial: "comments/comment", locals: { comment: self, user: Current.user }
-    broadcast_replace_later_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
+    broadcast_append_later_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments", partial: "comments/comment", 
+      locals: { comment: self, user: Current.user }
+    broadcast_replace_later_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
+      locals: { post: commentable }
   end
 
   after_destroy_commit -> do
-    broadcast_remove_to [post, "comments"]
-    broadcast_replace_to [post, "comments"], target: "#{dom_id(post)}_comments_count", partial: "comments/comment_count", locals: { post: post }
+    broadcast_remove_to [commentable, "comments"]
+    broadcast_replace_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
+      locals: { post: commentable }
   end
 end

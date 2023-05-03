@@ -1,4 +1,5 @@
-<%# Removed the below line as it causes duplicate comment partials to be rendered %>
-<%# turbo_stream.append(@comment, partial: "comments/comment", locals: { comment: @comment }) %>
+<%# Renders a new comment form when a comment is created %>
+<% comment = Comment.new %>
 
+<%= turbo_stream.replace(nested_dom_id(@commentable, comment), partial: "comments/form", locals: { comment: comment, commentable: @commentable }) %>
 <%= render_turbo_stream_flash_messages %>

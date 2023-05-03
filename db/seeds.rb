@@ -22,10 +22,10 @@ adrian.posts.create(body: "Lorem ipsum dolor sit amet. Ut molestiae atque ex tem
 michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
 jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam laboriosam et galisum deleniti.")
 
-adrian.comments.create(body: "Great read!", post_id: adrian.posts.first.id)
-michael.comments.create(body: "Cool read!", post_id: michael.posts.first.id)
-michael.comments.create(body: "wowww!", post_id: adrian.posts.first.id)
-jim.comments.create(body: "Awesome read!", post_id: jim.posts.first.id)
+adrian.comments.create(body: "Great read!", commentable_id: adrian.posts.first.id)
+michael.comments.create(body: "Cool read!", commentable_id: michael.posts.first.id)
+michael.comments.create(body: "wowww!", commentable_id: adrian.posts.first.id)
+jim.comments.create(body: "Awesome read!", commentable_id: jim.posts.first.id)
 
-adrian.friendships.create(friend: jim)
-jim.friendships.create(friend: michael)
+adrian.friendships.create(friend: michael)
+michael.friendships.create(friend: adrian)

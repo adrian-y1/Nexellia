@@ -1,5 +1,8 @@
+<%# If commentable is not passed in it will be nil and it will be removed using .compact %>
+<% model = [local_assigns[:commentable], comment].compact %>
+
 <%= render "shared/form_errors", object: comment %>
-<%= form_with model: comment, url: post_comments_path, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' } do |f| %>
+<%= form_with model: model, id: nested_dom_id(commentable, comment), data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' } do |f| %>
   <div class="mb-3" style="max-width: 600px;">
     <%= f.text_area :body, size: "70x2", class: "form-control", placeholder: "Enter your comment here..." %>
     <%= f.submit class: "btn btn-primary mt-2" %>

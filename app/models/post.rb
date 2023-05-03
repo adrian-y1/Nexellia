@@ -16,8 +16,8 @@
 #
 class Post < ApplicationRecord
   belongs_to :user, counter_cache: true
-  has_many :likes, as: :likeable
-  has_many :comments
+  has_many :likes, as: :likeable, dependent: :destroy
+  has_many :comments, as: :commentable, dependent: :destroy
   has_one_attached :image
   
   validates :body, presence: true, length: { maximum: 255, message: "Post description length exceeded." }

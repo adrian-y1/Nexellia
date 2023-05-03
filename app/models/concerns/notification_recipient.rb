@@ -4,7 +4,7 @@ module NotificationRecipient
   def notification_recipient
     case self.class.name
     when "Comment"
-      self.post.user
+      self.commentable.user
     when "Friendship"
       self.user
     when "FriendRequest"

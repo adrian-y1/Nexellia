@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     post 'like', to: 'posts#like', as: 'like'
   end
 
+  resources :comments do
+    resources :comments
+  end
+
   resources :users, only: [:index, :show] do
     resources :profiles, only: [:edit, :update]
     resources :friend_requests, only: [:create, :destroy]

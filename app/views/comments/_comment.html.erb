@@ -12,12 +12,12 @@
       <%# Comment Like partial and stream %>
       <div>
         <%= turbo_stream_from comment, :likes %>
-        <%= render 'likes/comment_like_button', comment: comment, post: comment.post, like_status: user.liked?(comment) %>
+        <%= render 'likes/comment_like_button', comment: comment, post: comment.commentable, like_status: user.liked?(comment) %>
       </div>
 
       <div class="post-buttons" data-user-id="<%= comment.user.id %>">
         <% if user == comment.user %>
-          <%= link_to "Delete", post_comment_path(comment.post.id, comment.id), data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-danger" %>
+          <%= link_to "Delete", post_comment_path(comment.commentable.id, comment.id), data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-danger" %>
         <% end %>
       </div>
     </div>
@@ -27,5 +27,10 @@
       <%# Comment Likes Count partial %>
       <small class="text-muted col-3 d-flex float-end"><%= render 'likes/comment_likes_count', comment: comment %></small>
     </div>
+
   </div>
 <% end %>
+
+<div class="pl-2">
+  <%= render comment.comments, user: user %>
+</div>

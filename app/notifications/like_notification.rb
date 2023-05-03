@@ -25,7 +25,7 @@ class LikeNotification < Noticed::Base
     if like.likeable_type == 'Post'
       Post.find(like.likeable_id)
     else
-      Comment.find(like.likeable_id).post
+      Comment.find(like.likeable_id).commentable
     end
   end
 end

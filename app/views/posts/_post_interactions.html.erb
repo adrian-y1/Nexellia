@@ -48,11 +48,12 @@
             <div class="comments">
 
               <%= turbo_frame_tag post, "comments" do %>
-                <%= render post.comments.with_user_and_profile_includes, user: user %>
+                <%= render post.comments.where(parent_id: nil).with_user_and_profile_includes, user: user %>
               <% end %>
               
               <div class="comment-form">
-                <%= turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+                <%# turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
+                <%= render partial: "comments/form", locals: { comment: Comment.new, commentable: post } %>
               </div>
             </div>
           </div>

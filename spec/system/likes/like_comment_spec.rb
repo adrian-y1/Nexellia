@@ -29,7 +29,7 @@ RSpec.describe "Like Comment", type: :system, js: true do
     context "when liking a comment on the posts#index page" do
       it "increments the likes counter and displays unlike button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
@@ -56,7 +56,7 @@ RSpec.describe "Like Comment", type: :system, js: true do
     context "when liking a comment on the posts#show page" do
       it "increments the likes counter and displays unlike button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         visit post_path(post)
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
@@ -83,7 +83,7 @@ RSpec.describe "Like Comment", type: :system, js: true do
     context "when liking a comment on the users#show page" do
       it "increments the likes counter and displays unlike button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         visit user_path(post.user)
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)

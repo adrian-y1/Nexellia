@@ -29,7 +29,7 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
     context "when unliking a comment on the posts#index page" do
       it "decrements the likes counter and displays like button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         user.like(comment)
         visit posts_path
 
@@ -57,7 +57,7 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
     context "when unliking a comment on the posts#show page" do
       it "decrements the likes counter and displays like button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         user.like(comment)
         visit post_path(post)
 
@@ -85,7 +85,7 @@ RSpec.describe 'Unlike Comment', type: :system, js: true do
     context "when unliking a comment on the users#show page" do
       it "decrements the likes counter and displays like button live using Turbo Streams" do
         post = create(:post, user: user)
-        comment = create(:comment, post: post, user: user)
+        comment = create(:comment, commentable: post, user: user)
         user.like(comment)
         visit user_path(post.user)
 

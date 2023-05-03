@@ -61,11 +61,11 @@ RSpec.describe Comment, type: :model do
       end
     end
 
-    describe "Post" do
-      it "belongs to a post" do
-        post = create(:post)
-        comment = create(:comment, post: post)
-        expect(comment.post).to eq(post)
+    describe "Commentable" do
+      it "belongs to a commentable" do
+        commentable = create(:post)
+        comment = create(:comment, commentable: commentable)
+        expect(comment.commentable).to eq(commentable)
       end
     end
 

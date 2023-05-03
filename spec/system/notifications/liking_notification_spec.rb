@@ -30,7 +30,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
     context "when a user likes a comment" do
       it "sends a real-time notification to the comment author and prepends it to their dropdown notifications list" do
         post = create(:post)
-        comment = create(:comment, user: author, post: post)
+        comment = create(:comment, user: author, commentable: post)
         visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
@@ -69,7 +69,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
     context "when a user likes a comment" do
       it "sends a real-time notification to the comment author and prepends it to their new_notifications frame under navbar" do
         post = create(:post)
-        comment = create(:comment, user: author, post: post)
+        comment = create(:comment, user: author, commentable: post)
         visit user_path(author)
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)

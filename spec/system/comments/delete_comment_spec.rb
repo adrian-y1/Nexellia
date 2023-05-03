@@ -28,7 +28,7 @@ RSpec.describe "Delete Comment", type: :system, js: true do
   describe "posts#index Page" do
     before do
       post = create(:post, user: user)
-      comment = create(:comment, post: post, user: user)
+      comment = create(:comment, commentable: post, user: user)
     end
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
@@ -49,7 +49,7 @@ RSpec.describe "Delete Comment", type: :system, js: true do
   describe "posts#show Page" do
     before do
       post = create(:post, user: user)
-      comment = create(:comment, post: post, user: user)
+      comment = create(:comment, commentable: post, user: user)
     end
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
@@ -73,7 +73,7 @@ RSpec.describe "Delete Comment", type: :system, js: true do
   describe "users#show Page" do
     before do
       post = create(:post, user: user)
-      comment = create(:comment, post: post, user: user)
+      comment = create(:comment, commentable: post, user: user)
     end
 
     it "deletes the comment and renders flash notice using Turbo Streams" do

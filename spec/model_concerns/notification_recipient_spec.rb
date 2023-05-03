@@ -4,7 +4,7 @@ RSpec.describe NotificationRecipient, type: :concern do
   let(:author) { create(:user) }
   let(:user) { create(:user) }
   let(:post) { create(:post, user: author) }
-  let(:comment) { create(:comment, user: user, post: post) }
+  let(:comment) { create(:comment, user: user, commentable: post) }
   let(:comment_like) { create(:like, likeable: comment, user: author) }
   let(:post_like) { create(:like, likeable: post, user: user) }
   let(:friendship) { create(:friendship, user: user, friend: author) }

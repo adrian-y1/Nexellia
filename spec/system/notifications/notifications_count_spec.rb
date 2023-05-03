@@ -89,7 +89,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
         notifications_count_frame = find("turbo-frame#user_#{recipient.id}_notifications_count")
         expect(notifications_count_frame).to have_content('0')
   
-        create(:comment, user: user, post: post)
+        create(:comment, user: user, commentable: post)
         
         expect(notifications_count_frame).to have_content('1')
         expect(page).to have_current_path(posts_path)
@@ -105,7 +105,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
   
         notifications_count_frame = find("turbo-frame#user_#{recipient.id}_notifications_count")
         
-        create(:comment, user: user, post: post)
+        create(:comment, user: user, commentable: post)
         expect(notifications_count_frame).to have_content('1')
 
         post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
@@ -171,7 +171,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
       context "when the recipient receives a notification" do
         it "increments the recipient's unread notifications count in real-time" do
           post = create(:post)
-          comment = create(:comment, user: recipient, post: post)
+          comment = create(:comment, user: recipient, commentable: post)
           visit user_path(recipient)
   
           expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
@@ -189,7 +189,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
       context "when the recipient reads a notification by clicking on it" do
         it "decrements the recipient's unread notifications count in real-time" do
           post = create(:post)
-          comment = create(:comment, user: recipient, post: post)
+          comment = create(:comment, user: recipient, commentable: post)
           visit user_path(recipient)
   
           expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)

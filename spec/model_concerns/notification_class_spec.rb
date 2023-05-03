@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe NotificationClass, type: :concern do
   let(:post) { create(:post) }
-  let(:comment) { create(:comment) }
-  let(:comment_like) { create(:like, :comment) }
+  let(:comment) { create(:comment, commentable: post) }
+  let(:comment_like) { create(:like, likeable: comment) }
   let(:post_like) { create(:like, :post) }
   let(:friendship) { create(:friendship) }
   let(:friend_request) { create(:friend_request) }

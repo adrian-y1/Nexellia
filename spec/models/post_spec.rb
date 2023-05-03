@@ -87,9 +87,9 @@ RSpec.describe Post, type: :model do
 
     describe "Comment" do
       it "can have many comments" do
-        comment1 = create(:comment, post: post)
-        comment2 = create(:comment, post: post)
-        expect(post.comments_count).to eq(2)
+        comment1 = create(:comment, commentable: post)
+        comment2 = create(:comment, commentable: post)
+        expect(post.comments.count).to eq(2)
       end
     end
 

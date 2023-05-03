@@ -18,8 +18,13 @@
 #
 FactoryBot.define do
   factory :comment do
-    post
     user
+    association :commentable, factory: :post
     sequence(:body) { |n| "My Comment number -> #{n}" }
+    
+    trait :with_parent do
+      association :parent, factory: :comment
+    end
   end
 end
+

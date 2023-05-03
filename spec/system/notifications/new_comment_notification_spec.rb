@@ -34,7 +34,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
         
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
         
-        create(:comment, user: commenter, post: post)
+        create(:comment, user: commenter, commentable: post)
 
         find(:id, 'notificationsDropdown').click
 
@@ -54,7 +54,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        create(:comment, user: commenter, post: post)
+        create(:comment, user: commenter, commentable: post)
 
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do

@@ -262,7 +262,7 @@ RSpec.describe User, type: :model do
         context "when the user has liked the given comment" do
           it "returns true" do
             post = create(:post, user: given_user)
-            comment = create(:comment, post: post, user: current_user)
+            comment = create(:comment, commentable: post, user: current_user)
             current_user.like(comment)
             liked = current_user.liked?(comment)
             expect(liked).to be true
@@ -272,7 +272,7 @@ RSpec.describe User, type: :model do
         context "when the user has not liked the given comment" do
           it "returns false" do
             post = create(:post, user: given_user)
-            comment = create(:comment, post: post, user: current_user)
+            comment = create(:comment, commentable: post, user: current_user)
             liked = current_user.liked?(comment)
             expect(liked).to be false
           end
@@ -327,7 +327,7 @@ RSpec.describe User, type: :model do
       describe "Comment" do
         context "when the user has not liked the comment before" do
           let(:post) { create(:post, user: given_user) }
-          let(:comment) { create(:comment, post: post, user: current_user) }
+          let(:comment) { create(:comment, commentable: post, user: current_user) }
 
           it "likes the post for the user" do
             current_user.like(comment)
@@ -346,7 +346,7 @@ RSpec.describe User, type: :model do
 
         context "when the user has liked the comment before" do
           let(:post) { create(:post, user: given_user) }
-          let(:comment) { create(:comment, post: post, user: current_user) }
+          let(:comment) { create(:comment, commentable: post, user: current_user) }
           
           before do
             create(:like, likeable: comment, user: current_user)

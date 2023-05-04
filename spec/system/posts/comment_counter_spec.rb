@@ -16,7 +16,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
   describe "posts#index Page" do
     # These tests check the incrementing and decrementing of the comments counter of a post
-    # inside the posts#index page using Turbo Streams.
+    # in real-time inside the posts#index page using Turbo Streams.
 
     before do 
       create(:post, user: user)
@@ -24,11 +24,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
     end
     
     context "when a comment is created" do
-      # Once a comment is created by accessing the appropriate Turbo Frame tag, which
-      # will not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
       let(:post) { user.posts.last }
 
       it "increments the comments counter live using Turbo Streams" do
@@ -46,11 +41,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
     end
 
     context "when a comment is deleted" do
-      # After a comment is created by accessing the appropriate Turbo Frame tag, which
-      # does not require a page refresh, the comments counter for the specified post
-      # decrements in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do
@@ -69,9 +59,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on "Delete"
         end
 
-        # This confirms that we are still on the current page with no 
-        # page refresh/redirect, and the counter has been decremented after a post is deleted, 
-        # meaning Turbo Streams is working.
         expect(page).to have_current_path(posts_path)
         expect(page).to have_content('0 Comments')
       end
@@ -87,11 +74,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
     end
     
     context "when a comment is created" do
-      # Once the comments are created by accessing the appropriate Turbo Frame tags, which
-      # do not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
       let(:post) { user.posts.last }
 
       it "increments the comments counter live using Turbo Streams" do
@@ -110,12 +92,35 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       end
     end
 
-    context "when a comment is deleted" do
-      # After a comment is created by accessing the appropriate Turbo Frame tag, which
-      # does not require a page refresh, the comments counter for the specified post
-      # decrements in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
+    context "when a reply to a comment is created" do
+      let(:post) { user.posts.last }
 
+      it "increments the comments counter live using Turbo Streams" do
+        visit post_path(post)
+        
+        expect(page).to have_content('0 Comments')
+
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
+          fill_in 'comment[body]', with: 'Commenting'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_content('1 Comment')
+
+        comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to Commenting'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_content('2 Comments')
+      end
+    end
+
+    context "when a comment is deleted" do
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do
@@ -143,6 +148,81 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
         expect(page).to have_content('0 Comments')
       end
     end
+
+
+    context "when a reply to a comment is deleted" do
+      let(:post) { user.posts.last }
+
+      it "decrements the comments counter live using Turbo Streams" do
+        visit post_path(post)
+
+        expect(page).to have_content('0 Comments')
+        
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
+          fill_in 'comment[body]', with: 'Commenting'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_content('1 Comment')
+
+        comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to Commenting'
+          click_on 'Create Comment'
+        end
+        expect(page).to have_content('2 Comments')
+        reply_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+        within(reply_frame) do
+          click_on 'Delete'
+        end
+
+        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_content('1 Comment')
+      end
+    end
+
+    context "when a comments and all it's replies are deleted" do
+      let(:post) { user.posts.last }
+
+      it "decrements the comments counter live using Turbo Streams" do
+        visit post_path(post)
+
+        expect(page).to have_content('0 Comments')
+        
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
+          fill_in 'comment[body]', with: 'Commenting'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_content('1 Comment')
+
+        comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to Commenting'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_content('2 Comments')
+
+        reply_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+        within(reply_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to Commenting 2'
+          click_on 'Create Comment'
+        end
+        expect(page).to have_content('3 Comments')
+        within(comment_frame) do
+          all('a', text: 'Delete')[0].click
+        end
+
+        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_content('0 Comments')
+      end
+    end
   end
 
   describe "users#show Page" do
@@ -154,11 +234,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
     end
     
     context "when a comment is created" do
-      # Once the comments are created by accessing the appropriate Turbo Frame tags, which
-      # do not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
       let(:post) { user.posts.last }
 
       it "increments the comments counter live using Turbo Streams" do
@@ -178,11 +253,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
     end
 
     context "when a comment is deleted" do
-      # After a comment is created by accessing the appropriate Turbo Frame tag, which
-      # does not require a page refresh, the comments counter for the specified post
-      # decrements in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do

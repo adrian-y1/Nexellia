@@ -1,0 +1,9 @@
+<div style="padding-left: 20px;">
+  <%= turbo_stream_from comment, :comments %>
+
+  <%# Recursively render the given comment's comments %>
+  <%= turbo_frame_tag comment, :comments do %>
+    <%= render partial: "comments/form", locals: { commentable: comment, comment: Comment.new, reply_target: "replyForm", reply_class: "d-none" } %>
+    <%= render comment.comments.includes(:commentable).load_user_and_profile, user: user %>
+  <% end %>
+</div>

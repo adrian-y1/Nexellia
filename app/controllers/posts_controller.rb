@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   include ActionView::RecordIdentifier
 
-  before_action :set_post, only: [:edit, :update, :destroy]
+  before_action :set_post, only: [:edit, :update]
   
   def index
     @posts = Post.user_and_friends_posts(current_user).includes(image_attachment: :blob)
@@ -48,6 +48,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
+    @post = Post.includes(comments: [:comments, :likes]).find(params[:id])
     @post.destroy
 
     respond_to do |format|

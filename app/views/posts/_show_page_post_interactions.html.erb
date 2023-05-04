@@ -46,7 +46,8 @@
               <%= turbo_stream_from post, :comments %>
 
               <%= turbo_frame_tag post, "comments" do %>
-                <%= render post.comments.where(parent_id: nil).with_user_and_profile_includes, user: user %>
+                <%# Show top comments only %>
+                <%= render post.comments.where(parent_id: nil).load_user_and_profile, user: user %>
               <% end %>
             </div>
             <hr>

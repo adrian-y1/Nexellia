@@ -1,5 +1,21 @@
 <%# Renders a new comment form when a comment is created %>
 <% comment = Comment.new %>
 
-<%= turbo_stream.replace(nested_dom_id(@commentable, comment), partial: "comments/form", locals: { comment: comment, commentable: @commentable }) %>
+<%# Checks if comment has been saved to the database or not %>
+<% if comment.persisted? %>
+  <% if @parent %>
+    <%# If a reply has been made to a comment, add the parent comment and replace this form with a new one and hide it %>
+    <%= turbo_stream.replace(nested_dom_id(@parent, comment), partial: "comments/form", 
+        locals: { comment: comment, commentable: @parent, reply_target: "replyForm", reply_class: "d-none" }) %>
+  <% else %>
+    <%# If a comment has been made to a commentable(post), add the commentable(post) and replace this form with a new one %>
+    <%= turbo_stream.replace(nested_dom_id(@commentable, comment), partial: "comments/form", locals: { comment: comment, commentable: @commentable }) %>
+  <% end %>
+<% else %>
+  <%# Replace the form when a comment fails to be saved to render it's errors  %>
+  <%# If the comment has a parent, put that in the nested_dom_id else put the commentable(post) %>
+  <%= turbo_stream.replace(nested_dom_id(@parent || @commentable, @comment), partial: "comments/form", 
+      locals: { comment: @comment, commentable: @parent || @commentable })  %>
+<% end %>
+
 <%= render_turbo_stream_flash_messages %>

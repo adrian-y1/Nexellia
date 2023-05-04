@@ -45,36 +45,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       end
     end
 
-    context "when multiple comments are created" do
-      # Once the comments are created by accessing the appropriate Turbo Frame tags, which
-      # do not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
-      let(:post) { user.posts.last }
-
-      it "increments the comments counter live using Turbo Streams" do
-        expect(page).to have_content('0 Comments')
-
-        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
-        within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 1'
-          click_on 'Create Comment'
-        end
-
-        # Expect the comments counter to increment once after a comment is created
-        expect(page).to have_content('1 Comment')
-
-        within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 2'
-          click_on 'Create Comment'
-        end
-
-        expect(page).to have_current_path(posts_path)
-        expect(page).to have_content('2 Comments')
-      end
-    end
-
     context "when a comment is deleted" do
       # After a comment is created by accessing the appropriate Turbo Frame tag, which
       # does not require a page refresh, the comments counter for the specified post
@@ -137,40 +107,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         expect(page).to have_current_path(post_path(post))
         expect(page).to have_content('1 Comment')
-      end
-    end
-
-    context "when multiple comments are created" do
-      # Once the comments are created by accessing the appropriate Turbo Frame tags, which
-      # do not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
-      let(:post) { user.posts.last }
-
-      it "increments the comments counter live using Turbo Streams" do
-        visit post_path(post)
-
-        expect(page).to have_content('0 Comments')
-
-        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-        within(show_page_post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 1'
-          click_on 'Create Comment'
-        end
-
-        expect(page).to have_content('1 Comment')
-
-        within(show_page_post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 2'
-          click_on 'Create Comment'
-        end
-
-        # This confirms that we are still on the current page with no 
-        # page refresh/redirect, and the counter has been incremented twice, 
-        # meaning Turbo Streams is working.
-        expect(page).to have_current_path(post_path(post))
-        expect(page).to have_content('2 Comments')
       end
     end
 
@@ -238,38 +174,6 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_content('1 Comment')
-      end
-    end
-
-    context "when multiple comments are created" do
-      # Once the comments are created by accessing the appropriate Turbo Frame tags, which
-      # do not require a page refresh, the comments counter for the specified post
-      # incremenets in real-time without a redirect or refresh of the current page. 
-      # This confirms that Turbo Streams is working.
-
-      let(:post) { user.posts.last }
-
-      it "increments the comments counter live using Turbo Streams" do
-        visit user_path(post.user)
-
-        expect(page).to have_content('0 Comments')
-
-        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
-        within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 1'
-          click_on 'Create Comment'
-        end
-
-        # Expects the comments counter to have incremented once after a comment was created
-        expect(page).to have_content('1 Comment')
-
-        within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 2'
-          click_on 'Create Comment'
-        end
-
-        expect(page).to have_current_path(user_path(post.user))
-        expect(page).to have_content('2 Comments')
       end
     end
 

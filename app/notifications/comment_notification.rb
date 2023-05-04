@@ -10,7 +10,7 @@ class CommentNotification < Noticed::Base
   end
 
   def message
-    "#{actor.username} commented on your post"
+    "#{actor.username} commented on your #{comment.commentable_type.downcase}"
   end
 
   def url

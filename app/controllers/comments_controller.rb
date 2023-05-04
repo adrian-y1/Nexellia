@@ -4,30 +4,24 @@ class CommentsController < ApplicationController
   include ActionView::RecordIdentifier
   include ApplicationHelper
 
-  def new
-    @comment = Comment.new
-  end
-
   def create
     @comment = @commentable.comments.build(comment_params)
     @comment.user = current_user
-    
+    @comment.parent_id = @parent&.id # safe navigator to avoid NoMethodError on nil objects
+
     respond_to do |format|
       if @comment.save
         format.turbo_stream { flash.now[:notice] = "Comment was successfully created." }
         format.html { redirect_to posts_path, notice: "Comment was successfully created." }
       else
-        format.turbo_stream { 
-          render turbo_stream: turbo_stream.replace(nested_dom_id(@commentable, @comment), partial: "comments/form", 
-              locals: { comment: @comment, commentable: @commentable }) 
-        }
+        format.turbo_stream { }
         format.html { render :new, status: :unprocessable_entity, alert: "Comment could not be created." }
       end
     end
   end
 
   def destroy
-    @comment = Comment.find(params[:id])
+    @comment = Comment.includes(comments: [:comments, :likes, :commentable]).find(params[:id])
     @comment.destroy
 
     respond_to do |format|
@@ -60,8 +54,10 @@ class CommentsController < ApplicationController
   end
 
   def find_commentable
+    # @commentable references the commentable(post) a comment belongs to no matter the nesting level
     if params[:comment_id]
-      @commentable = Comment.find_by_id(params[:comment_id])
+      @parent = Comment.find_by_id(params[:comment_id])
+      @commentable = @parent.commentable
     elsif params[:post_id]
       @commentable = Post.find_by_id(params[:post_id])
     end

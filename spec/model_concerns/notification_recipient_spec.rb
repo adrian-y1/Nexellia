@@ -11,8 +11,18 @@ RSpec.describe NotificationRecipient, type: :concern do
   let(:friend_request) { create(:friend_request, sender: user, receiver: author) }
   
   describe '#notification_recipient' do
-    it "returns the post author as the notification recipient for a Comment" do
-      expect(comment.notification_recipient).to eq(post.user)
+    context "when a comment does not have a parent" do
+      it "returns the post author as the notification recipient for a Comment" do
+        expect(comment.notification_recipient).to eq(post.user)
+      end
+    end
+
+    context "when a comment has a parent" do
+      it "returns the parent comment creator as the notification recipient for a Comment reply" do
+        reply_user = create(:user)
+        reply = create(:comment, parent: comment, commentable: comment, user: reply_user)
+        expect(reply.notification_recipient).to eq(comment.user)
+      end
     end
 
     it "returns the comment creator as the notification recipient for a comment Like" do

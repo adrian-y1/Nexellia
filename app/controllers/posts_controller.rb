@@ -48,7 +48,7 @@ class PostsController < ApplicationController
   end
 
   def destroy
-    @post = Post.includes(comments: [:comments, :likes]).find(params[:id])
+    @post = Post.includes(comments: [:comments, :likes, :parent]).find(params[:id])
     @post.destroy
 
     respond_to do |format|

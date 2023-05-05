@@ -44,6 +44,14 @@ class Comment < ApplicationRecord
 
   after_destroy_commit -> do
     broadcast_remove_to [commentable, "comments"]
+    broadcast_comments_count_sync
+  end
+
+  private
+
+  def broadcast_comments_count_sync
+    return unless commentable
+
     broadcast_replace_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
       locals: { post: commentable }
   end

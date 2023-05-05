@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.includes(comments: [:comments, :likes, :commentable]).find(params[:id])
+    @comment = Comment.includes(comments: [:comments, :likes]).find(params[:id])
     @comment.destroy
 
     respond_to do |format|

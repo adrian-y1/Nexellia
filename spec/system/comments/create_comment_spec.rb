@@ -16,12 +16,11 @@ RSpec.describe "Create Comment", type: :system, js: true do
     driven_by(:selenium_chrome_headless)
   end
 
-  describe "Valid Attributes" do
-    # These tests check that a comment can be successfully created with valid attributes using 
+  describe "Body Provided" do
+    # These tests check that a comment/reply can be successfully created with valid attributes using 
     # the create comment form that is displayed inside a post. 
     #
-    # With the help of Turbo Frames, i don't need to visit a seperate 
-    # page to access the form.
+    # With the help of Turbo Frames, i don't need to visit a seperate page to access the form.
     #
     # After the form is filled with data and submitted, the comment is created live and the user
     # is not redirect to a new page as a result of using Turbo Streams.
@@ -31,9 +30,9 @@ RSpec.describe "Create Comment", type: :system, js: true do
     # is created and broadcasted live without a page refresh.
 
     describe "posts#index page" do
-      # This test checks comment creation with valid attributes in the posts#index page using Turbo Streams.
+      # These tests check comment and reply creation with valid attributes in the posts#index page using Turbo Streams.
 
-      it "creates the comment with Turbo Streams" do
+      it "creates the comment to a post with Turbo Streams" do
         post = create(:post, user: user)
         visit posts_path
 
@@ -45,18 +44,35 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Confirms that the comment was created live using Turbo Streams and that 
-        # the user is still on the posts#index page.
         expect(page).to have_current_path(posts_path)
         expect(page).to have_content(content)
+        expect(page).to have_content(flash_notice)
+      end
+
+      it "creates the reply to a comment with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit posts_path
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to a comment'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_current_path(posts_path)
+        expect(page).to have_content('Replying to a comment')
         expect(page).to have_content(flash_notice)
       end
     end
 
     describe "posts#show page" do
-      # This test checks comment creation with valid attributes in the posts#show page using Turbo Streams.
+      # These tests check comment and reply creation with valid attributes in the posts#show page using Turbo Streams.
 
-      it "creates the comment with Turbo Streams" do
+      it "creates the comment to a post with Turbo Streams" do
         post = create(:post, user: user)
         visit post_path(post)
 
@@ -68,18 +84,35 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Confirms that the comment was created live using Turbo Streams and that 
-        # the user is still on the posts#show page.
         expect(page).to have_current_path(post_path(post))
         expect(page).to have_content(content)
+        expect(page).to have_content(flash_notice)
+      end
+
+      it "creates the reply to a comment with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit post_path(post)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to a comment'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_content('Replying to a comment')
         expect(page).to have_content(flash_notice)
       end
     end
 
     describe "users#show page" do
-      # This test checks comment creation with valid attributes in the users#show page using Turbo Streams.
+      # These tests check comment and reply creation with valid attributes in the users#show page using Turbo Streams.
 
-      it "creates the comment with Turbo Streams" do
+      it "creates the comment to a post with Turbo Streams" do
         post = create(:post, user: user)
         visit user_path(post.user)
 
@@ -91,17 +124,34 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Confirms that the comment was created live using Turbo Streams and that 
-        # the user is still on the users#show page.
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_content(content)
+        expect(page).to have_content(flash_notice)
+      end
+
+      it "creates the reply to a comment with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit user_path(post.user)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: 'Replying to a comment'
+          click_on 'Create Comment'
+        end
+
+        expect(page).to have_current_path(user_path(post.user))
+        expect(page).to have_content('Replying to a comment')
         expect(page).to have_content(flash_notice)
       end
     end
   end
 
-  describe "Invalid Attributes" do
-    # These tests check that a comment cannot be created with an empty body
+  describe "Empty Body" do
+    # These tests check that a comment or reply cannot be created with an empty body
     #
     # With the help of Turbo Frames, i don't need to visit a seperate page to access the create comment form.
     #
@@ -113,7 +163,7 @@ RSpec.describe "Create Comment", type: :system, js: true do
     # that the comment is not created live without a page refresh.
 
     describe "posts#index page" do
-      it "doesn't create the comment and renders an error with Turbo Streams" do
+      it "doesn't create the comment to a post and renders an error with Turbo Streams" do
         post = create(:post, user: user)
         visit posts_path
 
@@ -125,8 +175,24 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Since the user hasn't been redirected after encountering an error with creating a comment,
-        # this confirms Turbo Streams is working and that they are on the posts#index page.
+        expect(page).to have_current_path(posts_path)
+        expect(page).to have_content("Body can't be blank")
+      end
+      
+      it "doesn't create the reply to a comment and renders an error with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit posts_path
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: ''
+          click_on 'Create Comment'
+        end
+
         expect(page).to have_current_path(posts_path)
         expect(page).to have_content("Body can't be blank")
       end
@@ -145,8 +211,24 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Since the user hasn't been redirected after encountering an error with creating a comment,
-        # this confirms Turbo Streams is working and that they are on the posts#show page.
+        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_content("Body can't be blank")
+      end
+
+      it "doesn't create the reply to a comment and renders an error with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit post_path(post)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: ''
+          click_on 'Create Comment'
+        end
+
         expect(page).to have_current_path(post_path(post))
         expect(page).to have_content("Body can't be blank")
       end
@@ -165,8 +247,24 @@ RSpec.describe "Create Comment", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        # Since the user hasn't been redirected after encountering an error with creating a comment,
-        # this confirms Turbo Streams is working and that they are on the posts#show page.
+        expect(page).to have_current_path(user_path(post.user))
+        expect(page).to have_content("Body can't be blank")
+      end
+
+      it "doesn't create the reply to a comment and renders an error with Turbo Streams" do
+        post = create(:post, user: user)
+        comment = create(:comment, commentable: post, user: user)
+        visit user_path(post.user)
+
+        expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        comment_frame = find("turbo-frame#comment_#{comment.id}")
+        within(comment_frame) do
+          click_on 'Reply'
+          fill_in 'comment[body]', with: ''
+          click_on 'Create Comment'
+        end
+
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_content("Body can't be blank")
       end

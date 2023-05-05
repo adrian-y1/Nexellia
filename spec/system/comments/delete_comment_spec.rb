@@ -26,17 +26,15 @@ RSpec.describe "Delete Comment", type: :system, js: true do
 
     
   describe "posts#index Page" do
-    before do
-      post = create(:post, user: user)
-      comment = create(:comment, commentable: post, user: user)
-    end
+    let!(:post) { create(:post, user: user) }
+    let!(:comment) { create(:comment, commentable: post, user: user) }
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
       visit posts_path
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-      comment_frame = find("turbo-frame#comment_#{user.posts.last.comments.last.id}")
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
       within(comment_frame) do
         click_on "Delete"
       end
@@ -44,13 +42,31 @@ RSpec.describe "Delete Comment", type: :system, js: true do
       expect(page).to have_current_path(posts_path)
       expect(page).to have_content(flash_notice)
     end
+
+    it "deletes the comment and all its replies using Turbo Streams" do
+      reply1 = create(:comment, commentable: comment, parent: comment, user: user)
+      reply2 = create(:comment, commentable: comment, parent: reply2, user: user)
+      reply3 = create(:comment, commentable: comment, parent: reply3, user: user)
+      reply4 = create(:comment, commentable: comment, parent: reply4, user: user)
+
+      visit posts_path
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
+      within(comment_frame) do
+        all('a', text: 'Delete')[0].click
+      end
+     
+      expect(page).to have_current_path(posts_path)
+      expect(page).not_to have_content([reply4.body, reply3.body, reply2.body, reply1.body])
+      expect(page).to have_content(flash_notice)
+    end
   end
 
   describe "posts#show Page" do
-    before do
-      post = create(:post, user: user)
-      comment = create(:comment, commentable: post, user: user)
-    end
+    let!(:post) { create(:post, user: user) }
+    let!(:comment) { create(:comment, commentable: post, user: user) }
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
       post = user.posts.last
@@ -58,7 +74,7 @@ RSpec.describe "Delete Comment", type: :system, js: true do
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-      comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
       within(comment_frame) do
         click_on "Delete"
       end
@@ -68,13 +84,31 @@ RSpec.describe "Delete Comment", type: :system, js: true do
       expect(page).to have_current_path(post_path(post))
       expect(page).to have_content(flash_notice)
     end
+
+    it "deletes the comment and all its replies using Turbo Streams" do
+      reply1 = create(:comment, commentable: comment, parent: comment, user: user)
+      reply2 = create(:comment, commentable: comment, parent: reply2, user: user)
+      reply3 = create(:comment, commentable: comment, parent: reply3, user: user)
+      reply4 = create(:comment, commentable: comment, parent: reply4, user: user)
+
+      visit post_path(post)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
+      within(comment_frame) do
+        all('a', text: 'Delete')[0].click
+      end
+     
+      expect(page).to have_current_path(post_path(post))
+      expect(page).not_to have_content([reply4.body, reply3.body, reply2.body, reply1.body])
+      expect(page).to have_content(flash_notice)
+    end
   end
 
   describe "users#show Page" do
-    before do
-      post = create(:post, user: user)
-      comment = create(:comment, commentable: post, user: user)
-    end
+    let!(:post) { create(:post, user: user) }
+    let!(:comment) { create(:comment, commentable: post, user: user) }
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
       post = user.posts.last
@@ -82,12 +116,32 @@ RSpec.describe "Delete Comment", type: :system, js: true do
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-      comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
       within(comment_frame) do
         click_on "Delete"
       end
 
       expect(page).to have_current_path(user_path(post.user))
+      expect(page).to have_content(flash_notice)
+    end
+
+    it "deletes the comment and all its replies using Turbo Streams" do
+      reply1 = create(:comment, commentable: comment, parent: comment, user: user)
+      reply2 = create(:comment, commentable: comment, parent: reply2, user: user)
+      reply3 = create(:comment, commentable: comment, parent: reply3, user: user)
+      reply4 = create(:comment, commentable: comment, parent: reply4, user: user)
+
+      visit user_path(post.user)
+
+      expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+      comment_frame = find("turbo-frame#comment_#{comment.id}")
+      within(comment_frame) do
+        all('a', text: 'Delete')[0].click
+      end
+     
+      expect(page).to have_current_path(user_path(post.user))
+      expect(page).not_to have_content([reply4.body, reply3.body, reply2.body, reply1.body])
       expect(page).to have_content(flash_notice)
     end
   end

@@ -56,8 +56,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to a comment'
           click_on 'Create Comment'
@@ -96,8 +96,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to a comment'
           click_on 'Create Comment'
@@ -136,8 +136,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to a comment'
           click_on 'Create Comment'
@@ -186,8 +186,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: ''
           click_on 'Create Comment'
@@ -222,8 +222,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: ''
           click_on 'Create Comment'
@@ -258,8 +258,8 @@ RSpec.describe "Create Comment", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        comment_frame = find("turbo-frame#comment_#{comment.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: ''
           click_on 'Create Comment'

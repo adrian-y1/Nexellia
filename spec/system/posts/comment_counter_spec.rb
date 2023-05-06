@@ -108,8 +108,8 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         expect(page).to have_content('1 Comment')
 
-        comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{post.comments.last.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to Commenting'
           click_on 'Create Comment'
@@ -166,8 +166,8 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         expect(page).to have_content('1 Comment')
 
-        comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{post.comments.last.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to Commenting'
           click_on 'Create Comment'
@@ -200,7 +200,8 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
         expect(page).to have_content('1 Comment')
 
         comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
-        within(comment_frame) do
+        comment_replies_element = find("div[id='comment_#{post.comments.last.id}_replies']")
+        within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to Commenting'
           click_on 'Create Comment'
@@ -208,8 +209,8 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         expect(page).to have_content('2 Comments')
 
-        reply_frame = find("turbo-frame#comment_#{post.comments.last.id}")
-        within(reply_frame) do
+        reply_element = find("div[id='comment_#{post.comments.last.id}_replies']")
+        within(reply_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to Commenting 2'
           click_on 'Create Comment'

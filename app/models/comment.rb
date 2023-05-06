@@ -36,7 +36,7 @@ class Comment < ApplicationRecord
 
   after_create_commit -> do
     # Broadcast append to this comment's parent if it exists, else append to the commentable(post)
-    broadcast_append_later_to [commentable, "comments"], target: "#{dom_id(parent || commentable)}_comments", partial: "comments/comment", 
+    broadcast_append_later_to [commentable, "comments"], target: "#{dom_id(parent || commentable)}_comments", partial: "comments/comment_replies", 
       locals: { comment: self, user: Current.user }
     broadcast_replace_later_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
       locals: { post: commentable }
@@ -44,6 +44,7 @@ class Comment < ApplicationRecord
 
   after_destroy_commit -> do
     broadcast_remove_to [commentable, "comments"]
+    broadcast_remove_to [self, "comments"], target: "#{dom_id(self)}_replies"
     broadcast_comments_count_sync
   end
 

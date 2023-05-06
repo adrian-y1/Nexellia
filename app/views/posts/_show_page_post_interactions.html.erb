@@ -47,7 +47,9 @@
 
               <%= turbo_frame_tag post, "comments" do %>
                 <%# Show top comments only %>
-                <%= render post.comments.where(parent_id: nil).load_user_and_profile, user: user %>
+                <%= render partial: "comments/comment_replies", 
+                           collection: post.comments.includes(:parent).where(parent_id: nil).load_user_and_profile, 
+                           locals: { user: user }, as: :comment %>
               <% end %>
             </div>
             <hr>

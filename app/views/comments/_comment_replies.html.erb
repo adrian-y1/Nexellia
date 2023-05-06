@@ -1,9 +1,19 @@
-<div style="padding-left: 20px;">
-  <%= turbo_stream_from comment, :comments %>
+<%= turbo_stream_from comment, :comments %>
 
-  <%# Recursively render the given comment's comments %>
-  <%= turbo_frame_tag comment, :comments do %>
-    <%= render partial: "comments/form", locals: { commentable: comment, comment: Comment.new, reply_target: "replyForm", reply_class: "d-none" } %>
-    <%= render comment.comments.includes(:commentable).load_user_and_profile, user: user %>
-  <% end %>
+<div data-controller="reply" id="<%= "#{dom_id(comment)}_replies" %>">
+  <%= render comment, user: user %>
+
+  <% level_one_nesting = comment.parent if comment.parent %>
+  <% level_two_nesting = level_one_nesting.parent if level_one_nesting %>
+  
+  <div class="<%= level_two_nesting ? '' : 'px-3' %>">
+    <%= link_to "Reply", '#', data: { action: "click->reply#toggle" }, class: "text-decoration-none" %>
+
+    <%= turbo_frame_tag comment, :comments do %>
+      <%= render partial: "comments/form", locals: { commentable: comment, comment: Comment.new, reply_target: "replyForm", reply_class: "d-none" } %>
+      <%= render partial: "comments/comment_replies", 
+                 collection: comment.comments.includes(:commentable, :parent).load_user_and_profile, 
+                 locals: {user: user}, as: :comment %>
+    <% end %>
+  </div>
 </div>

@@ -15,7 +15,7 @@
   <%# Replace the form when a comment fails to be saved to render it's errors  %>
   <%# If the comment has a parent, put that in the nested_dom_id else put the commentable(post) %>
   <%= turbo_stream.replace(nested_dom_id(@parent || @commentable, @comment), partial: "comments/form", 
-      locals: { comment: @comment, commentable: @parent || @commentable })  %>
+      locals: { reply_target: "replyForm", comment: @comment, commentable: @parent || @commentable })  %>
 <% end %>
 
 <%= render_turbo_stream_flash_messages %>

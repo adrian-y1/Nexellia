@@ -30,7 +30,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  
   validates :first_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters" }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
   validates :last_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters"  }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
@@ -46,7 +45,6 @@ class User < ApplicationRecord
   
   has_many :likes, dependent: :destroy
   
-
   has_many :comments, dependent: :destroy
 
   has_one :profile, dependent: :destroy

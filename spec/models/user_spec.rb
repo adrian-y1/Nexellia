@@ -25,6 +25,76 @@ RSpec.describe User, type: :model do
   let(:user) { create(:user) }
   
   describe "Validations" do
+    describe "first_name" do
+      it "is valid when first name length is < 30" do
+        expect(user).to be_valid
+      end
+
+      it "is valid when first name length is exactly 30" do
+        user = create(:user, first_name: 'AlexanderssssssssssWilliamssss')
+        expect(user).to be_valid
+      end
+      
+      it "is valid when first name contains only letters" do
+        expect(user).to be_valid
+      end
+      
+      it "is not valid when first name is blank" do
+        user = build(:user, first_name: '')
+        expect(user).not_to be_valid
+      end
+
+      it "is not vaid when first name doesn't contain only letters" do
+        user = build(:user, first_name: "13vik$41s")
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when first name length is > 30" do
+        user = build(:user, first_name: "sdasdsdasdasdasdAsadassadasdasdAasdasdasd")
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when first name length is < 2" do
+        user = build(:user, first_name: "a")
+        expect(user).to_not be_valid
+      end
+    end
+
+    describe "last_name" do
+      it "is valid when last name length is < 30" do
+        expect(user).to be_valid
+      end
+
+      it "is valid when last name length is exactly 30" do
+        user = create(:user, last_name: 'AlexanderssssssssssWilliamssss')
+        expect(user).to be_valid
+      end
+      
+      it "is valid when last name contains only letters" do
+        expect(user).to be_valid
+      end
+      
+      it "is not valid when last name is blank" do
+        user = build(:user, last_name: '')
+        expect(user).not_to be_valid
+      end
+
+      it "is not vaid when last name doesn't contain only letters" do
+        user = build(:user, last_name: "13vik$41s")
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when last name length is > 30" do
+        user = build(:user, last_name: "sdasdsdasdasdasdAsadassadasdasdAasdasdasd")
+        expect(user).to_not be_valid
+      end
+
+      it "is not valid when last name length is < 2" do
+        user = build(:user, last_name: "a")
+        expect(user).to_not be_valid
+      end
+    end
+
     describe "Password" do
       it "is valid when password length is between 6-128" do
         password = Faker::Lorem.characters(number: 42)
@@ -194,6 +264,13 @@ RSpec.describe User, type: :model do
   describe "Instance Methods" do
     let(:current_user) { create(:user) }
     let(:given_user) { create(:user) }
+
+    describe "#full_name" do
+      it "concatenates the first and last name and capitalises them" do
+        new_user = create(:user, first_name: 'mike', last_name: 'smith')
+        expect(new_user.full_name).to eq('Mike Smith')
+      end
+    end
 
     describe "#liked?" do
       describe "Post" do

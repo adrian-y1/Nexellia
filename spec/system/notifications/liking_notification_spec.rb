@@ -41,7 +41,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
-        expect(dropdown_notifications_frame).to have_content("#{liker.username} liked your comment")
+        expect(dropdown_notifications_frame).to have_content("#{liker.full_name} liked your comment")
         expect(page).to have_current_path(posts_path)
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
-        expect(dropdown_notifications_frame).to have_content("#{liker.username} liked your post")
+        expect(dropdown_notifications_frame).to have_content("#{liker.full_name} liked your post")
         expect(page).to have_current_path(posts_path)
       end
     end
@@ -79,7 +79,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
           new_notifications_frame = find("turbo-frame#new_notifications_#{author.id}")
-          expect(new_notifications_frame).to have_content("#{liker.username} liked your comment")
+          expect(new_notifications_frame).to have_content("#{liker.full_name} liked your comment")
         end
 
         expect(page).to have_current_path(user_path(author))
@@ -98,7 +98,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
           new_notifications_frame = find("turbo-frame#new_notifications_#{author.id}")
-          expect(new_notifications_frame).to have_content("#{liker.username} liked your post")
+          expect(new_notifications_frame).to have_content("#{liker.full_name} liked your post")
         end
 
         expect(page).to have_current_path(user_path(author))

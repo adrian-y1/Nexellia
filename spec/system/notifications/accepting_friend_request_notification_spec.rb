@@ -54,7 +54,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
 
           receiver_new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
   
-          expect(receiver_new_notifications_frame).to have_content("You and #{sender.username} are now friends")
+          expect(receiver_new_notifications_frame).to have_content("You and #{sender.full_name} are now friends")
           expect(page).to have_current_path(posts_path)
         end
         
@@ -63,7 +63,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
 
           sender_new_notifications_frame = find("turbo-frame#new_notifications_#{sender.id}")
 
-          expect(sender_new_notifications_frame).to have_content("You and #{receiver.username} are now friends")
+          expect(sender_new_notifications_frame).to have_content("You and #{receiver.full_name} are now friends")
           expect(page).to have_current_path(posts_path)
         end
       end
@@ -92,7 +92,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
           notifications_frame = find("turbo-frame#notifications")
           within(notifications_frame) do
             receiver_new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
-            expect(receiver_new_notifications_frame).to have_content("You and #{sender.username} are now friends")
+            expect(receiver_new_notifications_frame).to have_content("You and #{sender.full_name} are now friends")
           end
         end
         
@@ -100,7 +100,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
           notifications_frame = find("turbo-frame#notifications")
           within(notifications_frame) do
             sender_new_notifications_frame = find("turbo-frame#new_notifications_#{sender.id}")
-            expect(sender_new_notifications_frame).to have_content("You and #{receiver.username} are now friends")
+            expect(sender_new_notifications_frame).to have_content("You and #{receiver.full_name} are now friends")
           end
         end
       end

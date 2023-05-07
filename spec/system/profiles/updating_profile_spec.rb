@@ -85,13 +85,11 @@ RSpec.describe "Update Profile", type: :system, js: true do
   
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            fill_in 'profile[first_name]', with: 'John'
-            fill_in 'profile[last_name]', with: 'Doe'
+            fill_in 'profile[public_email]', with: 'john@john'
             click_on 'Update Profile'
           end
   
-          expect(page).to have_content('John')
-          expect(page).to have_content('Doe')
+          expect(page).to have_content('john@john')
           expect(page).to have_content('Profile information have been updated')
           expect(page).to have_current_path(user_path(user))
         end
@@ -101,90 +99,6 @@ RSpec.describe "Update Profile", type: :system, js: true do
     describe "Invalid Attributes" do
       # These tests ensures that the form is not submitted successfully with invalid attributes
       # and a an error message (flash alert) is displayed in the modal without page reload/refresh. 
-
-      describe "First Name" do
-        context "when the first name is not only letters" do
-          it "renders a flash alert error message inside the modal without page refresh/reload" do
-            visit user_path(user)
-    
-            profile_information_frame = find("turbo-frame#profile_information")
-            within(profile_information_frame) do
-              click_on "Edit"
-            end
-    
-            edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
-            within(edit_profile_modal_frame) do
-              fill_in 'profile[first_name]', with: 'J9hn023'
-              click_on 'Update Profile'
-            end
-  
-            expect(edit_profile_modal_frame).to have_content('First name only allows letters')
-            expect(page).to have_current_path(user_path(user))
-          end
-        end
-        
-        context "when the first name length is > 20" do
-          it "renders a flash alert error message inside the modal without page refresh/reload" do
-            visit user_path(user)
-    
-            profile_information_frame = find("turbo-frame#profile_information")
-            within(profile_information_frame) do
-              click_on "Edit"
-            end
-    
-            edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
-            within(edit_profile_modal_frame) do
-              fill_in 'profile[first_name]', with: 'JohnDoeJohnDoeJohnDoeJohn'
-              click_on 'Update Profile'
-            end
-  
-            expect(edit_profile_modal_frame).to have_content('First name is too long (maximum is 20 characters)')
-            expect(page).to have_current_path(user_path(user))
-          end
-        end
-      end
-
-      describe "Last Name" do
-        context "when the last name is not only letters" do
-          it "renders a flash alert error message inside the modal without page refresh/reload" do
-            visit user_path(user)
-    
-            profile_information_frame = find("turbo-frame#profile_information")
-            within(profile_information_frame) do
-              click_on "Edit"
-            end
-    
-            edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
-            within(edit_profile_modal_frame) do
-              fill_in 'profile[last_name]', with: 'D03asd'
-              click_on 'Update Profile'
-            end
-  
-            expect(edit_profile_modal_frame).to have_content('Last name only allows letters')
-            expect(page).to have_current_path(user_path(user))
-          end
-        end
-
-        context "when the last name length is > 20" do
-          it "renders a flash alert error message inside the modal without page refresh/reload" do
-            visit user_path(user)
-    
-            profile_information_frame = find("turbo-frame#profile_information")
-            within(profile_information_frame) do
-              click_on "Edit"
-            end
-    
-            edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
-            within(edit_profile_modal_frame) do
-              fill_in 'profile[last_name]', with: 'DoeDoeDoeDoeDoeDoeDoeDoe'
-              click_on 'Update Profile'
-            end
-  
-            expect(edit_profile_modal_frame).to have_content('Last name is too long (maximum is 20 characters)')
-            expect(page).to have_current_path(user_path(user))
-          end
-        end
-      end
 
       describe "Public Phone Number" do
         context "when the public phone number is not formatted correctly" do

@@ -26,66 +26,6 @@ RSpec.describe Profile, type: :model do
   let(:profile) { create(:profile) }
 
   describe "Validation" do
-    describe "first_name" do
-      it "is valid when first name length is < 20" do
-        expect(profile).to be_valid
-      end
-
-      it "is valid when first name length is exactly 20" do
-        profile = create(:profile, first_name: 'AlexanderWilliamssss')
-        expect(profile).to be_valid
-      end
-
-      it "is valid when first name is blank" do
-        profile = create(:profile, first_name: '')
-        expect(profile).to be_valid
-      end
-      
-      it "is valid when first name contains only letters" do
-        expect(profile).to be_valid
-      end
-
-      it "is not vaid when first name doesn't contain only letters" do
-        profile = build(:profile, first_name: "13vik$41s")
-        expect(profile).to_not be_valid
-      end
-
-      it "is not valid when first name length is > 20" do
-        profile = build(:profile, first_name: "sdasdAsadasAasdasdasd")
-        expect(profile).to_not be_valid
-      end
-    end
-
-    describe "last_name" do
-      it "is valid when last name length is < 20" do
-        expect(profile).to be_valid
-      end
-
-      it "is valid when last name length is exactly 20" do
-        profile = create(:profile, last_name: 'AlexanderWilliamssss')
-        expect(profile).to be_valid
-      end
-
-      it "is valid when last name is blank" do
-        profile = create(:profile, last_name: '')
-        expect(profile).to be_valid
-      end
-
-      it "is valid when last name contains only letters" do
-        expect(profile).to be_valid
-      end
-
-      it "is not vaid when last name doesn't contain only letters" do
-        profile = build(:profile, last_name: "32*dsa3#4")
-        expect(profile).to_not be_valid
-      end
-
-      it "is not valid when last name length is > 20" do
-        profile = build(:profile, last_name: "sdasdAsadasAasdasdasd")
-        expect(profile).to_not be_valid
-      end
-    end
-
     describe "gender" do
       it "is valid when the chosen gender is Male" do
         expect(profile).to be_valid

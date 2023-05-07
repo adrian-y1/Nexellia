@@ -43,7 +43,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
           click_on "Remove"
         end
         
-        expect(page).to have_content("You and #{new_user.username} are no longer friends!")
+        expect(page).to have_content("You and #{new_user.full_name} are no longer friends!")
         expect(page).to have_current_path(users_path)
         expect(page).to_not have_content("Friends")
       end
@@ -70,7 +70,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
           click_on "Remove"
         end
         
-        expect(page).to have_content("You and #{new_user.username} are no longer friends!")
+        expect(page).to have_content("You and #{new_user.full_name} are no longer friends!")
         expect(page).to have_current_path(user_path(new_user))
         expect(page).to_not have_content("Friends")
       end

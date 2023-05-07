@@ -40,7 +40,7 @@ RSpec.describe "Cancel Friend Request", type: :system, js: true do
           click_on "Cancel"
         end
         
-        expect(page).to have_content("Friend request to #{new_user.username} has been cancelled.")
+        expect(page).to have_content("Friend request to #{new_user.full_name} has been cancelled.")
         expect(page).to have_current_path(users_path)
         expect(page).to have_button("Add Friend")
       end
@@ -64,7 +64,7 @@ RSpec.describe "Cancel Friend Request", type: :system, js: true do
           click_on "Cancel"
         end
         
-        expect(page).to have_content("Friend request to #{new_user.username} has been cancelled.")
+        expect(page).to have_content("Friend request to #{new_user.full_name} has been cancelled.")
         expect(page).to have_current_path(user_path(new_user))
         expect(page).to have_button("Add Friend")
       end

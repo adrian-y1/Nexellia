@@ -39,7 +39,7 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{receiver.id}")
 
-        expect(dropdown_notifications_frame).to have_content("#{sender.username} sent you a friend request")
+        expect(dropdown_notifications_frame).to have_content("#{sender.full_name} sent you a friend request")
         expect(page).to have_current_path(posts_path)
       end
     end
@@ -57,7 +57,7 @@ RSpec.describe "Sending Friend Request Notification", type: :system, js: true do
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
           new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
-          expect(new_notifications_frame).to have_content("#{sender.username} sent you a friend request")
+          expect(new_notifications_frame).to have_content("#{sender.full_name} sent you a friend request")
         end
 
         expect(page).to have_current_path(user_path(receiver))

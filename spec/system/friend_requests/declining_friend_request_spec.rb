@@ -29,7 +29,7 @@ RSpec.describe "Decline Friend Request", type: :system, js: true do
     
     context "when clicking the decline button on the users#index page" do
       it "successfully declines the friend request on the users#index page using Turbo Streams" do
-        new_user = create(:user)
+        new_user = create(:user, first_name: "mike", last_name: "smith")
         create(:friend_request, sender: new_user, receiver: user)
         visit users_path
         
@@ -40,7 +40,7 @@ RSpec.describe "Decline Friend Request", type: :system, js: true do
           click_on "Decline"
         end
         
-        expect(page).to have_content("You have declined #{new_user.username}'s friend request.")
+        expect(page).to have_content("You have declined #{new_user.full_name}'s friend request.")
         expect(page).to have_current_path(users_path)
         expect(page).to have_button("Add Friend")
       end
@@ -53,7 +53,7 @@ RSpec.describe "Decline Friend Request", type: :system, js: true do
     
     context "when clicking the decline button on the users#show page" do
       it "successfully declines the friend request on the users#show page using Turbo Streams" do
-        new_user = create(:user)
+        new_user = create(:user, first_name: "mike", last_name: "smith")
         create(:friend_request, sender: new_user, receiver: user)
         visit user_path(new_user)
         
@@ -64,7 +64,7 @@ RSpec.describe "Decline Friend Request", type: :system, js: true do
           click_on "Decline"
         end
         
-        expect(page).to have_content("You have declined #{new_user.username}'s friend request.")
+        expect(page).to have_content("You have declined #{new_user.full_name}'s friend request.")
         expect(page).to have_current_path(user_path(new_user))
         expect(page).to have_button("Add Friend")
       end

@@ -83,11 +83,9 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
             attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
-            fill_in 'profile[first_name]', with: "sam"
             click_on "Update Profile"
           end
 
-          expect(page).to have_content('sam')
           expect(page).to have_css('img[src$="avatar2.png"]')
           expect(page).to have_content('Profile information have been updated')
           expect(page).to have_current_path(user_path(user))
@@ -193,31 +191,6 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
       # and the selected image is removed, all done without page refresh/reload using
       # Turbo Frames and Turbo Streams.
 
-      context "when updating a profile with an invalid first name field and selecting an image" do
-        it "removes the selected image and displays error message using Turbo Stream Template" do
-          visit user_path(user)
-  
-          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
-  
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
-
-          edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
-          within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
-            fill_in 'profile[first_name]', with: '13*72adr'
-            click_on "Update Profile"
-          end
-
-          expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
-          expect(page).to_not have_css('img[src$="avatar2.png"]')
-          expect(page).to have_content('First name only allows letters')
-          expect(page).to have_current_path(user_path(user))
-        end
-      end
-
       context "when the file type is not PNG, JPG, JPEG or GIF" do
         it "removes the selected image and displays error message using Turbo Stream Template" do
           visit user_path(user)
@@ -232,13 +205,11 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
             attach_file('profile[picture]', 'spec/fixtures/files/text.txt')
-            fill_in 'profile[first_name]', with: '13*72adr'
             click_on "Update Profile"
           end
 
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
           expect(page).to_not have_css('img[src$="text.txt"]')
-          expect(page).to have_content('First name only allows letters')
           expect(page).to have_current_path(user_path(user))
         end
       end

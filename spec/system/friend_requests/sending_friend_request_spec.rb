@@ -44,7 +44,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
 
         # The flash notice, the 'Cancel' button and the current path, ensure that the Friend Request object was
         # created, meaning the request was sent to the user in real-time using Turbo Streams.
-        expect(page).to have_content("Friend request has been sent to #{new_user.username}!")
+        expect(page).to have_content("Friend request has been sent to #{new_user.full_name}!")
         expect(page).to have_current_path(users_path)
         expect(page).to have_button("Cancel")
       end
@@ -71,7 +71,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
 
         # The flash notice, the 'Cancel' button and the current path, ensure that the Friend Request object was
         # created, meaning the request was sent to the user in real-time using Turbo Streams.
-        expect(page).to have_content("Friend request has been sent to #{new_user.username}!")
+        expect(page).to have_content("Friend request has been sent to #{new_user.full_name}!")
         expect(page).to have_current_path(user_path(new_user))
         expect(page).to have_button("Cancel")
       end

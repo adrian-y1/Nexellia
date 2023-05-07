@@ -40,7 +40,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
-        expect(dropdown_notifications_frame).to have_content("#{commenter.username} commented on your post")
+        expect(dropdown_notifications_frame).to have_content("#{commenter.full_name} commented on your post")
         expect(page).to have_current_path(posts_path)
       end
     end
@@ -59,7 +59,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
-        expect(dropdown_notifications_frame).to have_content("#{commenter.username} replied to your comment")
+        expect(dropdown_notifications_frame).to have_content("#{commenter.full_name} replied to your comment")
         expect(page).to have_current_path(posts_path)
       end
     end
@@ -78,7 +78,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
           new_notifications_frame = find("turbo-frame#new_notifications_#{author.id}")
-          expect(new_notifications_frame).to have_content("#{commenter.username} commented on your post")
+          expect(new_notifications_frame).to have_content("#{commenter.full_name} commented on your post")
         end
 
         expect(page).to have_current_path(user_path(author))
@@ -98,7 +98,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
         notifications_frame = find("turbo-frame#notifications")
         within(notifications_frame) do
           new_notifications_frame = find("turbo-frame#new_notifications_#{author.id}")
-          expect(new_notifications_frame).to have_content("#{commenter.username} replied to your comment")
+          expect(new_notifications_frame).to have_content("#{commenter.full_name} replied to your comment")
         end
 
         expect(page).to have_current_path(user_path(author))

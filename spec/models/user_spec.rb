@@ -25,50 +25,6 @@ RSpec.describe User, type: :model do
   let(:user) { create(:user) }
   
   describe "Validations" do
-    describe "Username" do
-      it "is valid when username length is between 3-15" do
-        username = Faker::Lorem.characters(number: 12)
-        user = build(:user, username: username)
-        expect(user).to be_valid
-      end
-      
-      it "is valid when username length is exactly 15" do
-        username = Faker::Lorem.characters(number: 15)
-        user = build(:user, username: username)
-        expect(user).to be_valid
-      end
-
-      it "is valid when username is unique" do
-        user1 = create(:user, username: "mark")
-        user2 = build(:user, username: "jim")
-        expect(user2).to be_valid
-      end
-
-      it "is not valid when username is not unique" do
-        user1 = create(:user, username: "mark")
-        user2 = build(:user, username: "mark")
-        expect(user2).to_not be_valid
-      end
-
-      it "is not valid when username is not present" do
-        user = build(:user, username: nil)
-        expect(user).to_not be_valid
-      end
-
-      it "is not valid when username length is < 3" do
-        user = build(:user, username: 'vi')
-        expect(user).to_not be_valid
-      end
-
-      it "is not valid when username length is > 15 " do
-        username = Faker::Lorem.characters(number: 20)
-        user = build(:user, username: username)
-        expect(user).to_not be_valid
-      end
-
-
-    end
-
     describe "Password" do
       it "is valid when password length is between 6-128" do
         password = Faker::Lorem.characters(number: 42)

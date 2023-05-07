@@ -26,8 +26,6 @@ FactoryBot.define do
   factory :profile do
     user
     sequence(:bio_description) { |n| "Bio Description test number #{n}" }
-    first_name { "John" }
-    last_name { "Smith" }
     public_email { "john.smith@gmail.com" }
     gender { "Male" }
     public_phone_number { "1234567891" }

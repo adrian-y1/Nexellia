@@ -83,9 +83,9 @@ class FriendRequest < ApplicationRecord
 
   def prevent_duplicate_friend_requests
     if FriendRequest.exists?(sender: sender, receiver: receiver)
-      errors.add(:sender, "you have already sent a friend request to #{sender.username}.")
+      errors.add(:sender, "you have already sent a friend request to #{sender.full_name}.")
     elsif FriendRequest.exists?(sender: receiver, receiver: sender)
-      errors.add(:sender, "you have already received a friend request from #{receiver.username}.")
+      errors.add(:sender, "you have already received a friend request from #{receiver.full_name}.")
     end
   end
 end

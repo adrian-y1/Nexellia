@@ -14,23 +14,23 @@ Notification.delete_all
 Like.delete_all
 User.delete_all
 
-adrian = User.create(username: 'adrian', email: 'adrian@adrian', password: 'adrian', password_confirmation: 'adrian')
-michael = User.create(username: 'michael', email: 'michael@michael', password: 'michael', password_confirmation: 'michael')
-jim = User.create(username: 'jim', email: 'jim@jim', password: 'jimjimjim', password_confirmation: 'jimjimjim')
+dwight = User.create(first_name: 'Dwight', last_name: 'Schrute', email: 'dwight@dwight', password: 'dwight', password_confirmation: 'dwight')
+michael = User.create(first_name: 'Michael', last_name: 'Scott', email: 'michael@michael', password: 'michael', password_confirmation: 'michael')
+jim = User.create(first_name: 'Jim', last_name: 'Halpert', email: 'jim@jim', password: 'jimjimjim', password_confirmation: 'jimjimjim')
 
-adrian.posts.create(body: "Lorem ipsum dolor sit amet. Ut molestiae atque ex tempora temporibus qui autem ullam. Et corporis sint ut suscipit corrupti quo numquam autem qui expedita repellendus et atque minima ea minima consectetur")
+dwight.posts.create(body: "Lorem ipsum dolor sit amet. Ut molestiae atque ex tempora temporibus qui autem ullam. Et corporis sint ut suscipit corrupti quo numquam autem qui expedita repellendus et atque minima ea minima consectetur")
 michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
 jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam laboriosam et galisum deleniti.")
 
 10.times do
-  comment = adrian.comments.create(body: "Great read!", commentable: adrian.posts.first)
-  comment.comments.create(body: "I agree!", user: adrian, parent: comment, commentable: adrian.posts.first)
+  comment = dwight.comments.create(body: "Great read!", commentable: dwight.posts.first)
+  comment.comments.create(body: "I agree!", user: dwight, parent: comment, commentable: dwight.posts.first)
 end
 
 
 michael.comments.create(body: "Cool read!", commentable_id: michael.posts.first.id)
-michael.comments.create(body: "wowww!", commentable_id: adrian.posts.first.id)
+michael.comments.create(body: "wowww!", commentable_id: dwight.posts.first.id)
 jim.comments.create(body: "Awesome read!", commentable_id: jim.posts.first.id)
 
-adrian.friendships.create(friend: michael)
-michael.friendships.create(friend: adrian)
+dwight.friendships.create(friend: michael)
+michael.friendships.create(friend: dwight)

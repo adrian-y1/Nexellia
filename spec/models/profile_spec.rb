@@ -4,9 +4,7 @@
 #
 #  id                  :bigint           not null, primary key
 #  bio_description     :text
-#  first_name          :string
 #  gender              :string
-#  last_name           :string
 #  public_email        :string
 #  public_phone_number :string
 #  created_at          :datetime         not null

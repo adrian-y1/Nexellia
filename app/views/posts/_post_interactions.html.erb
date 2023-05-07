@@ -10,7 +10,7 @@
                   <span class="post-profile-picture">
                     <%= render "profiles/picture", profile: post.user.profile, size: "50x50" %>
                   </span>
-                  <%= link_to post.user.username, post.user, data: { turbo_frame: "_top" } %>
+                  <%= link_to post.user.full_name, post.user, data: { turbo_frame: "_top" } %>
                 </h5>
                 <p class="card-text">
                   <small class="text-muted"><%= time_ago_in_words(post.created_at) %> ago</small>

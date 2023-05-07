@@ -1,6 +1,6 @@
 <%# If commentable is not passed in, it will be nil and it will be removed using .compact %>
 <% model = [local_assigns[:commentable], comment].compact %>
-<% placeholder = local_assigns[:commentable].is_a?(Post) ? "Add a comment..." : "Reply to #{commentable.user.username}..." %>
+<% placeholder = local_assigns[:commentable].is_a?(Post) ? "Add a comment..." : "Reply to #{commentable.user.full_name}..." %>
 
 <%= render "shared/form_errors", object: comment %>
 <%= form_with model: model, id: nested_dom_id(commentable, comment), 

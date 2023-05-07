@@ -9,8 +9,8 @@ class FriendshipsController < ApplicationController
         @friend = @friendship.friend
         handle_friendship_broadcast
 
-        format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are now friends!" }
-        format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are now friends!" }
+        format.turbo_stream { flash.now[:notice] = "You and #{@friend.full_name} are now friends!" }
+        format.html { redirect_to request.referrer, notice: "You and #{@friend.full_name} are now friends!" }
       else
         format.html { redirect_to request.referrer, notice: "Error while creating friendship" }
       end
@@ -23,8 +23,8 @@ class FriendshipsController < ApplicationController
     @friendship.destroy
 
     respond_to do |format|
-      format.turbo_stream { flash.now[:notice] = "You and #{@friend.username} are no longer friends!" }
-      format.html { redirect_to request.referrer, notice: "You and #{@friend.username} are no longer friends!" }
+      format.turbo_stream { flash.now[:notice] = "You and #{@friend.full_name} are no longer friends!" }
+      format.html { redirect_to request.referrer, notice: "You and #{@friend.full_name} are no longer friends!" }
     end
   end
 

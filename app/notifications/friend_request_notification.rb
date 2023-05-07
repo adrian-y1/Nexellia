@@ -10,7 +10,7 @@ class FriendRequestNotification < Noticed::Base
   end
 
   def message
-    "#{actor.username} sent you a friend request"
+    "#{actor.full_name} sent you a friend request"
   end
 
   def url

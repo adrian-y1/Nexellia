@@ -5,7 +5,7 @@
         <div class="user-profile-picture">
           <%= render "profiles/picture", profile: @profile, size: "100x100" %>
         </div>
-        <h2 class="mt-3"><%= @user.username %></h2>
+        <h2 class="mt-3"><%= @user.full_name %></h2>
         <p class="text-muted">Date joined: <%= @user.created_at.strftime("%B %d, %Y") %></p>
         <%# Adding friend partial and turbo stream %>
         <%= turbo_stream_from [current_user.id, @user.id] %>

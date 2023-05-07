@@ -5,11 +5,12 @@
 #  id                     :bigint           not null, primary key
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
+#  first_name             :string
+#  last_name              :string
 #  posts_count            :integer          default(0)
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  username               :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -29,7 +30,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   
-  validates :username, presence: true, uniqueness: true, length: { minimum: 3, maximum: 15, message: "must be between 3-15 characters," }
+  
+  validates :first_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters" }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
+  validates :last_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters"  }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
   has_many :notifications, as: :recipient, dependent: :destroy
 
@@ -49,6 +52,10 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }
+
+  def full_name
+    "#{first_name.capitalize} #{last_name.capitalize}"
+  end
 
   # Checks if user has liked the given likeable (post or comment) or not
   def liked?(likeable)
@@ -105,9 +112,5 @@ class User < ApplicationRecord
     else
       broadcast_replace_later_to stream_name, target: public_target, partial: 'likes/comment_likes_count', locals: { comment: likeable }
     end
-  end
-
-  def self.authentication_keys
-    [:username]
   end
 end

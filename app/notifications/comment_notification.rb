@@ -10,7 +10,7 @@ class CommentNotification < Noticed::Base
   end
 
   def message
-    comment.parent.nil? ? "#{actor.username} commented on your post" : "#{actor.username} replied to your comment"
+    comment.parent.nil? ? "#{actor.full_name} commented on your post" : "#{actor.full_name} replied to your comment"
   end
 
   def url

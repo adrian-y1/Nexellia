@@ -10,7 +10,7 @@ class FriendshipNotification < Noticed::Base
   end
 
   def message
-    "You and #{actor.username} are now friends"
+    "You and #{actor.full_name} are now friends"
   end
 
   def url

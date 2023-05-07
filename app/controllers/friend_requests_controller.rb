@@ -4,7 +4,7 @@ class FriendRequestsController < ApplicationController
 
     respond_to do |format|
       if @friend_request.save
-        notice_message = "Friend request has been sent to #{@friend_request.receiver.username}!"
+        notice_message = "Friend request has been sent to #{@friend_request.receiver.full_name}!"
 
         format.turbo_stream { flash.now[:notice] = notice_message }
         format.html { redirect_to request.referrer, notice: notice_message }
@@ -33,9 +33,9 @@ class FriendRequestsController < ApplicationController
   private
 
   def destroy_alert_message
-    receiver_msg = "You have declined #{ @friend_request.sender.username}'s friend request."
-    sender_msg = "Friend request to #{ @friend_request.receiver.username} has been cancelled."
-    @friend_request.sender.username == current_user.username ? sender_msg : receiver_msg
+    receiver_msg = "You have declined #{ @friend_request.sender.full_name}'s friend request."
+    sender_msg = "Friend request to #{ @friend_request.receiver.full_name} has been cancelled."
+    @friend_request.sender.full_name == current_user.full_name ? sender_msg : receiver_msg
   end
 
   def friend_request_params

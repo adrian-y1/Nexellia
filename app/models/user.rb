@@ -58,10 +58,6 @@ class User < ApplicationRecord
     status == "online"
   end
 
-  def offline?
-    !online?
-  end
-
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
   end

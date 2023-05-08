@@ -273,6 +273,19 @@ RSpec.describe User, type: :model do
       end
     end
 
+    describe "#online?" do
+      it "returns true when user's status is online" do
+        current_user.update!(status: "online")
+        is_online = current_user.online?
+        expect(is_online).to be true
+      end
+
+      it "returns false when user's status is offline" do
+        is_online = current_user.online?
+        expect(is_online).to be false
+      end
+    end
+
     describe "#liked?" do
       describe "Post" do
         context "when the user has liked the given post" do

@@ -25,6 +25,8 @@
   </head>
 
   <body>
+    <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
+
     <%= render "layouts/navbar", all_notifications: @all_notifications, unread_notifications: @unread_notifications %>
 
     <div id="flash" class="flash">
@@ -34,7 +36,7 @@
       <% end %>
     </div>
 
-    <div class="containter mt-5">
+    <div class="containter-fluid mt-5">
       <%= yield %>
       
       <%# Edit Post Modal %>

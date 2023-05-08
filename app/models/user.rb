@@ -11,6 +11,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
+#  status                 :string           default("offline"), not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -24,7 +25,8 @@ class User < ApplicationRecord
 
   after_create :create_profile
   after_destroy :destroy_profile
-  
+  after_update_commit { broadcast_replace_to_online_friends }
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -50,6 +52,15 @@ class User < ApplicationRecord
   has_one :profile, dependent: :destroy
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }
+  scope :load_profiles, -> { includes(profile: { picture_attachment: :blob }) }
+
+  def online?
+    status == "online"
+  end
+
+  def offline?
+    !online?
+  end
 
   def full_name
     "#{first_name.capitalize} #{last_name.capitalize}"
@@ -98,6 +109,10 @@ class User < ApplicationRecord
   end
 
   private
+
+  def broadcast_replace_to_online_friends
+    broadcast_replace_to "online_friends", target: "friend_#{self.id}_card", partial: "users/user", locals: { user: self }
+  end
 
   # Create a public target (`likeable_id_likes`) that can be seen by every user listening.
   # It broadcasts a replace to the stream of `likeable_id:likes` depending on if the likeable

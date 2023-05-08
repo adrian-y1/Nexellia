@@ -1,0 +1,13 @@
+<%= link_to user, class: 'text-decoration-none', id: "friend_#{user.id}_card" do %>
+  <li class="list-group-item">
+    <%= render "profiles/picture", profile: user.profile, size: '50x50' %>
+    <%= user.full_name %>
+    <p class="card-text">
+      <% if user.online? %>
+        <span class="badge bg-success">Online</span>
+      <% else %>
+        <span class="badge bg-info text-black">Offline</span>
+      <% end %>
+    </p>
+  </li>
+<% end %>

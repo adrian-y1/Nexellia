@@ -5,6 +5,7 @@ class PostsController < ApplicationController
   
   def index
     @posts = Post.user_and_friends_posts(current_user).includes(image_attachment: :blob)
+    @user_friends = current_user.friends.load_profiles
   end
 
   def new

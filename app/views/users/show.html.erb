@@ -1,7 +1,8 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-12">
-      <div class="text-center my-5">
+      <div class="text-center">
+        <%= render "profiles/cover_photo", profile: @profile, size: "851x315" %>
         <div class="user-profile-picture">
           <%= render "profiles/picture", profile: @profile, size: "100x100" %>
         </div>

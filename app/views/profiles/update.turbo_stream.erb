@@ -2,4 +2,5 @@
 <%= turbo_stream.update_all(".user-profile-picture", partial: "profiles/picture", locals: { profile: @profile, size: "100x100" }) %>
 <%= turbo_stream.update_all(".post-profile-picture", partial: "profiles/picture", locals: { profile: @profile, size: "50x50" }) %>
 <%= turbo_stream.update("navbar_picture", partial: "profiles/navbar_picture", locals: { profile: @profile, size: "50x50" }) %>
+<%= turbo_stream.update("cover_photo", partial: "profiles/cover_photo", locals: { profile: @profile, size: "851x315" }) %>
 <%= render_turbo_stream_flash_messages %>

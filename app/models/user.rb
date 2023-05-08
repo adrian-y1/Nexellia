@@ -36,19 +36,13 @@ class User < ApplicationRecord
   validates :last_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters"  }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
 
   has_many :notifications, as: :recipient, dependent: :destroy
-
   has_many :friend_requests_sent, class_name: "FriendRequest", foreign_key: "sender_id", dependent: :destroy
   has_many :friend_requests_received, class_name: "FriendRequest", foreign_key: "receiver_id", dependent: :destroy
-
   has_many :friendships, foreign_key: "user_id", dependent: :destroy
   has_many :friends, through: :friendships, source: :friend, foreign_key: "friend_id", dependent: :destroy
-
   has_many :posts, dependent: :destroy
-  
   has_many :likes, dependent: :destroy
-  
   has_many :comments, dependent: :destroy
-
   has_one :profile, dependent: :destroy
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }

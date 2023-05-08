@@ -24,21 +24,27 @@ class Profile < ApplicationRecord
   
   belongs_to :user
   has_one_attached :picture, dependent: :destroy
+  has_one_attached :cover_photo, dependent: :destroy
 
   validates :gender, inclusion: { in: ['Male', 'Female'], message: "%{value} is not a valid choice" }, allow_blank: true
   validates :bio_description, length: { maximum: 255 }
   validates :public_email, format: { with: Devise.email_regexp }, allow_blank: true
   validates :public_phone_number, format: { with: /\A\d{10}\z/, message: "must be a valid 10-digit phone number" }, allow_blank: true
-  validate :picture_type
-  
-  private
+  validate :content_type
 
-  def picture_type
-    return unless picture.attached?
-    
+  private
+  
+  def content_type
+    validate_image_content_type(picture)
+    validate_image_content_type(cover_photo)
+  end
+  
+  def validate_image_content_type(image)
+    return unless image.attached?
+  
     acceptable_types = %w[image/jpeg image/jpg image/png image/gif]
-    if !picture.content_type.in?(acceptable_types)
-      errors.add(:picture, "needs to be a JPEG, JPG, PNG or GIF")
+    if !image.content_type.in?(acceptable_types)
+      errors.add(image.name, "needs to be a JPEG, JPG, PNG or GIF")
     end
   end
 end

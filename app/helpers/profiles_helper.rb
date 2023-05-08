@@ -15,4 +15,12 @@ module ProfilesHelper
     hash = Digest::MD5.hexdigest(email.downcase)
     "https://secure.gravatar.com/avatar/#{hash}?s=#{size}&d=robohash"
   end
+
+  def cover_photo_for(profile)
+    if profile.cover_photo.attached?
+      profile.cover_photo.representation(resize_to_limit: [100, 100]).processed
+    else
+      'default_cover_photo.jpg'
+    end
+  end
 end

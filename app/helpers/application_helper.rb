@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
   include ActionView::RecordIdentifier
 
   def render_turbo_stream_flash_messages

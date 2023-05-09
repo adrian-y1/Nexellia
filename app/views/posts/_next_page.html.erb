@@ -1,0 +1,5 @@
+<% if @pagy.next.present? %>
+  <%= turbo_frame_tag "posts_page_#{@pagy.next}", loading: :lazy, src: pagy_url_for(@pagy, @pagy.next) do %>
+    <div class="btn btn-primary">Loading...</div>
+  <% end %>
+<% end %>

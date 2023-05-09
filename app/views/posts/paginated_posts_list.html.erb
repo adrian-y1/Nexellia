@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "posts_page_#{@pagy.page}" do %>
+  <% @posts.each do |post| %>
+    <%= render "posts/post_interactions", post: post, user: Current.user %>
+  <% end %>
+   <%= render "posts/next_page" %>
+<% end %>

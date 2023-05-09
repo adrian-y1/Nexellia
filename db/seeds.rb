@@ -21,9 +21,12 @@ ben = User.create(first_name: 'Ben', last_name: 'Ten', email: 'ben@ben', passwor
 sam = User.create(first_name: 'Sam', last_name: 'Ryder', email: 'sam@sam', password: 'samsam', password_confirmation: 'samsan')
 fam = User.create(first_name: 'Fam', last_name: 'Wam', email: 'fam@fam', password: 'famfam', password_confirmation: 'famfam')
 
-dwight.posts.create(body: "Lorem ipsum dolor sit amet. Ut molestiae atque ex tempora temporibus qui autem ullam. Et corporis sint ut suscipit corrupti quo numquam autem qui expedita repellendus et atque minima ea minima consectetur")
-michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
 jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam laboriosam et galisum deleniti.")
+michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
+
+50.times do |i|
+  dwight.posts.create(body: "#{i} Lorem ipsum dolor sit amet. Ut molestiae atque ex tempora temporibus qui autem ullam. Et corporis sint ut suscipit corrupti quo numquam autem qui expedita repellendus et atque minima ea minima consectetur")
+end
 
 5.times do
   comment = dwight.comments.create(body: "Great read!", commentable: dwight.posts.first)

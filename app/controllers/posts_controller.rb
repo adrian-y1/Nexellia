@@ -4,8 +4,10 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:edit, :update]
   
   def index
-    @posts = Post.user_and_friends_posts(current_user).includes(image_attachment: :blob)
+    @pagy, @posts = pagy(Post.user_and_friends_posts(current_user).includes(image_attachment: :blob), items: 5)
     @user_friends = current_user.friends.load_profiles
+
+    render "paginated_posts_list" if params[:page]
   end
 
   def new

@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "load_#{dom_id(@comment)}_replies" do %>
+  <%= render partial: "comments/comment_replies", 
+                  collection: @comment.comments.includes(:commentable, :parent).load_user_and_profile, 
+                  locals: {user: Current.user}, as: :comment %>
+<% end %>

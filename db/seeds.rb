@@ -27,7 +27,7 @@ jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam l
 
 5.times do
   comment = dwight.comments.create(body: "Great read!", commentable: dwight.posts.first)
-  comment.comments.create(body: "I agree!", user: dwight, parent: comment, commentable: comment)
+  comment.comments.create(body: "I agree!", user: dwight, parent: comment, commentable: dwight.posts.first)
 end
 
 

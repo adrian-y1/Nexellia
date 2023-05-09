@@ -4,6 +4,11 @@ class CommentsController < ApplicationController
   include ActionView::RecordIdentifier
   include ApplicationHelper
 
+  def index
+    @comment = Comment.find(params[:comment_id])
+    @comments = @commentable.comments.load_comments
+  end
+
   def create
     @comment = @commentable.comments.build(comment_params)
     @comment.user = current_user
@@ -21,7 +26,7 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment = Comment.includes(comments: [:comments, :likes, :parent]).find(params[:id])
+    @comment = Comment.load_comments.find(params[:id])
     @comment.destroy
 
     respond_to do |format|

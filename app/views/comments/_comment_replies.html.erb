@@ -6,14 +6,22 @@
   <% level_one_nesting = comment.parent if comment.parent %>
   <% level_two_nesting = level_one_nesting.parent if level_one_nesting %>
   
-  <div class="<%= level_two_nesting ? '' : 'px-3' %>">
+  <div class="<%= level_two_nesting ? '' : 'px-5' %>">
     <%= link_to "Reply", '#', data: { action: "click->reply#toggle" }, class: "text-decoration-none" %>
 
     <%= turbo_frame_tag comment, :comments do %>
       <%= render partial: "comments/form", locals: { commentable: comment, comment: Comment.new, reply_target: "replyForm", reply_class: "d-none" } %>
-      <%= render partial: "comments/comment_replies", 
-                 collection: comment.comments.includes(:commentable, :parent).load_user_and_profile, 
-                 locals: {user: user}, as: :comment %>
+      <br>
+
+      <%# If a comment has replies, display a link to load the replies %>
+      <% if comment.comments.includes(:commentable).any? %>
+        <%= turbo_frame_tag "load_#{dom_id(comment)}_replies" do %>
+          <a class="text-decoration-none text-secondary" href="<%= comment_comments_path(comment) %>">
+            <%= pluralize(comment.comments.count, "Reply") %>
+          </a>
+        <% end %>
+      <% end %>
+
     <% end %>
   </div>
 </div>

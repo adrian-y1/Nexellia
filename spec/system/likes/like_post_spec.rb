@@ -59,7 +59,6 @@ RSpec.describe "Like Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-
         post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_interactions_frame) do
           click_on 'Comment'

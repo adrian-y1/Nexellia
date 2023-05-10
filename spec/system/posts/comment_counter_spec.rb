@@ -31,9 +31,16 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_interactions_frame) do
+          click_on 'Comment'
+        end
+
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
           fill_in 'comment[body]', with: 'Commenting'
           click_on 'Create Comment'
         end
+        
+        find('button[id="close-modal"]')
 
         expect(page).to have_current_path(posts_path)
         expect(page).to have_content('1 Comment')
@@ -48,7 +55,12 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 1'
+          click_on 'Comment'
+        end
+
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
+          fill_in 'comment[body]', with: 'Commenting'
           click_on 'Create Comment'
         end
 
@@ -59,15 +71,17 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on "Delete"
         end
 
+        find('button[id="close-modal"]')
+
         expect(page).to have_current_path(posts_path)
         expect(page).to have_content('0 Comments')
       end
     end
   end
 
-  describe "posts#show Page" do
+  describe "posts#show Modal" do
     # These tests check the incrementing and decrementing of the comments counter of a post
-    # inside the posts#show page using Turbo Streams.
+    # inside the posts#show Modal using Turbo Streams.
 
     before do 
       create(:post, user: user)
@@ -77,9 +91,12 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       let(:post) { user.posts.last }
 
       it "increments the comments counter live using Turbo Streams" do
-        visit post_path(post)
+        visit posts_path
 
-        expect(page).to have_content('0 Comments')
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
 
         show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(show_page_post_interactions_frame) do
@@ -87,7 +104,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('1 Comment')
       end
     end
@@ -96,9 +113,12 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       let(:post) { user.posts.last }
 
       it "increments the comments counter live using Turbo Streams" do
-        visit post_path(post)
-        
-        expect(page).to have_content('0 Comments')
+        visit posts_path
+
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
 
         show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(show_page_post_interactions_frame) do
@@ -115,7 +135,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on 'Create Comment'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('2 Comments')
       end
     end
@@ -124,9 +144,12 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do
-        visit post_path(post)
+        visit posts_path
 
-        expect(page).to have_content('0 Comments')
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
 
         show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(show_page_post_interactions_frame) do
@@ -141,10 +164,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on "Delete"
         end
 
-        # This confirms that we are still on the current page with no 
-        # page refresh/redirect, and the counter has been decremented after a comment was deleted, 
-        # meaning Turbo Streams is working.
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('0 Comments')
       end
     end
@@ -154,10 +174,13 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do
-        visit post_path(post)
+        visit posts_path
 
-        expect(page).to have_content('0 Comments')
-        
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
+
         show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(show_page_post_interactions_frame) do
           fill_in 'comment[body]', with: 'Commenting'
@@ -178,7 +201,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           click_on 'Delete'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('1 Comment')
       end
     end
@@ -187,9 +210,12 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
       let(:post) { user.posts.last }
 
       it "decrements the comments counter live using Turbo Streams" do
-        visit post_path(post)
+        visit posts_path
 
-        expect(page).to have_content('0 Comments')
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
         
         show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(show_page_post_interactions_frame) do
@@ -220,7 +246,7 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
           all('a', text: 'Delete')[0].click
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('0 Comments')
       end
     end
@@ -244,9 +270,16 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_interactions_frame) do
+          click_on 'Comment'
+        end
+
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
           fill_in 'comment[body]', with: 'Commenting'
           click_on 'Create Comment'
         end
+        
+        find('button[id="close-modal"]')
 
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_content('1 Comment')
@@ -263,17 +296,23 @@ RSpec.describe "Post Comments Counter", type: :system, js: true do
 
         post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
         within(post_interactions_frame) do
-          fill_in 'comment[body]', with: 'Comment 1'
+          click_on 'Comment'
+        end
+
+        show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(show_page_post_interactions_frame) do
+          fill_in 'comment[body]', with: 'Commenting'
           click_on 'Create Comment'
         end
 
-        # Expects the comments counter to have incremented after a comment was deleted
         expect(page).to have_content('1 Comment')
 
         comment_frame = find("turbo-frame#comment_#{post.comments.last.id}")
         within(comment_frame) do
           click_on "Delete"
         end
+
+        find('button[id="close-modal"]')
         
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_content('0 Comments')

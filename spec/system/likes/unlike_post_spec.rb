@@ -37,42 +37,48 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
-        private_likes_frame = find("turbo-frame#post_#{post.id}\\ private_likes")
-        within(private_likes_frame) do
+        private_likes_index_frame = find("turbo-frame#post_#{post.id}\\ private_likes_index")
+        within(private_likes_index_frame) do
           click_button 'Unlike'
         end
 
         expect(page).to have_current_path(posts_path)
         expect(page).to have_button('Like')
-        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes")
+        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes_index")
         expect(page).to have_content('0 Likes')
       end
     end
   end
 
-  describe "posts#show page" do
-    # This test checks the functionality of unliking posts on the posts#show page using Turbo Streams. 
+  describe "posts#show Modal" do
+    # This test checks the functionality of unliking posts on the posts#show Modal using Turbo Streams. 
 
     context "when unliking a post on the posts#show page" do
       it "decrements the likes counter and displays like button live using Turbo Streams" do
         post = create(:post, user: user)
         user.like(post)
-        visit post_path(post)
+        visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        post_interactions_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_interactions_frame) do
+          click_on 'Comment'
+        end
 
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
-        private_likes_frame = find("turbo-frame#post_#{post.id}\\ private_likes")
-        within(private_likes_frame) do
+        private_likes_show_frame = find("turbo-frame#post_#{post.id}\\ private_likes_show")
+        within(private_likes_show_frame) do
           click_button 'Unlike'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_button('Like')
-        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes")
-        expect(page).to have_content('0 Likes')
+        
+        public_likes_show_frame = find("turbo-frame#post_#{post.id}_likes_show")
+        expect(public_likes_show_frame).to have_content('0 Likes')
       end
     end
   end
@@ -91,14 +97,14 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_button('Unlike')
         expect(page).to have_content('1 Like')
 
-        private_likes_frame = find("turbo-frame#post_#{post.id}\\ private_likes")
-        within(private_likes_frame) do
+        private_likes_index_frame = find("turbo-frame#post_#{post.id}\\ private_likes_index")
+        within(private_likes_index_frame) do
           click_button 'Unlike'
         end
 
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_button('Like')
-        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes")
+        expect(page).to have_selector("turbo-frame#post_#{post.id}_likes_index")
         expect(page).to have_content('0 Likes')
       end
     end

@@ -27,7 +27,7 @@
           
           <div class="card-body">
             <%# Post body partial %>
-            <%= turbo_frame_tag post do %>
+            <%= turbo_frame_tag post, 'show' do %>
               <%= render "posts/show_page_post_body", post: post, user: user %>
             <% end %>
             <hr>
@@ -35,13 +35,13 @@
             <div class="">
               <%= turbo_stream_from post, :likes %>
 
-              <%= render 'likes/post_likes_count', post: post %>
-              <%= render 'likes/post_like_button', post: post, like_status: user.liked?(post) %>
+              <%= render 'likes/post_likes_count', post: post, page: :show %>
+              <%= render 'likes/post_like_button', post: post, page: :show, like_status: user.liked?(post) %>
             </div>
             <hr>
 
             <%# Comment partial, stream & form %>
-            <h5 class="card-title"><%= render 'comments/comment_count', post: post %></h5>
+            <h5 class="card-title"><%= render 'comments/comment_count', post: post, page: :show %></h5>
             <div class="comments">
               <%= turbo_stream_from post, :comments %>
 

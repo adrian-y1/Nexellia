@@ -37,10 +37,19 @@
     </div>
 
     <div class="containter-fluid mt-5">
-      <%= yield %>
+      <%# Post Show Modal %>
+      <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+          <div class="modal-content">
+            <%= turbo_frame_tag 'post_show_modal' %>
+          </div>
+        </div>
+      </div>
       
+      <%= yield %>
+
       <%# Edit Post Modal %>
-      <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
+      <div class="modal" tabindex="-1" data-controller="modal" style="z-index: 1060;" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">

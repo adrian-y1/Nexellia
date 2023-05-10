@@ -17,7 +17,6 @@
                 </p>
               </div>
               <div class="btn-group">
-                <%= link_to "View Post", post, data: { turbo_frame: "_top" }, class: "btn btn-sm btn-outline-primary"  %>
                 <div class="post-buttons" data-user-id="<%= post.user.id %>">
                   <% if user == post.user %>
                     <%= link_to "Edit", edit_post_path(post), data: { turbo_frame: 'modal' }, class: "btn btn-sm btn-outline-secondary" %>
@@ -31,32 +30,18 @@
           <div class="card-body">
             <%# Post body partial %>
             <%= render "posts/post_body", post: post %>
-            <div class="d-flex justify-content-between align-iterms-center">
-              <%# Post Like Count partial and stream %>
-              <div>
-                <%= turbo_stream_from post, :likes %>
-                <small class="text-muted"><%= render 'likes/post_likes_count', post: post %></small>
-                <%= render 'likes/post_like_button', post: post, like_status: user.liked?(post) %>
-              </div>
-            </div>
-          </div>
+            <div>
+              <%# likes and coments count partials and streams %>
+              <%= turbo_stream_from post, :likes %>
+              <%= turbo_stream_from post, :comments %>
 
-          <%# Comments partial and stream %>
-          <%= turbo_stream_from post, :comments %>
-          <div class="card-footer">
-            <h6 class="card-subtitle mb-4 mt-2"><%= render 'comments/comment_count', post: post %></h6>
-            <div class="comments">
-
-              <%= turbo_frame_tag post, "comments" do %>
-                <%# Show top comments only %>
-                <%= render partial: "comments/comment_replies", 
-                           collection: post.comments.includes(:parent).where(parent_id: nil).load_user_and_profile, 
-                           locals: { user: user }, as: :comment %>
-              <% end %>
-              
-              <div class="comment-form">
-                <%# turbo_frame_tag id="new_comment", src: new_post_comment_path(post.id) %>
-                <%= render partial: "comments/form", locals: { comment: Comment.new, commentable: post } %>
+              <small class="text-muted d-flex justify-content-between align-items-center">
+                <%= render 'likes/post_likes_count', post: post, page: :index %>
+                <%= render 'comments/comment_count', post: post, page: :index %>
+              </small>
+              <div class="d-flex justify-content-between align-items-center">
+                <%= render 'likes/post_like_button', post: post, page: :index, like_status: user.liked?(post) %>
+                <%= link_to "Comment", post_path(post), data: { turbo_frame: 'post_show_modal' }, class: "btn btn-secondary" %>
               </div>
             </div>
           </div>

@@ -38,9 +38,8 @@ class Comment < ApplicationRecord
   after_create_commit -> do
     # Broadcast append to this comment's parent if it exists, else append to the commentable(post)
     broadcast_append_later_to [commentable, "comments"], target: "#{dom_id(parent || commentable)}_comments", partial: "comments/comment_replies", 
-    locals: { comment: self, user: Current.user }
-    broadcast_replace_later_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
-    locals: { post: commentable }
+      locals: { comment: self, user: Current.user }
+    broadcast_comments_count_async
   end
   
   after_destroy_commit -> do
@@ -51,10 +50,21 @@ class Comment < ApplicationRecord
   
   private
 
+  # Synchronously broadcasts comments count for both posts#index and posts#show contexts
   def broadcast_comments_count_sync
     return unless commentable
 
-    broadcast_replace_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count", partial: "comments/comment_count", 
-      locals: { post: commentable }
+    [:index, :show].each do |page|
+      broadcast_replace_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count_#{page}", partial: "comments/comment_count", 
+        locals: { post: commentable, page: page }
+    end
+  end
+
+  # Asynchronously broadcasts comments count for both posts#index and posts#show contexts
+  def broadcast_comments_count_async
+    [:index, :show].each do |page|
+      broadcast_replace_later_to [commentable, "comments"], target: "#{dom_id(commentable)}_comments_count_#{page}", partial: "comments/comment_count", 
+        locals: { post: commentable, page: page }
+    end
   end
 end

@@ -1,3 +1,3 @@
-<%= turbo_frame_tag post, :comments_count do %>
+<%= turbo_frame_tag post, "comments_count_#{page}" do %>
   <%= pluralize(post.comments.count , 'Comment') %>
 <% end %>

@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "#{dom_id(post)} private_likes" do %>
+<%= turbo_frame_tag "#{dom_id(post)} private_likes_#{page}" do %>
   <% button_text = like_status ? "Unlike" : "Like" %>
   <% button_class = button_text == "Like" ? "success" : "danger" %>
   <%= button_to button_text, post_like_path(post.id), class: "btn btn-md btn-#{button_class}" %>

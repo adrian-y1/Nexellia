@@ -107,11 +107,13 @@ class User < ApplicationRecord
   # Create a public target (`likeable_id_likes`) that can be seen by every user listening.
   # It broadcasts a replace to the stream of `likeable_id:likes` depending on if the likeable
   # is a Post or a Comment which updates the likes count for the likeable in real-time.
+  # If the likeable is a post, broadcast to both #index and #show pages.
   def broadcast_likes_to_likeable(likeable)
     public_target = "#{dom_id(likeable)}_likes"
     stream_name = [likeable, 'likes']
     if likeable.is_a?(Post)
-      broadcast_replace_later_to stream_name, target: public_target, partial: 'likes/post_likes_count', locals: { post: likeable }
+      broadcast_replace_later_to stream_name, target: "#{public_target}_show", partial: 'likes/post_likes_count', locals: { post: likeable, page: :show }
+      broadcast_replace_later_to stream_name, target: "#{public_target}_index", partial: 'likes/post_likes_count', locals: { post: likeable, page: :index }
     else
       broadcast_replace_later_to stream_name, target: public_target, partial: 'likes/comment_likes_count', locals: { comment: likeable }
     end

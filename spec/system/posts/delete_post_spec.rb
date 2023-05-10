@@ -74,16 +74,11 @@ RSpec.describe "Delete Post", type: :system, js: true do
   end
 
   describe "posts#show Page" do
-    # This test checks that a post can be successfully deleted inside the posts#show page.
+    # This test checks that a post can be successfully deleted inside the posts#show page/modal and
+    # displays a message in the modal to every user that had the modal opened.
     #
-    # With the use of a stimulus controller, i created a functionality that redirects
-    # every user that was/is on the show page of the deleted post after 5 seconds.
-    # This is done through broadcasting to the "post_deleted" stream that renders the 
-    # _post_deleted.html.erb partial.
-    # 
-    # With these functionalities in place, the test is able to check that, when a post is deleted,
-    # the flash notice is displayed without a page refresh, and after 5 seconds, all users 
-    # who are on the show page of the deleted post, will get redirected to the index page.
+    # When a post is deleted, the flash notice is displayed without a page refresh, all users 
+    # who are on the show page/modal of the deleted post, will get a message about the deleted post they are viewing.
 
     before do
       post = create(:post, user: user)
@@ -102,9 +97,7 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
       expect(page).to have_current_path(post_path(post))
       expect(page).to have_content(flash_notice)
-      expect(page).to have_content('Redirecting to the feed page in')
-      sleep(5)
-      expect(page).to have_current_path(posts_path)
+      expect(page).to have_content('The post you were viewing has been deleted and no longer exists')
     end
   end
 end

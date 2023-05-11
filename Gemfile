@@ -83,3 +83,4 @@ gem 'redis-rails'
 gem 'faker'
 gem "noticed", "~> 1.6"
 gem 'pagy'
+gem 'cssbundling-rails'

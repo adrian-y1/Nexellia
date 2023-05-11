@@ -1,0 +1,11 @@
+// Entry point for your Sass build
+body {
+  background-color: blue;
+}
+
+.empty-state:not(:only-child) {
+  display: none;
+}
+.empty-state:only-child {
+  display: revert;
+}

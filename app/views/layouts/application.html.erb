@@ -5,9 +5,11 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <!-- 
     <%# Bootstrap %>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    -->
     <%# Bootstrap icons %>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 
@@ -25,10 +27,12 @@
   </head>
 
   <body>
-    <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
+    <% if user_signed_in? %>
+      <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
 
-    <%= render "layouts/navbar", all_notifications: @all_notifications, unread_notifications: @unread_notifications %>
-
+      <%= render "layouts/navbar", all_notifications: @all_notifications, unread_notifications: @unread_notifications %>
+    <% end %>
+    
     <div id="flash" class="flash">
       <%= render "layouts/flash" %>
       <%= turbo_frame_tag "notifications" do %>
@@ -36,7 +40,7 @@
       <% end %>
     </div>
 
-    <div class="containter-fluid mt-5">
+    <div>
       <%# Post Show Modal %>
       <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open">
         <div class="modal-dialog modal-dialog-centered modal-xl">

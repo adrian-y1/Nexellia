@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background-color: $light-background-color;
+}
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color 200ms;
+
+  &:hover,
+  &:focus,
+  &:active {
+    color: $color-primary-hover;
+  }
+}
+
+button {
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

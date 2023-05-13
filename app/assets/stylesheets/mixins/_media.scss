@@ -1,0 +1,8 @@
+@mixin media($query) {
+  @if $query == bigTablet {
+    @media (max-width: 976px) { @content; }
+  }
+  @if $query == smallTablet {
+    @media (max-width: 720px) { @content; }
+  }
+}

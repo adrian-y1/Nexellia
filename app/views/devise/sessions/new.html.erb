@@ -1,26 +1,26 @@
-<h2>Log in</h2>
-
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.text_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
-  <% if devise_mapping.rememberable? %>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+<div class="login-container">
+  <div class="logo">
+    <div class="logo__brand">
+      <img class="logo__icon" src="https://placehold.co/70x70" alt="placeholder image">
+      <div class="logo__name">Odin-Facebook</div>
     </div>
+    <div class="logo__slogan">Connect with the world, one post at a time</div>
+  </div>
+
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
+    <div class="login-form__form-group">
+      <%= f.label :email, class: "login-form__label" %>
+      <%= f.email_field :email, placeholder: "Email address", autofocus: true, class: "login-form__input", required: true %>
+    </div>
+    <div class="login-form__form-group">
+      <%= f.label :password, class: "login-form__label" %>
+      <%= f.password_field :password, placeholder: "Password", class: "login-form__input", minlength: 6, required: true %>
+    </div>
+    <button class="login-form__button--primary button" type="submit">Log in</button>
+    <%= render "devise/shared/links" %>
   <% end %>
 
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
-<% end %>
+  <%= render "shared/footer" %>
+</div>
 
-<%= render "devise/shared/links" %>
+

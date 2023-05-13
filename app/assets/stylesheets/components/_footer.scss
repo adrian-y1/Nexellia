@@ -1,0 +1,65 @@
+.footer {
+  grid-column: 1 / -1;
+  background-color: #f8f9fa;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  padding: 40px 30px 20px;
+  font-size: 17px;
+  color: $footer-text-color;
+  border-top: 1px solid $light-border-color;
+
+  &__links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: row wrap;
+    margin-bottom: 30px;
+    gap: 30px;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    margin: 0 20px;
+    color: $footer-text-color;
+    text-decoration: none;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $footer-text-color;
+      opacity: 0.8;
+    }
+
+    i {
+      font-size: 25px;
+      margin-right: 10px;
+    }
+  }
+
+  &__text {
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.7;
+
+    a {
+      color: $footer-text-color;
+      text-decoration: underline;
+      transition: opacity 0.3s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  @include media(smallTablet) {
+    padding: 20px 15px 10px;
+    font-size: 15px;
+
+    &__links {
+      gap: 10px;
+    }
+  }
+}

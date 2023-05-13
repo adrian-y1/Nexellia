@@ -1,0 +1,34 @@
+.logo {
+  grid-area: logo;
+  justify-self: flex-end;
+  padding-right: 60px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas: 
+    "logo__brand"
+    "logo_slogan";
+
+  &__brand {
+    display: flex;
+    align-items: end;
+    gap: 30px;
+  }
+
+  &__name {
+    font-size: clamp(30px, 7vw, 45px);
+    font-weight: bold;
+    color: $color-primary;
+  }
+
+  &__slogan {
+    padding-top: 20px;
+    font-size: clamp(20px, 3vw, 25px);
+  }
+
+  @include media(bigTablet) {
+    margin-top: 50px;
+    justify-self: center;
+    padding-right: 0;
+  }
+}

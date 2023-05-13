@@ -31,6 +31,7 @@
         <%= turbo_stream_from @user.id, "posts" %>
 
         <%= turbo_frame_tag "posts" do %>
+          <%= render "posts/empty_state" %>
           <% @posts.each do |post| %>
             <%= render "posts/post_interactions", post: post, user: Current.user %>
           <% end %>

@@ -1,11 +1,17 @@
 // Entry point for your Sass build
-body {
-  background-color: blue;
-}
 
-.empty-state:not(:only-child) {
-  display: none;
-}
-.empty-state:only-child {
-  display: revert;
-}
+// Mixins
+@import "mixins/media";
+
+// Configuration
+@import "config/variables";
+@import "config/reset";
+
+// Components
+@import "components/empty_state";
+@import "components/logo";
+@import "components/login_form";
+@import "components/footer";
+
+// Layouts
+@import "layouts/login_container"

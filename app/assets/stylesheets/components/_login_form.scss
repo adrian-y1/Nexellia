@@ -40,7 +40,7 @@
     padding: $input-padding;
   }
 
-  &__button--primary {
+  &__button--login {
     background-color: $color-primary;
     font-size: 20px;
 
@@ -49,14 +49,14 @@
     }
   }
 
-  &__button--secondary {
-    background-color: $color-secondary;
+  &__button--sign-up {
+    background-color: #41af2b;
     font-size: 17px;
 
     &:hover,
     &:focus,
     &:active {
-      background-color: $color-secondary-hover;
+      background-color: #349c1f;
       color: white;
     }
   }
@@ -66,21 +66,31 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
-    hr {
-      width: 100%;
-      border: 1px solid $light-border-color;
-      margin: 20px 0;
-    }
 
     &--forgot-password:hover {
       text-decoration: underline;
     }
   }
 
+  hr {
+    width: 100%;
+    border: 1px solid $light-border-color;
+    margin: 20px 0;
+  }
+
   @include media(bigTablet) {
     margin-top: 30px;
     margin-bottom: auto;
     justify-self: center;
+  }
+
+  @include media(smallTablet) {
+    &__input {
+      padding: $input-padding-small;
+    }
+
+    .button {
+      padding: $input-padding-small;
+    }
   }
 }

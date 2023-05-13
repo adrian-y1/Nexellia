@@ -6,11 +6,11 @@
   <hr>
 
   <%- if controller_name != 'sessions' %>
-    <%= link_to "Log in", new_session_path(resource_name), class: "login-form__button--primary button" %>
+    <%= link_to "Already have an account?", new_session_path(resource_name), class: "login-form__links--login" %>
   <% end %>
 
   <%- if devise_mapping.registerable? && controller_name != 'registrations' %>
-    <%= link_to "Create new account", new_registration_path(resource_name), class: "login-form__button--secondary button" %>
+    <%= link_to "Create new account", new_registration_path(resource_name), class: "login-form__button--sign-up button" %>
   <% end %>
 
 

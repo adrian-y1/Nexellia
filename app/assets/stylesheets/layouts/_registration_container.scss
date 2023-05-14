@@ -9,38 +9,24 @@
   grid-template-areas: 
   "logo" 
   "login-form";
-
-  @include media(bigTablet) {
-    grid-template-columns: 1fr;
-    grid-template-rows: 170px auto 170px;
-    grid-template-areas: 
-    "logo" 
-    "login-form";
-  }
-
+  
   .logo {
     display: flex;
     justify-self: center;
     padding-right: 0;
-
+    
     @include media(bigTablet) {
       margin-top: 0px;
       justify-self: center;
       padding-right: 0;
     }
   }
-
+  
   .login-form {
     justify-self: center;
     align-self: flex-start;
-
-    &__header {
-      display: flex;
-      width: 100%;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-    }
+    gap: 10px;
+    margin-bottom: 20px;
     
     &__title {
       font-size: clamp(22px, 5vw, 28px);
@@ -55,29 +41,41 @@
       margin: 5px 0;
     }
 
+    &__form-group {
+      position: relative;
+
+      &--eye-icon {
+        position: absolute;
+        top: 8.5px;
+        right: 15px;
+      }
+    }
+
     &__input {
       padding: $input-padding-small;
       font-size: 15px;
+
+      &:invalid:not(:placeholder-shown) {
+        border-color: red;
+      }
+    }
+
+    &__error-message {
+      text-align: start;
+      padding: 4px;
     }
 
     .button {
       padding: $input-padding-small;
     }
-
-    &__form-group--name {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-    }
-
+    
     &__links--login {
       padding-top: 10px;
     }
 
     @include media(bigTablet) {
       margin-top: 0px;
-      margin-bottom: 0;
+      margin-bottom: 20px;
       justify-self: center;
     }
   }

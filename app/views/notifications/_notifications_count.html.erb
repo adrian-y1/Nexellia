@@ -1,8 +1,6 @@
 <%= turbo_frame_tag user, :notifications_count do %>
-  <button type="button" class="btn btn-primary position-relative">
-    <i class="bi bi-bell-fill"></i>
-    <span class="position-absolute top-0 start-100 translate-middle py-0 px-2 bg-danger border rounded-circle">
-      <span class="text-center"><%= unread_notifications.count >= 9 ? "9+" : unread_notifications.count %></span>
-    </span>
-  </button>
+  <i class="bi bi-bell-fill"></i>
+  <span class="navbar__notifications-dropdown--count">
+    <span><%= unread_notifications.count >= 9 ? "9+" : unread_notifications.count %></span>
+  </span>
 <% end %>

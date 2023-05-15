@@ -1,0 +1,344 @@
+.navbar {
+  width: 97%;
+  margin: auto;
+  padding: 5px 0;
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: "brand navigation user-menus";
+
+  // Brand
+  &__brand {
+    grid-area: brand;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  &__logo {
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+  }
+
+  &__title {
+    font-size: 20px;
+    color: $color-primary;
+    font-weight: bold;
+  }
+
+  // Navigational Links
+  &__nav {
+    grid-area: navigation;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  &__item {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 150px;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90%;
+    width: 100%;
+    color: black;
+    position: relative;
+    border-radius: $border-radius;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: black;
+      background-color: $light-grey-hover;
+    }
+  }
+
+  &__link i {
+    font-size: 22px;
+  }
+
+  // Menus
+  &__user-menus {
+    grid-area: user-menus;
+    justify-self: flex-end;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  // Notifications Dropdown
+  &__notifications-dropdown {
+    background-color: $light-grey;
+    width: 45px;
+    height: 90%;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    
+    &--toggle {
+      position: relative;
+      height: 100%;
+      width: 100%;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      outline: none;
+      
+      &:hover {
+        background-color: $light-grey-hover;
+      }
+    }
+
+    &--count {
+      position: absolute;
+      top: -5px;
+      right: 0px;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background-color: $color-primary;
+      color: white;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    i {
+      color: black;
+      font-size: 20px;
+    }
+  }
+
+  // Notifications Dropdown Menu
+  &__notifications-dropdown-menu {
+    display: none;
+    background-color: $white-background;
+    position: absolute;
+    top: 50px;
+    right: -50px;
+    width: 370px;
+    border-radius: $border-radius;
+    box-shadow: $light-box-shadow;
+  }
+
+  &__notifications-header {
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__notifications-header-link {
+    color: $footer-text-color;
+  }
+
+  &__notifications-footer {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid $light-border-color;
+
+    &-link {
+      padding: 10px 0;
+      display: block;
+      width: 100%;
+      color: black;
+
+      &:hover {
+        color: black;
+        background-color: $light-grey-hover;
+      }
+    }
+  }
+
+  // Notification Card
+  &__notifications-card-container {
+    max-height: 450px;
+    overflow-y: scroll;
+    padding: 5px;
+
+    &::-webkit-scrollbar{
+      width: 6px;
+      border-radius: 25px;
+      background-color: transparent;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background-color: #aec1dd;
+      border-radius: 25px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #83bed1; 
+    }
+  }
+
+  &__notification-card {
+    width: 100%;
+    border-radius: $border-radius;
+
+    &__link {
+      width: 100%;
+      color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 5px 15px;
+      margin-top: 5px;
+      gap: 10px;
+      border-radius: $border-radius;
+
+      img {
+        border-radius: 50%;
+      }
+
+      &:hover {
+        color: rgba(0, 0, 0, 0.8);
+        background-color: $light-grey-hover;
+      }
+    }
+
+    &__date-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &__body {
+      width: 100%;
+    }
+
+    &__date {
+      color: rgba(0, 0, 0, 0.5);
+      font-size: 15px;
+
+      &__unread {
+        color: $color-primary;
+        font-size: 15px;
+      }
+    }
+
+    &__unread {
+      color: $color-primary !important;
+      font-size: 14px !important;
+    }
+  }
+
+  .unread {
+    background-color: $color-primary-low-opacity;
+  }
+
+
+  // User Dropdown Menu
+  &__user-dropdown {
+    border-radius: 50%;
+    width: 45px;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+
+    &--toggle {
+      padding: 0;
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+
+    &--picture {
+      border-radius: 50%;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  // User Dropdown Menu
+  &__user-dropdown-menu {
+    display: none;
+    background-color: $white-background;
+    position: absolute;
+    top: 50px;
+    right: 0px;
+    width: 250px;
+    border-radius: $border-radius;
+    box-shadow: $light-box-shadow;
+    padding: 10px 5px;
+
+    &__header {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      border-radius: $border-radius;
+      gap: 10px;
+      padding: 10px;
+      border-bottom: 1px solid $light-border-color;
+      font-size: 17px;
+
+      &:hover {
+        background-color: $light-grey-hover;
+      }
+    }
+
+    &__title {
+      color: black;
+      font-weight: bolder;
+    }
+
+    &__picture {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    &__link {
+      display: flex;
+      justify-content: start;
+      align-items: center;
+      padding: 5px;
+      gap: 15px;
+      border-radius: $border-radius;
+      color: black;
+      font-size: 18px;
+      margin-top: 5px;
+
+      &:hover {
+        background-color: $light-grey-hover;
+        color: black;
+      }
+
+      &:active,
+      &:focus {
+        color: black;
+      }
+
+      span {
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background-color: $light-grey-hover;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+
+  .dropdown-display {
+    display: block;
+  }
+}

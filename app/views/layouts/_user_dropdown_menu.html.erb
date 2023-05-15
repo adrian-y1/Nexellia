@@ -1,0 +1,28 @@
+<button class="navbar__user-dropdown--toggle" data-action="click->dropdown-toggle#toggle">
+  <%= render "profiles/navbar_picture" %>
+</button>
+
+<div class="navbar__user-dropdown-menu" data-dropdown-toggle-target="dropdown">
+  <a href="<%= current_user %>" class="navbar__user-dropdown-menu__header">
+    <div class="navbar__user-dropdown-menu__picture"><%= render "profiles/navbar_picture" %></div>
+    <div class="navbar__user-dropdown-menu__title"><%= current_user.full_name %></div>
+  </a>
+  <div class="navbar__user-dropdown-menu__links">
+    <%= link_to edit_user_registration_path(current_user), class: "navbar__user-dropdown-menu__link" do %>
+      <span><i class="bi bi-gear-fill"></i></span>
+      Settings
+    <% end %>
+  </div>
+  <div class="navbar__user-dropdown-menu__links">
+    <%= link_to "#", class: "navbar__user-dropdown-menu__link" do %>
+      <span><i class="bi bi-people-fill"></i></span>
+      My Friends
+    <% end %>
+  </div>
+  <div class="navbar__user-dropdown-menu__links">
+    <%= link_to destroy_user_session_path, data: { turbo_method: :delete }, class: "navbar__user-dropdown-menu__link" do %>
+      <span><i class="fa-solid fa-right-from-bracket"></i></span>
+      Log out
+    <% end %>
+  </div>
+</div>

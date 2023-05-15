@@ -13,7 +13,7 @@ module ProfilesHelper
 
   def gravatar_url_for(email, size)
     hash = Digest::MD5.hexdigest(email.downcase)
-    "https://secure.gravatar.com/avatar/#{hash}?s=#{size}&d=robohash"
+    "https://secure.gravatar.com/avatar/#{hash}?s=#{size}&d=mm"
   end
 
   def cover_photo_for(profile)

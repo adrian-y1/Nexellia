@@ -13,8 +13,10 @@
 @import "components/login_form";
 @import "components/footer";
 @import "components/navbar";
+@import "components/post_index_sidebar";
 
 // Layouts
 @import "layouts/login_container";
 @import "layouts/registration_container";
 @import "layouts/navbar_container";
+@import "layouts/post_index_container";

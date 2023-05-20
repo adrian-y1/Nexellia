@@ -1,0 +1,38 @@
+.post-index-sidebar {
+
+  &__nav {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  &__item {
+    width: 100%;
+  }
+
+  &__link {
+    color: black;
+    border-radius: $border-radius;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    align-items: center;
+    font-weight: bold;
+    padding: 10px;
+
+    img {
+      border-radius: 50%;
+    }
+
+    svg {
+      color: $color-primary !important;
+      padding-left: 2px;
+    }
+
+    &:hover {
+      background-color: $color-primary-low-opacity;
+      color: black;
+    }
+  }
+}

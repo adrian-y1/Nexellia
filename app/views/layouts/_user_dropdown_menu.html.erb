@@ -3,7 +3,7 @@
 </button>
 
 <div class="navbar__user-dropdown-menu" data-dropdown-toggle-target="dropdown">
-  <a href="<%= current_user %>" class="navbar__user-dropdown-menu__header">
+  <a href="<%= user_path(current_user) %>" class="navbar__user-dropdown-menu__header">
     <div class="navbar__user-dropdown-menu__picture"><%= render "profiles/navbar_picture" %></div>
     <div class="navbar__user-dropdown-menu__title"><%= current_user.full_name %></div>
   </a>

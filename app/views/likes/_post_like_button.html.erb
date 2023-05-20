@@ -1,5 +1,14 @@
 <%= turbo_frame_tag "#{dom_id(post)} private_likes_#{page}" do %>
   <% button_text = like_status ? "Unlike" : "Like" %>
-  <% button_class = button_text == "Like" ? "success" : "danger" %>
-  <%= button_to button_text, post_like_path(post.id), class: "btn btn-md btn-#{button_class}" %>
+
+  <%= form_with url: post_like_path(post.id) , method: :post do %>
+    <button type="submit" class="post-card__footer--<%= button_text %>">
+      <% if button_text == "Like" %>
+        <i class='far fa-thumbs-up'></i>
+      <% else %>
+        <i class='fas fa-thumbs-down'></i>
+      <% end %>
+      <%= button_text %>
+    </button>
+  <% end %>
 <% end %>

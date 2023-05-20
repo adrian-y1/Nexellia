@@ -1,7 +1,14 @@
 .post-index-posts {
+  width: 100%;
   padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
   &__form--trigger {
-    background-color: #fff;
+    width: 700px;
+    background-color: $white-background;
     box-shadow: $light-box-shadow;
     border-radius: $border-radius;
     padding: 10px;
@@ -46,7 +53,7 @@
     border-radius: $border-radius;
 
     &:hover {
-      background-color: $color-primary-low-opacity;
+      background-color: $light-grey-hover;
       color: rgba(0, 0, 0, 0.7);
     }
 

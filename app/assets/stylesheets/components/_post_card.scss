@@ -1,0 +1,191 @@
+.post-index-posts__cards-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.post-card {
+  background-color: $white-background;
+  border-radius: $border-radius;
+  box-shadow: $light-box-shadow;
+  margin-top: 20px;
+  min-width: 350px;
+  max-width: 700px;
+
+  &__header {
+    padding: 10px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  &__user {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+
+    &-link {
+      color: black;
+
+      &:hover,
+      &:active,
+      &:active {
+        color: black;
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__profile-picture img {
+    border-radius: 50%;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: flex-start;
+  }
+
+  &__date {
+    text-align: start;
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  &__dropdown {
+    position: relative;
+
+    &--trigger {
+      background-color: $white-background;
+      border-radius: 50%;
+      width: 35px;
+      height: 35px;
+      font-size: 20px;
+      outline: none;
+      
+      &:hover {
+        background-color: $light-grey;
+      }
+    }
+
+    &-menu {
+      display: none;
+      width: 250px;
+      height: 100%;
+      position: absolute;
+      top: 40px;
+      right: 0;
+      background-color: $white-background;
+      border-radius: $border-radius;
+      z-index: 1;
+      box-shadow: $light-box-shadow;
+
+      .post-buttons {
+        background-color: $white-background;
+        display: none;
+        width: 100%;
+        height: fit-content;
+        padding: 10px;
+        display: flex;
+        align-items: start;
+        justify-content: flex-start;
+        flex-direction: column;
+        box-shadow: $light-box-shadow;
+        z-index: 1;
+
+        a {
+          width: 100%;
+          padding: 15px;
+          color: black;
+          border-radius: $border-radius;
+          font-size: 17px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 10px;
+
+          &:hover, 
+          &:focus, 
+          &:active {
+            color: black;
+            background-color: $light-grey-hover;
+          }
+
+          i {
+            font-size: 18px;
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+    &--text {
+      padding: 10px 10px;
+    }
+
+    &--picture {
+      display: block;
+      width: 100%;
+      max-height: 600px;
+      image-rendering: auto;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    &--count {
+      padding: 10px;
+      border-bottom: 2px solid $light-border-color;
+      width: 100%;
+      color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    &--buttons {
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 5px 0;
+    }
+
+    &--Like, &--Unlike, &--comment {
+      padding: 10px 40px;
+      color: rgba(0, 0, 0, 0.8);
+      background-color: #fff;
+      font-size: 16px;
+      border-radius: $border-radius;
+      font-weight: 500;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: rgba(0, 0, 0, 0.7);
+        background-color: $light-grey-hover;
+      }
+    }
+
+    &--Unlike {
+      color: $color-primary;
+      
+      &:hover,
+      &:focus,
+      &:active {
+        color: $color-primary;
+      }
+    }
+  }
+
+  .dropdown-display {
+    display: block;
+  }
+}

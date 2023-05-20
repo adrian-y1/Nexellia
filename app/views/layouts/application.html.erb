@@ -18,16 +18,13 @@
     <%= javascript_importmap_tags %>
 
     <style>
-      .post-buttons { 
-        display: none;
-      }
       .post-buttons[data-user-id="<%= current_user.id if current_user %>"] {
-        display: block;
+        display: flex;
       }
     </style>
   </head>
 
-  <body style="<%= user_signed_in? ? "padding-top: 100px;" : "" %>">
+  <body style="<%= user_signed_in? ? "padding-top: 85px;" : "" %>">
     <% if user_signed_in? %>
       <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
 

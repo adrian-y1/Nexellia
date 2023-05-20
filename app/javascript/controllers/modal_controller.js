@@ -3,10 +3,6 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static targets = ["modal"]
 
-  connect() {
-    window.addEventListener("click", this.close.bind(this));
-  }
-
   open() {
     this.modalTarget.style.display = "flex"
   }

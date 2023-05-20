@@ -1,21 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["modal"]
+
   connect() {
-    // Using Bootstrap's JavaScript library, this instantiates a new Modal object
-    this.modal = new bootstrap.Modal(this.element)
+    window.addEventListener("click", this.close.bind(this));
   }
 
   open() {
-    if (!this.modal.isOpened) {
-      this.modal.show()
-    }
+    this.modalTarget.style.display = "flex"
   }
 
   // Closes the modal if the form was successfully submitted
-  close(event) {
-    if (event.detail.success) {
-      this.modal.hide()
-    }
+  close() {
+    this.modalTarget.style.display = "none"
   }
 }

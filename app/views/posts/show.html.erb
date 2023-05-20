@@ -1,9 +1,10 @@
 <%= turbo_frame_tag 'post_show_modal' do %>
-  <div class="modal-header">
-    <h5 class="modal-title"><%= @post.user.full_name %>'s' Post</h5>
-    <button id="close-modal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+  <div class="modal__header">
+    <%= @post.user.full_name %>'s Post
+    <button class="modal__header--close" data-action="click->modal#close"><i class="bi bi-x"></i></button>
   </div>
-  <%= turbo_stream_from @post %>
-  <%= turbo_frame_tag "post_deleted" %>
-  <%= render partial: "posts/show_page_post_interactions", locals: { post: @post, user: Current.user } %>
+  <div class="modal__body">
+    <%= turbo_stream_from @post %>
+    <%= render partial: "posts/show_page_post_interactions", locals: { post: @post, user: Current.user } %>
+  </div>
 <% end %>

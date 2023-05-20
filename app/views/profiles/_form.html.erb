@@ -3,7 +3,7 @@
 
   <div class="form-group mb-2">
     <%= f.label :cover_photo %> <br>
-    <%= f.file_field :cover_photo %>
+    <%= f.file_field :cover_photo, accept: "image/png, image/jpg, image/jpeg, image/gif" %>
   </div>
 
   <div class="form-group mb-2" data-controller="image-preview">
@@ -63,8 +63,7 @@
     <%= f.text_area :bio_description, size: "7x5", class: "form-control", placeholder: "Tell us about you..." %>
   </div>
 
-  <div class="d-flex justify-content-end align-items-center mt-4" style="gap: 20px;">
-    <%= link_to 'Cancel','#', data: { bs_dismiss: 'modal' }, class: 'btn btn-secondary' %>
-    <%= f.submit "Update Profile", class: "btn btn-primary" %>
+  <div class="modal__footer">
+    <%= f.submit "Save Profile", class: "modal__footer--btn-primary" %>
   </div>
 <% end %>

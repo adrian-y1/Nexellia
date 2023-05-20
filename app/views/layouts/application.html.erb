@@ -27,7 +27,7 @@
     </style>
   </head>
 
-  <body>
+  <body style="<%= user_signed_in? ? "padding-top: 100px;" : "" %>">
     <% if user_signed_in? %>
       <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
 
@@ -43,39 +43,29 @@
 
     <div>
       <%# Post Show Modal %>
-      <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open">
-        <div class="modal-dialog modal-dialog-centered modal-xl">
-          <div class="modal-content">
-            <%= turbo_frame_tag 'post_show_modal' %>
-          </div>
+      <div class="modal" data-controller="modal" data-modal-target="modal" data-action="turbo:frame-load->modal#open">
+        <div class="modal__content">
+          <%= turbo_frame_tag 'post_show_modal' %>
         </div>
       </div>
       
       <%= yield %>
 
-      <%# Edit Post Modal %>
-      <div class="modal" tabindex="-1" data-controller="modal" style="z-index: 1060;" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Post</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
-            </div>
-            <%= turbo_frame_tag 'modal' %>
-          </div>
+      <%# Edit Post and New Post Modal %>
+      <div class="modal" data-controller="modal" data-modal-target="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
+        <div class="modal__content">
+          <%= turbo_frame_tag 'modal' %>
         </div>
       </div>
 
       <%# Edit Profile Modal %>
-      <div class="modal" tabindex="-1" data-controller="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit Profile</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
-            </div>
-            <%= turbo_frame_tag 'edit_profile_modal' %>
+      <div class="modal" data-controller="modal" data-modal-target="modal" data-action="turbo:frame-load->modal#open turbo:submit-end->modal#close">
+        <div class="modal__content">
+          <div class="modal__header">
+            Edit Profile
+            <button class="modal__header--close" data-action="click->modal#close"><i class="bi bi-x"></i></button>
           </div>
+          <%= turbo_frame_tag 'edit_profile_modal' %>
         </div>
       </div>
     </div>

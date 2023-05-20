@@ -1,12 +1,26 @@
 <%= render "shared/form_errors", object: post %>
-<%= form_with model: post, data: { controller: 'reset-form', action: 'turbo:submit-end->reset-form#reset' }, local: true do |f| %>
-  <div class="mb-3" style="max-width: 600px;">
-    <%= f.text_area :body, size: "70x4", class: "form-control", placeholder: "What are you thinking?" %>
-    <%= f.label :image, "Add an image to your post" %> <br>
-    <%= f.file_field :image, accept: "image/png, image/jpg, image/jpeg, image/gif" %>
-    <div class="d-flex justify-content-end align-items-center mt-4" style="gap: 20px;">
-      <%= link_to 'Cancel','#', data: { bs_dismiss: 'modal' }, class: 'btn btn-secondary' if action == 'edit' %>
-      <%= f.submit class: "btn btn-primary" %>
-    </div>
+<% submit_text = action == "edit" ? "Save Post" : "Post" %>
+<%= form_with model: post, data: { controller: 'reset-form image-preview', action: 'turbo:submit-end->reset-form#reset' }, local: true do |f| %>
+  <div class="modal__body--user">
+    <%= render "profiles/picture", profile: current_user.profile, size: "50x50" %>
+    <%= current_user.full_name %>
+  </div>
+
+  <%= f.text_area :body, size: "70x4", class: "modal__body--textarea", placeholder: "What's on your mind, #{current_user.first_name}?" %>
+  
+  <div class="modal__preview-image-container" data-image-preview-target="newPictureContainer">
+    <%= image_tag "", data: { image_preview_target: "newPicture" }, class: "modal__preview-image" %>
+  </div>
+
+  <div class="modal__body--file-upload">
+    <label for="post_image" class="modal__body--custom-file-upload">
+      Add to your post
+      <i class="bi bi-images"></i>
+    </label>
+    <%= f.file_field :image, data: { action: "change->image-preview#preview" }, accept: "image/png, image/jpg, image/jpeg, image/gif" %>
+  </div>
+  
+  <div class="modal__footer">
+    <%= f.submit submit_text, class: "modal__footer--btn-primary" %>
   </div>
 <% end %>

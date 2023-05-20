@@ -1,5 +1,9 @@
 <%= turbo_frame_tag 'modal' do %>
-  <div class="modal-body">
+  <div class="modal__header">
+    Edit Post
+    <button class="modal__header--close" data-action="click->modal#close"><i class="bi bi-x"></i></button>
+  </div>
+  <div class="modal__body">
     <%= render "posts/form", post: @post, action: "edit" %>
   </div>
 <% end %>

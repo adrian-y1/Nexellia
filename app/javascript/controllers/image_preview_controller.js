@@ -12,7 +12,7 @@ export default class extends Controller {
     const file = fileField.files[0]
     if (file) {
       this.newPictureTarget.src = URL.createObjectURL(file)
-      this.newPictureContainerTarget.style.display = 'block'
+      this.newPictureContainerTarget.style.display = 'flex'
     }
   }
 }

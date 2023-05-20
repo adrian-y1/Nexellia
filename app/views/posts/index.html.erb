@@ -24,8 +24,14 @@
       <%= turbo_stream_from friend.id, "posts" %>
     <% end %>
 
-    <div class="post-index-posts__form">
-      <%= turbo_frame_tag id="new_post", src: new_post_path %>
+    <div class="post-index-posts__form--trigger">
+      <div>
+        <%= link_to current_user do %> <%= render "profiles/picture", profile: current_user.profile, size: "45x45" %> <% end %>
+        <%= link_to "What's on your mind, #{current_user.first_name}?", new_post_path, data: { turbo_frame: "modal" } %>
+      </div>
+      <%= link_to new_post_path, class: "post-index-posts__form--image-trigger", data: { turbo_frame: "modal" } do %>
+        <i class="bi bi-images"></i> Photo
+      <% end %>
     </div>
 
     <div class="post-index-posts__cards-container">

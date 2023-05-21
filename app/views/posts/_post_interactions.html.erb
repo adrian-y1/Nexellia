@@ -9,7 +9,12 @@
         </div>
         <div class="post-card__text">
           <%= link_to post.user.full_name, post.user, data: { turbo_frame: "_top" }, class: "post-card__user-link" %>
-          <small class="post-card__date"><%= time_ago_in_words(post.created_at) %> ago</small>
+          <small class="post-card__date">
+            <%= time_ago_in_words(post.created_at) %> ago 
+            <% if user.is_friends_with?(post.user) || post.user == user %>
+              <i class="bi bi-people-fill" title="Friend"></i>
+            <% end %>
+          </small>
         </div>
       </div>
 

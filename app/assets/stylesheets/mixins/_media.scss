@@ -1,11 +1,13 @@
 @mixin media($query) {
+  @if $query == laptop {
+    @media (max-width: 1150px) { @content; }
+  }
   @if $query == bigTablet {
     @media (max-width: 976px) { @content; }
   }
   @if $query == smallTablet {
     @media (max-width: 720px) { @content; }
   }
-
   @if $query == smallPhone {
     @media (max-width: 480px) { @content; }
   }

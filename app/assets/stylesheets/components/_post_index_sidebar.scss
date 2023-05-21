@@ -15,10 +15,11 @@
   &__link {
     color: black;
     border-radius: $border-radius;
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+    display: flex;
+    justify-content: start;
     align-items: center;
     font-weight: bold;
+    gap: 20px;
     padding: 10px;
 
     img {
@@ -34,5 +35,9 @@
       background-color: $light-grey;
       color: black;
     }
+  }
+
+  @include media(laptop) {
+    display: none;
   }
 }

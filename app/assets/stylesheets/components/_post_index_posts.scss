@@ -63,4 +63,12 @@
       color: yellowgreen;
     }
   }
+
+  @include media(smallTablet) {
+    padding: 10px 0;
+
+    &__form--trigger {
+      width: 100%;
+    }
+  }
 }

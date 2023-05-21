@@ -56,4 +56,8 @@
   &__status--offline {
     color: red;
   }
+
+  @include media(bigTablet) {
+    display: none;
+  }
 }

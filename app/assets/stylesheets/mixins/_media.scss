@@ -5,4 +5,8 @@
   @if $query == smallTablet {
     @media (max-width: 720px) { @content; }
   }
+
+  @if $query == smallPhone {
+    @media (max-width: 480px) { @content; }
+  }
 }

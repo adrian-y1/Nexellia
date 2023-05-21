@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>OdinFacebook</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=0">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <!-- 
@@ -24,7 +24,7 @@
     </style>
   </head>
 
-  <body style="<%= user_signed_in? ? "padding-top: 85px;" : "" %>">
+  <body>
     <% if user_signed_in? %>
       <%= turbo_stream_from 'online_friends', channel: OnlineChannel %>
 

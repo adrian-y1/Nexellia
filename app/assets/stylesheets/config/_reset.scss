@@ -47,3 +47,11 @@ button {
     cursor: pointer;
   }
 }
+
+.reply-form-display {
+  display: none !important;
+}
+
+.modal-open {
+  overflow: hidden;
+}

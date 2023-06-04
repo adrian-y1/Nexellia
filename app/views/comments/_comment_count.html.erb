@@ -1,3 +1,3 @@
 <%= turbo_frame_tag post, "comments_count_#{page}" do %>
-  <%= pluralize(post.comments.count , 'Comment') %>
+  <%= link_to pluralize(post.comments.count , 'Comment'), post, data: { turbo_frame: "post_show_modal" } %>
 <% end %>

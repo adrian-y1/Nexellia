@@ -6,6 +6,6 @@ export default class extends Controller {
   // Toggles the reply form using bootstrap's d-none class
   toggle(e) {
     e.preventDefault();
-    this.replyFormTarget.classList.toggle("d-none")
+    this.replyFormTarget.classList.toggle("reply-form-display")
   }
 }

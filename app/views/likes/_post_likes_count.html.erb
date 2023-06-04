@@ -1,3 +1,6 @@
 <%= turbo_frame_tag post, "likes_#{page}" do %>
-  <%= pluralize(post.likes_count, "Like") %>
+  <div class="post-card__footer--likes-count-container">
+    <span class="post-card__footer--likes-icon"><i class='fas fa-thumbs-up'></i></span>
+    <div class="post-card__footer--likes-comment_count"><%= post.likes_count %></div>
+  </div>
 <% end %>

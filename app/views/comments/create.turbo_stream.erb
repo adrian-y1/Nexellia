@@ -6,16 +6,16 @@
   <% if @parent %>
     <%# If a reply has been made to a comment, add the parent comment and replace this form with a new one and hide it %>
     <%= turbo_stream.replace(nested_dom_id(@parent, comment), partial: "comments/form", 
-        locals: { comment: comment, commentable: @parent, reply_target: "replyForm", reply_class: "d-none" }) %>
+        locals: { comment: comment, commentable: @parent, reply_target: "replyForm", reply_class: "reply-form-display", user: Current.user }) %>
   <% else %>
     <%# If a comment has been made to a commentable(post), add the commentable(post) and replace this form with a new one %>
-    <%= turbo_stream.replace(nested_dom_id(@commentable, comment), partial: "comments/form", locals: { comment: comment, commentable: @commentable }) %>
+    <%= turbo_stream.replace(nested_dom_id(@commentable, comment), partial: "comments/form", locals: { comment: comment, commentable: @commentable, user: Current.user }) %>
   <% end %>
 <% else %>
   <%# Replace the form when a comment fails to be saved to render it's errors  %>
   <%# If the comment has a parent, put that in the nested_dom_id else put the commentable(post) %>
   <%= turbo_stream.replace(nested_dom_id(@parent || @commentable, @comment), partial: "comments/form", 
-      locals: { reply_target: "replyForm", comment: @comment, commentable: @parent || @commentable })  %>
+      locals: { reply_target: "replyForm", comment: @comment, commentable: @parent || @commentable, user: Current.user })  %>
 <% end %>
 
 <%= render_turbo_stream_flash_messages %>

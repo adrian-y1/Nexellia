@@ -1,4 +1,8 @@
-<p class="card-text"> <%= post.body %> </p>
-<% if post.image.attached? %>
-    <%= image_tag post.image, style: "max-width: 100%;height: auto;margin-top: 10px;border: 1px solid #ccc;border-radius: 5px;" %>
+<%= turbo_frame_tag post, :show do %>
+	<p class="post-card__body--text"><%= post.body %></p>
+	<% if post.image.attached? %>
+		<%= link_to post, data: { turbo_frame: "post_show_modal" } do %>
+			<%= image_tag post.image, class: "post-card__body--picture" %>
+		<% end %>
+	<% end %>
 <% end %>

@@ -41,7 +41,7 @@
     <div>
       <%# Post Show Modal %>
       <div class="modal" data-controller="modal" data-modal-target="modal" data-action="turbo:frame-load->modal#open">
-        <div class="modal__content">
+        <div class="modal__content" style="max-width: 750px !important;">
           <%= turbo_frame_tag 'post_show_modal' %>
         </div>
       </div>

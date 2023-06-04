@@ -73,7 +73,7 @@
 
     &-menu {
       display: none;
-      width: 250px;
+      width: 200px;
       height: 100%;
       position: absolute;
       top: 40px;
@@ -87,8 +87,8 @@
         border-radius: $border-radius;
         display: none;
         width: 100%;
+        padding: 5px;
         height: fit-content;
-        padding: 10px;
         display: flex;
         align-items: start;
         justify-content: flex-start;
@@ -98,7 +98,7 @@
 
         a {
           width: 100%;
-          padding: 15px;
+          padding: 10px;
           color: black;
           border-radius: $border-radius;
           font-size: 17px;
@@ -149,6 +149,20 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+
+      a {
+        color: rgba(0, 0, 0, 0.7);
+
+        &:hover {
+          color: rgba(0, 0, 0, 0.7);
+          text-decoration: underline;
+        }
+
+        &:focus,
+        &:active {
+          color: rgba(0, 0, 0, 0.7);
+        }
+      }
     }
 
     &--buttons {
@@ -160,7 +174,7 @@
     }
 
     &--Like, &--Unlike, &--comment {
-      padding: 10px 40px;
+      padding: 7px 40px;
       color: rgba(0, 0, 0, 0.8);
       background-color: #fff;
       font-size: 16px;
@@ -177,11 +191,32 @@
 
     &--Unlike {
       color: $color-primary;
+      padding: 7px 32px;
       
       &:hover,
       &:focus,
       &:active {
         color: $color-primary;
+      }
+    }
+
+    &--likes-count-container {
+      display: flex;
+      align-items: center;
+      align-items: center;
+      gap: 5px;
+    }
+
+    &--likes-icon {
+      border-radius: 50%;
+      background: linear-gradient($color-primary, $color-primary-hover);
+      width: fit-content;
+      height: fit-content;
+
+      i {
+        font-size: 13px;
+        margin: 5px;
+        color: white;
       }
     }
   }

@@ -1,64 +1,81 @@
 <%= turbo_frame_tag "show-page-post-interactions-#{post.id}" do %>
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <h5 class="card-title">
-                  <%= render "profiles/picture", profile: post.user.profile, size: "100x100" %>
-                  <%= link_to post.user.full_name, post.user, data: { turbo_frame: "_top" } %>
-                </h5>
-                <p class="card-text">
-                  <small class="text-muted"><%= time_ago_in_words(post.created_at) %> ago</small>
-                </p>
-              </div>
-              <div class="btn-group">
-                <div class="post-buttons" data-user-id="<%= post.user.id %>">
-                  <% if user == post.user %>
-                    <%= link_to "Edit", edit_post_path(post), data: { turbo_frame: 'modal' }, class: "btn btn-sm btn-outline-secondary" %>
-                    <%= link_to "Delete", post_path(post), data: { turbo_method: :delete, turbo_frame: "_top" }, class: "btn btn-sm btn-outline-danger" %>
-                  <% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="card-body">
-            <%# Post body partial %>
-            <%= turbo_frame_tag post, 'show' do %>
-              <%= render "posts/show_page_post_body", post: post, user: user %>
+  <div class="modal__body" style="padding: 0 !important;">
+    <div class="post-card" style="box-shadow: none; width: 100% !important;">
+      <div class="post-card__header">
+        <div class="post-card__user">
+          <div class="post-card__profile-picture post-profile-picture">
+            <%= link_to post.user, data: { turbo_frame: "_top" } do %>
+              <%= render "profiles/picture", profile: post.user.profile, size: "45x45" %>
             <% end %>
-            <hr>
-            <%# Post Like partial and stream %>
-            <div class="">
-              <%= turbo_stream_from post, :likes %>
-
-              <%= render 'likes/post_likes_count', post: post, page: :show %>
-              <%= render 'likes/post_like_button', post: post, page: :show, like_status: user.liked?(post) %>
-            </div>
-            <hr>
-
-            <%# Comment partial, stream & form %>
-            <h5 class="card-title"><%= render 'comments/comment_count', post: post, page: :show %></h5>
-            <div class="comments">
-              <%= turbo_stream_from post, :comments %>
-
-              <%= turbo_frame_tag post, "comments" do %>
-                <%# Show top comments only %>
-                <%= render partial: "comments/comment_replies", 
-                           collection: post.comments.includes(:parent).where(parent_id: nil).load_user_and_profile, 
-                           locals: { user: user }, as: :comment %>
+          </div>
+          <div class="post-card__text">
+            <%= link_to post.user.full_name, post.user, data: { turbo_frame: "_top" }, class: "post-card__user-link" %>
+            <small class="post-card__date">
+              <%= time_ago_in_words(post.created_at) %> ago 
+              <% if user.is_friends_with?(post.user) || post.user == user %>
+                <i class="bi bi-people-fill" title="Friend"></i>
               <% end %>
-            </div>
-            <hr>
-            <div>
-              <%= render partial: "comments/form", locals: { comment: Comment.new, commentable: post } %>
+            </small>
+          </div>
+        </div>
+
+        <div class="post-card__dropdown" data-controller="dropdown-toggle">
+          <button class="post-card__dropdown--trigger" data-action="click->dropdown-toggle#toggle">
+            <i class="bi bi-three-dots"></i>
+          </button>
+          <div class="post-card__dropdown-menu" data-dropdown-toggle-target="dropdown">
+            <div class="post-buttons" data-user-id="<%= post.user.id %>">
+              <% if user == post.user %>
+                <%= link_to edit_post_path(post), data: { turbo_frame: 'modal' } do %>
+                  <i class="bi bi-pencil"></i>
+                  Edit Post
+                <% end %>
+                <%= link_to post_path(post), data: { turbo_method: :delete } do %>
+                  <i class="bi bi-trash"></i>
+                  Delete Post
+                <% end %>
+              <% end %>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="post-card__body">
+        <%= turbo_frame_tag post, 'show' do %>
+          <%= render "posts/show_page_post_body", post: post, user: user %>
+        <% end %>
+      </div>
+
+      <div class="post-card__footer">
+        <%= turbo_stream_from post, :likes %>
+
+        <div class="post-card__footer--count">
+          <%= render 'likes/post_likes_count', post: post, page: :show %>
+          <%= render 'comments/comment_count', post: post, page: :show %>
+        </div>
+        <div class="post-card__footer--buttons">
+          <%= render 'likes/post_like_button', post: post, page: :show, like_status: user.liked?(post) %>
+          <%= link_to post_path(post), class: "post-card__footer--comment" do %>
+            <i class="fa-regular fa-comment"></i>
+            Comment
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="comments">
+      <%= turbo_stream_from post, :comments %>
+      <%= turbo_frame_tag post, "comments" do %>
+        <%= render partial: "comments/comment_replies", 
+                          collection: post.comments.includes(:parent).where(parent_id: nil).load_user_and_profile, 
+                          locals: { user: user }, as: :comment %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="modal__footer">
+    <div class="modal__footer__comments-form-container">
+      <%= render partial: "comments/form", locals: { comment: Comment.new, commentable: post, user: Current.user } %>
     </div>
   </div>
 <% end %>

@@ -1,31 +1,45 @@
 <%= turbo_frame_tag comment do %>
-  <div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-      <div class="comment-author">
-        <%= render "profiles/picture", profile: comment.user.profile, size: "25x25" %>
-        <strong><%= link_to comment.user.full_name, comment.user, data: { turbo_frame: "_top" } %></strong>
-      </div>
-      <div class="comment-date">
-        <small class="text-muted"><%= time_ago_in_words(comment.created_at) %> ago</small>
-      </div>
-
-      <%# Comment Like partial and stream %>
-      <div class="d-flex justift-content-between align-items-center" style="gap: 10px;">
-        <%= turbo_stream_from comment, :likes %>
-        <%= render 'likes/comment_like_button', comment: comment, post: comment.commentable, like_status: user.liked?(comment) %>
-      </div>
-
-      <div class="post-buttons" data-user-id="<%= comment.user.id %>">
-        <% if user == comment.user %>
-          <%= link_to "Delete", post_comment_path(comment.commentable.id, comment.id), data: { turbo_method: :delete }, class: "btn btn-sm btn-outline-danger" %>
-        <% end %>
+  <div class="comment-card">
+    <div class="comment-card__header">
+      <div class="comment-card__picture" style="position: relative;">
+        <%= render "profiles/picture", profile: comment.user.profile, size: "35x35" %>
       </div>
     </div>
-    <div class="card-body row">
-      <p class="card-text col-9"><%= comment.body %></p>
-      
-      <%# Comment Likes Count partial %>
-      <small class="text-muted col-3 d-flex float-end"><%= render 'likes/comment_likes_count', comment: comment %></small>
+
+    <div class="comment-card__body-footer-container">
+      <div class="comment-card__body">
+        <div class="comment-card__user">
+          <%= link_to comment.user.full_name, comment.user, data: { turbo_frame: "_top" }, class: "comment-card__user--link" %>
+        </div>
+        <div class="comment-card__content">
+          <%= comment.body %>
+        </div>
+        <small class="comment-card__likes-count-container"><%= render 'likes/comment_likes_count', comment: comment %></small>
+      </div>
+
+      <div class="comment-card__footer">
+        <%= turbo_stream_from comment, :likes %>
+
+        <small><%= render 'likes/comment_like_button', comment: comment, post: comment.commentable, like_status: user.liked?(comment) %></small>
+        <%= link_to "Reply", '#', data: { action: "click->reply#toggle" }, class: "text-decoration-none" %>
+        <small class="comment-card__date"><%= time_ago_in_words(comment.created_at) %> ago</small>
+        <div class="post-buttons comment-card__dropdown" data-user-id="<%= comment.user.id %>">
+          <% if user == comment.user %>
+            <div class="comment-card__dropdown" data-controller="dropdown-toggle">
+              <button class="comment-card__dropdown--trigger" data-action="click->dropdown-toggle#toggle">
+                <i class="bi bi-three-dots"></i>
+              </button>
+              <div class="comment-card__dropdown-menu" data-dropdown-toggle-target="dropdown">
+                <%= link_to post_comment_path(comment.commentable.id, comment.id), data: { turbo_method: :delete }, class: "comment-card__dropdown--link" do %>
+                  <i class="bi bi-trash"></i>
+                  Delete Comment
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
+
 <% end %>

@@ -1,3 +1,4 @@
 <%= turbo_frame_tag comment, :likes do %>
-  <%= pluralize(comment.likes_count, "Like") %>
+  <span class="comment-card__likes-icon"><i class='fas fa-thumbs-up'></i></span>
+  <span class="comment-card__likes-comment_count"><%= comment.likes_count %></span>
 <% end %>

@@ -13,7 +13,7 @@
   }
 
   &__link {
-    color: black;
+    color: var(--primary-text);
     border-radius: $border-radius;
     display: flex;
     justify-content: start;
@@ -31,8 +31,8 @@
     }
 
     &:hover {
-      background-color: $light-grey;
-      color: black;
+      background-color: var(--light-grey);
+      color: var(--primary-text);
     }
   }
 

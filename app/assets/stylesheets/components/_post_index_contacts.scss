@@ -7,6 +7,7 @@
     width: 100%;
     padding: 0 10px 10px 10px;
     font-size: 20px;
+    color: var(--primary-text);
   }
 
   &__list {
@@ -21,15 +22,14 @@
     justify-content: start;
     gap: 15px;
     position: relative;
-    color: rgb(0, 0, 0, 0.7);
+    color: var(--primary-text);
     border-radius: $border-radius;
-    font-weight: 550;
 
     &:hover,
     &:active,
     &:focus {
-      color: rgb(0, 0, 0, 0.7);
-      background-color: $light-grey;
+      color: var(--primary-text);
+      background-color: var(--light-grey);
     }
 
     img {

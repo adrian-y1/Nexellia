@@ -7,9 +7,9 @@
 }
 
 .post-card {
-  background-color: $white-background;
+  background-color: var(--secondary-background-color);
   border-radius: $border-radius;
-  box-shadow: $light-box-shadow;
+  box-shadow: var(--box-shadow);
   margin-top: 10px;
   min-width: 350px;
   max-width: 700px;
@@ -28,12 +28,12 @@
     gap: 10px;
 
     &-link {
-      color: black;
+      color: var(--primary-text);
 
       &:hover,
       &:active,
       &:active {
-        color: black;
+        color: var(--primary-text);
         text-decoration: underline;
       }
     }
@@ -52,22 +52,23 @@
 
   &__date {
     text-align: start;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--secondary-text-darker);
   }
 
   &__dropdown {
     position: relative;
     
     &--trigger {
-      background-color: $white-background;
+      background-color: var(--secondary-background-color);
       border-radius: 50%;
       width: 35px;
       height: 35px;
       font-size: 20px;
       outline: none;
+      color: var(--primary-text);
       
       &:hover {
-        background-color: $light-grey;
+        background-color: var(--even-lighter-grey);
       }
     }
 
@@ -78,12 +79,12 @@
       position: absolute;
       top: 40px;
       right: 0;
-      background-color: $white-background;
+      background-color: var(--secondary-background-color);
       z-index: 1;
-      box-shadow: $light-box-shadow;
+      box-shadow: var(--dark-box-shadow);
 
       .post-buttons {
-        background-color: $white-background;
+        background-color: var(--secondary-background-color);
         border-radius: $border-radius;
         display: none;
         width: 100%;
@@ -93,13 +94,13 @@
         align-items: start;
         justify-content: flex-start;
         flex-direction: column;
-        box-shadow: $light-box-shadow;
+        box-shadow: var(--dark-box-shadow);
         z-index: 1;
 
         a {
           width: 100%;
           padding: 10px;
-          color: black;
+          color: var(--primary-text);
           border-radius: $border-radius;
           font-size: 17px;
           display: flex;
@@ -110,8 +111,8 @@
           &:hover, 
           &:focus, 
           &:active {
-            color: black;
-            background-color: $light-grey-hover;
+            color: var(--primary-text);
+            background-color: var(--light-grey);
           }
 
           i {
@@ -126,6 +127,7 @@
     &--text {
       font-weight: lighter;
       padding: 10px 10px;
+      color: var(--primary-text);
     }
 
     &--picture {
@@ -143,24 +145,24 @@
 
     &--count {
       padding: 10px;
-      border-bottom: 2px solid $light-border-color;
+      border-bottom: 2px solid var(--border-color);
       width: 100%;
-      color: rgba(0, 0, 0, 0.7);
+      color: var(--secondary-text-darker);
       display: flex;
       justify-content: space-between;
       align-items: center;
 
       a {
-        color: rgba(0, 0, 0, 0.7);
+        color: var(--secondary-text-darker);
 
         &:hover {
-          color: rgba(0, 0, 0, 0.7);
+          color: var(--secondary-text-darker);
           text-decoration: underline;
         }
 
         &:focus,
         &:active {
-          color: rgba(0, 0, 0, 0.7);
+          color: var(--secondary-text-darker);
         }
       }
     }
@@ -175,17 +177,21 @@
 
     &--Like, &--Unlike, &--comment {
       padding: 7px 40px;
-      color: rgba(0, 0, 0, 0.8);
-      background-color: #fff;
+      color: var(--secondary-text-darker);
+      background-color: var(--secondary-background-color);
       font-size: 16px;
       border-radius: $border-radius;
-      font-weight: 500;
+      font-weight: 600 !important;
 
       &:hover,
       &:focus,
       &:active {
-        color: rgba(0, 0, 0, 0.7);
-        background-color: $light-grey-hover;
+        color: var(--secondary-text-darker);
+        background-color: var(--light-grey);
+      }
+
+      i {
+        font-size: 18px;
       }
     }
 

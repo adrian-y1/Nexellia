@@ -49,20 +49,21 @@
     justify-content: center;
     height: 100%;
     width: 100%;
-    color: black;
+    color: var(--secondary-text-darker);
     position: relative;
     border-radius: $border-radius;
+    font-weight: bold;
 
     &:hover,
     &:focus,
     &:active {
-      color: black;
-      background-color: $light-grey-hover;
+      color: var(--secondary-text-darker);
+      background-color: var(--light-grey);
     }
   }
 
   &__link i {
-    font-size: 22px;
+    font-size: 25px;
   }
 
   // Menus
@@ -77,7 +78,7 @@
 
   // Notifications Dropdown
   &__notifications-dropdown {
-    background-color: $light-grey;
+    background-color: var(--light-grey);
     width: 45px;
     height: 90%;
     border-radius: 50%;
@@ -97,9 +98,10 @@
       justify-content: center;
       border: none;
       outline: none;
+      background-color: var(--light-grey);
       
       &:hover {
-        background-color: $light-grey-hover;
+        background-color: var(--even-lighter-grey);
       }
     }
 
@@ -119,7 +121,7 @@
     }
 
     i {
-      color: black;
+      color: var(--secondary-icon);
       font-size: 20px;
     }
   }
@@ -127,13 +129,13 @@
   // Notifications Dropdown Menu
   &__notifications-dropdown-menu {
     display: none;
-    background-color: $white-background;
+    background-color: var(--secondary-background-color);
     position: absolute;
     top: 50px;
     right: -50px;
     width: 370px;
     border-radius: $border-radius;
-    box-shadow: $light-box-shadow;
+    box-shadow: var(--box-shadow);
   }
 
   &__notifications-header {
@@ -142,26 +144,25 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-  }
-
-  &__notifications-header-link {
-    color: $footer-text-color;
+    color: var(--primary-text);
   }
 
   &__notifications-footer {
     width: 100%;
     text-align: center;
-    border-top: 1px solid $light-border-color;
+    border-top: 1px solid var(--border-color);
 
     &-link {
       padding: 10px 0;
       display: block;
       width: 100%;
-      color: black;
+      color: var(--primary-text);
+      border-bottom-left-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
 
       &:hover {
-        color: black;
-        background-color: $light-grey-hover;
+        color: var(--primary-text);
+        background-color: var(--light-grey);
       }
     }
   }
@@ -193,7 +194,7 @@
 
     &__link {
       width: 100%;
-      color: rgba(0, 0, 0, 0.8);
+      color: var(--secondary-text);
       display: flex;
       justify-content: start;
       align-items: center;
@@ -207,8 +208,8 @@
       }
 
       &:hover {
-        color: rgba(0, 0, 0, 0.8);
-        background-color: $light-grey-hover;
+        color: var(--secondary-text);
+        background-color: var(--light-grey);
       }
     }
 
@@ -223,8 +224,8 @@
     }
 
     &__date {
-      color: rgba(0, 0, 0, 0.5);
-      font-size: 15px;
+      color: var(--secondary-text);
+      font-size: 13px;
 
       &__unread {
         color: $color-primary;
@@ -240,6 +241,10 @@
 
   .unread {
     background-color: $color-primary-low-opacity;
+
+    a {
+      color: var(--primary-text);
+    }
   }
 
 
@@ -270,13 +275,13 @@
   // User Dropdown Menu
   &__user-dropdown-menu {
     display: none;
-    background-color: $white-background;
+    background-color: var(--secondary-background-color);
     position: absolute;
     top: 50px;
     right: 0px;
     width: 250px;
     border-radius: $border-radius;
-    box-shadow: $light-box-shadow;
+    box-shadow: var(--box-shadow);
     padding: 10px 5px;
 
     &__header {
@@ -286,16 +291,16 @@
       border-radius: $border-radius;
       gap: 10px;
       padding: 10px;
-      border-bottom: 1px solid $light-border-color;
+      border-bottom: 1px solid var(--border-color);
       font-size: 17px;
 
       &:hover {
-        background-color: $light-grey-hover;
+        background-color: var(--light-grey);
       }
     }
 
     &__title {
-      color: black;
+      color: var(--primary-text);
       font-weight: bolder;
     }
 
@@ -312,25 +317,28 @@
       padding: 5px;
       gap: 15px;
       border-radius: $border-radius;
-      color: black;
+      color: var(--secondary-icon);
       font-size: 18px;
       margin-top: 5px;
+      width: 100%;
+      background-color: transparent;
+      outline: none;
 
       &:hover {
-        background-color: $light-grey-hover;
-        color: black;
+        background-color: var(--light-grey);
+        color: var(--secondary-icon);
       }
 
       &:active,
       &:focus {
-        color: black;
+        color: var(--secondary-icon);
       }
 
       span {
         width: 35px;
         height: 35px;
         border-radius: 50%;
-        background-color: $light-grey-hover;
+        background-color: var(--light-grey);
         display: flex;
         align-items: center;
         justify-content: center;

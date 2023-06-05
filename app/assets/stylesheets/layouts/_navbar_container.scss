@@ -1,7 +1,7 @@
 .navbar-container {
   width: 100%;
-  background-color: $white-background;
-  box-shadow: $light-box-shadow;
+  background-color: var(--secondary-background-color);
+  box-shadow: var(--box-shadow);
   position: sticky;
   top: 0;
   left: 0; 

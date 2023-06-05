@@ -1,21 +1,43 @@
-// Colors
-$light-background-color: #F0F2F5;
-$light-border-color: #DDDFE2;
-$white-background: #fff;
+:root {
+  // Colors
+  --main-background-color: #F0F2F5;
+  --secondary-background-color: #fff;
+  --border-color: #DDDFE2;
+  --grey: rgb(216, 218, 223, 0.7);
+  --light-grey: rgb(216, 218, 223, 0.4);
+  --even-lighter-grey: rgba(0, 0, 0, 0.1  );
+  --box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  --dark-box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  --secondary-icon: #000;
+  --secondary-text: #b0b3b8;
+  --secondary-text-darker: #7a7b7e;
+  --primary-text: #000;
+  --modal-background-color: rgba(255, 255, 255, 0.7);
+  --textarea-color: #c6c9cf66;
+}
 
+.darkmode {
+  // Colors
+  --main-background-color: #18191A;
+  --secondary-background-color: #242526;
+  --secondary-icon: #e4e6eb;
+  --primary-text: #fff;
+  --border-color: rgba(255, 255, 255, 0.1);
+  --light-grey: rgba(255, 255, 255, 0.1);
+  --even-lighter-grey: rgba(255, 255, 255, 0.175);
+  --secondary-text-darker: #a9aaad;
+  --modal-background-color: rgba(0, 0, 0, 0.7);
+  --textarea-color: #3A3B3C;
+}
+
+// Colors
 $color-primary: #1876f2;
 $color-primary-hover: hsl(214, 89%, 56%);
 $color-primary-low-opacity: rgb(24, 118, 242, 0.1);
 
-$light-grey-hover: rgb(216, 218, 223, 0.4);
-$light-grey: rgb(216, 218, 223, 0.7);
-
-$light-header-text-color: rgb(0, 0, 0);
-$dark-header-text-color: rgb(0, 0, 0);
 $footer-text-color: #212529;
 
 // Sizing
 $border-radius: 6px;
 $input-padding: 15px 10px;
 $input-padding-small: 11px;
-$light-box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);

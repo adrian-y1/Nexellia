@@ -8,8 +8,8 @@
 
   &__form--trigger {
     width: 700px;
-    background-color: $white-background;
-    box-shadow: $light-box-shadow;
+    background-color: var(--secondary-background-color);
+    box-shadow: var(--box-shadow);
     border-radius: $border-radius;
     padding: 10px;
     display: flex;
@@ -23,19 +23,20 @@
       justify-content: start;
       align-items: start;
       gap: 10px;
-      border-bottom: 1px solid $light-border-color;
+      padding-bottom: 2px;
+      border-bottom: 1px solid var(--border-color);
 
       a:last-child {
-        background-color: $light-grey-hover;
+        background-color: var(--light-grey);
         width: 100%;
         border-radius: 25px;
         font-size: 18px;
         padding: 10px 15px;
         text-align: start;
-        color: rgba(0, 0, 0, 0.7);
+        color: var(--secondary-text-darker);
 
         &:hover {
-          background-color: $light-grey;
+          background-color: var(--even-lighter-grey);
         }
       }
     }
@@ -47,14 +48,14 @@
   &__form--image-trigger {
     background-color: transparent;
     font-size: 17px;
-    color: rgba(0, 0, 0, 0.7);
+    color: var(--secondary-text-darker);
     margin-top: 10px;
     padding: 5px 10px;
     border-radius: $border-radius;
 
     &:hover {
-      background-color: $light-grey-hover;
-      color: rgba(0, 0, 0, 0.7);
+      background-color: var(--light-grey);
+      color: var(--secondary-text-darker);
     }
 
     i {

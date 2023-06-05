@@ -7,9 +7,10 @@
 
     <ul class="navbar__nav">
       <li class="navbar__item">
-        <%= link_to posts_path, class: "navbar__link", title: "Home" do %>
-          <i class="bi bi-house-door"></i>
+        <%= link_to posts_path, class: "navbar__link #{set_active_link(posts_path)}", title: "Home" do %>
+          <i class="bi bi-house-door<%= set_fill_icon(posts_path) %>"></i>
         <% end %>
+        <%= set_active_border(posts_path) %>
       </li>
       <li class="navbar__item">
         <%= link_to "#", class: "navbar__link", title: "Friends" do %>
@@ -17,9 +18,10 @@
         <% end %>
       </li>
       <li class="navbar__item">
-        <%= link_to users_path, class: "navbar__link", title: "Explore" do %>
-          <i class="bi bi-compass"></i>
+        <%= link_to users_path, class: "navbar__link #{set_active_link(users_path)}", title: "Explore" do %>
+          <i class="bi bi-compass<%= set_fill_icon(users_path) %>"></i>
         <% end %>
+        <%= set_active_border(users_path) %>
       </li>
     </ul>
 
@@ -33,7 +35,3 @@
     </div>
   </nav>
 </div>
-
-<!--- 
-<%= link_to "Sign out", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-outline-primary" %>
--->

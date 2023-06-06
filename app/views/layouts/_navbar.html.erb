@@ -7,10 +7,10 @@
 
     <ul class="navbar__nav">
       <li class="navbar__item">
-        <%= link_to posts_path, class: "navbar__link #{set_active_link(posts_path)}", title: "Home" do %>
-          <i class="bi bi-house-door<%= set_fill_icon(posts_path) %>"></i>
+        <%= link_to posts_path, class: "navbar__link #{ is_current_path?(posts_path) ? set_active_link(posts_path) : set_active_link(root_path)}", title: "Home" do %>
+          <i class="bi bi-house-door<%= is_current_path?(posts_path) ? set_fill_icon(posts_path) : set_fill_icon(root_path) %>"></i>
         <% end %>
-        <%= set_active_border(posts_path) %>
+        <%= is_current_path?(posts_path) ? set_active_border(posts_path) : set_active_border(root_path) %>
       </li>
       <li class="navbar__item">
         <%= link_to "#", class: "navbar__link", title: "Friends" do %>

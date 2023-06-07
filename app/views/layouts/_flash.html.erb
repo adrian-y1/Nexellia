@@ -1,6 +1,15 @@
 <% flash.each do |flash_type, message| %>
-  <div class="alert alert-<%= flash_type == "notice" ? "success" : "danger" %> flash__message text-center">
-    <%= message unless message == "Invalid Email or password." %>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-  </div>
+  <% unless message == "Invalid Email or password." %>
+    <div class="flash__card" data-controller="close-flash">
+      <div class="flash__content">
+        <div class="flash__icon"> <%= flash_icon(flash_type) %></div>
+        <div class="flash__body">
+          <div class="flash__header"><%= is_flash_notice?(flash_type) ? "Success" : "Error" %></div>
+          <div class="flash__message"><%= message %></div>
+          <div class="flash__border-<%= is_flash_notice?(flash_type) ? "success" : "error" %>"></div>
+        </div>
+      </div>
+      <button type="button" data-action="click->close-flash#close" class="flash__card--button"><i class="fa-regular fa-x"></i></button>
+    </div>
+  <% end %>
 <% end %>

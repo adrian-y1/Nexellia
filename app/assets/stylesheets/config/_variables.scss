@@ -14,6 +14,7 @@
   --primary-text: #000;
   --modal-background-color: rgba(255, 255, 255, 0.7);
   --textarea-color: #c6c9cf66;
+  --flash-card-color: white;
 }
 
 .darkmode {
@@ -28,6 +29,7 @@
   --secondary-text-darker: #a9aaad;
   --modal-background-color: rgba(0, 0, 0, 0.7);
   --textarea-color: #3A3B3C;
+  --flash-card-color: var(--textarea-color);
 }
 
 // Colors

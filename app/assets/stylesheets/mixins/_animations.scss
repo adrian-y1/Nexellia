@@ -1,0 +1,22 @@
+@mixin slideInOutAnimation($duration: 5s) {
+  @keyframes slideInOut {
+    0% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    20% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+  }
+
+  animation: slideInOut $duration ease-in-out forwards;
+}

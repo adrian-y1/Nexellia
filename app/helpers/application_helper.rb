@@ -25,4 +25,16 @@ module ApplicationHelper
   def is_current_path?(path)
     request.path == path
   end
+
+  def is_flash_notice?(flash_type)
+    flash_type == "notice"
+  end
+
+  def flash_icon(flash_type)
+    if is_flash_notice?(flash_type) 
+      content_tag(:i, "", class: "bi bi-check-circle-fill")
+    else
+      content_tag(:i, "", class: "bi bi-x-circle-fill")
+    end
+  end
 end

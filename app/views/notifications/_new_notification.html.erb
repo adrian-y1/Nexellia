@@ -1,18 +1,18 @@
 <%= turbo_frame_tag "new_notification_#{notification.recipient.id}_#{notification.id}" do %>
   <% noticed_obj = notification.to_notification %>
 
-  <div class="alert alert-primary alert-dismissible fade show" role="alert">
-    <% if notification.unread? %>
-      <span class="badge bg-primary me-2">New</span>
-    <% end %>
-
-    <div class="d-flex align-items-center">
-      <div class="flex-grow-1 ms-3">
-        <strong><%= noticed_obj.message %></strong>
-        <br>
-        <small class="text-muted"><%= time_ago_in_words(notification.created_at) %> ago</small>
+  <div class="flash-notification" data-controller="close-flash">
+    <%= link_to noticed_obj.url, class: "flash-notification__content", data: { turbo_frame: "_top" } do %>
+      <div class="flash-notification__picture">
+        <%= render "profiles/picture", profile: noticed_obj.actor.profile, size: "45x45" %>
       </div>
-    </div>
-    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      <div class="flash-notification__body">
+        <div class="flash-notification__header">New <i class="bi bi-bell-fill"></i></div>
+        <div class="flash-notification__message"><%= noticed_obj.message %></div>
+        <small class="flash-notification__date"><%= time_ago_in_words(notification.created_at) %> ago</small>
+        <div class="flash-notification__border"></div>
+      </div>
+    <% end %>
+    <button type="button" data-action="click->close-flash#close" class="flash-notification--button"><i class="fa-regular fa-x"></i></button>
   </div>
 <% end %>

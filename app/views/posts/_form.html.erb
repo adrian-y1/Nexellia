@@ -1,4 +1,4 @@
-<%= render "shared/form_errors", object: post %>
+
 <% submit_text = action == "edit" ? "Save Post" : "Post" %>
 <%= form_with model: post, data: { controller: 'reset-form image-preview', action: 'turbo:submit-end->reset-form#reset' }, local: true do |f| %>
   <div class="modal__body--user">

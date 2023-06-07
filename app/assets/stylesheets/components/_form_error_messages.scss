@@ -1,0 +1,37 @@
+.form-error-container {
+  width: 100%;
+  background-color: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.form-error-card {
+  background-color: transparent;
+  font-size: 14px;
+  display: grid;
+  grid-template-columns: 25px 1fr;
+  border: 1px solid #F83B44;
+  gap: 2px;
+
+  &__message {
+    color: #F83B44;
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: #F83B44;
+
+    i {
+      color: var(--secondary-background-color);
+      margin-bottom: 4px;
+    }
+  }
+}

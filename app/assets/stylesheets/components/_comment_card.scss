@@ -205,10 +205,12 @@
 
   form {
     width: 100%;
-    justify-self: start;
-    display: flex;
-    align-items: center;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 35px 1fr 35px;
+  }
+
+  .form-error-container {
+    padding-left: 50px !important;
   }
 
   &__reply-count {

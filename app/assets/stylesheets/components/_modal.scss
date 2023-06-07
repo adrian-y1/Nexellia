@@ -51,6 +51,11 @@
     border-top-left-radius: $border-radius;
     border-top-right-radius: $border-radius;
 
+    .form-error-container {
+      margin-top: 2px;
+      align-items: center !important;
+    }
+
     &--close {
       border-radius: 50%;
       background-color: var(--light-grey);
@@ -181,17 +186,13 @@
         left: 0;
         right: 0;
         border-top: 1px solid var(--border-color);
-        display: flex;
-        align-items: start;
         gap: 5px;
         padding: 10px;
   
         form {
           width: 100%;
-          justify-self: start;
-          display: flex;
-          align-items: center;
-          flex-direction: row;
+          display: grid;
+          grid-template-columns: 35px 1fr 35px;
         }
         
         &-form__input-container {
@@ -199,6 +200,10 @@
           display: flex;
           align-items: center;
           flex-grow: 1;
+        }
+
+        .form-error-container {
+          padding-left: 50px !important;
         }
       }
   

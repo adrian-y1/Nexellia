@@ -24,9 +24,11 @@
 @import "components/flash_notification";
 @import "components/form_error_messages";
 @import "components/loading";
+@import "components/profile";
 
 // Layouts
 @import "layouts/login_container";
 @import "layouts/registration_container";
 @import "layouts/navbar_container";
 @import "layouts/post_index_container";
+@import "layouts/profile_container";

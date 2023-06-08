@@ -1,0 +1,192 @@
+.profile-header {
+  background-color: var(--secondary-background-color);
+  box-shadow: var(--box-shadow);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+
+  &__cover {
+    img {
+      border-radius: $border-radius;
+    }
+  }
+
+  &__picture {
+    border: 5px solid var(--secondary-background-color);
+    width: fit-content;
+    border-radius: 50%;
+    position: relative;
+    top: -20px;
+    margin-bottom: -20px;
+    left: 20px;
+    padding: 0;
+    margin: 0;
+
+    img {
+      border-radius: 50%;
+    }
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 50px;
+    width: 1200px;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  &__name {
+    color: var(--primary-text);
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
+  }
+
+  &__date {
+    color: var(--secondary-text-darker);
+  }
+
+  &__friends-count {
+    color: var(--secondary-text-darker);
+    font-size: 14px;
+    opacity: 0.8;
+    font-weight: bold;
+  }
+
+  &__friends {
+    flex: 1;
+
+    a {
+      position: relative;
+      border-radius: 50%;
+      margin-right: -15px;
+    }
+
+    img {
+      border-radius: 50%;
+      border: 3px solid var(--secondary-background-color);
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  &__buttons {
+
+    &--edit-profile, &--remove-friend, &--Cancel-friend, &--Decline-friend {
+      background-color: var(--light-grey);
+      color: var(--primary-text);
+
+      &:hover {
+        color: var(--primary-text);
+        background-color: var(--even-lighter-grey);
+      }
+
+      &:focus {
+        color: var(--primary-text);
+      }
+    }
+
+    &--add-friend, &--accept-friend,  &--friends-indicator {
+      background-color: $color-primary;
+      color: #fff;
+      font-weight: bold;
+
+      &:hover {
+        background-color: $color-primary-hover;
+      }
+    }
+
+    &--friends-indicator {
+      i {
+        font-size: 17px !important;
+      }
+    }
+  }
+
+  &__friend-request-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 20px;
+    width: 100%;
+  }
+
+  &__navigation {
+    width: 1200px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 0;
+
+    &-item {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      width: 150px;
+      position: relative;
+    }
+
+    &--link {
+      padding: 15px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      color: var(--secondary-text-darker);
+      position: relative;
+      border-radius: $border-radius;
+      font-weight: bold;
+
+      &:hover {
+        color: var(--secondary-text-darker);
+        background-color: var(--light-grey);
+      }
+
+      &:focus,
+      &:active {
+        color: var(--secondary-text-darker);
+      }
+
+      &-border {
+        width: 100%;
+        height: 4px;
+        background-color: $color-primary;
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        border-radius: 20px;
+      }
+    }
+  }
+}
+
+.profile-header-button {
+  padding: 10px 14px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: $border-radius;
+  gap: 7px;
+  font-size: 15px;
+  border: none;
+  outline: none;
+
+  i {
+    font-size: 15px;
+  }
+}

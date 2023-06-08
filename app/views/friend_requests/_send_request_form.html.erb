@@ -2,5 +2,8 @@
 <%= form_with model: friend_request, url: user_friend_requests_path(sender.id) do |f| %>
   <%= f.hidden_field :sender_id, value: sender.id %>
   <%= f.hidden_field :receiver_id, value: receiver.id %>
-  <%= f.submit "Add Friend", class: "btn btn-success" %>
+  <button type="submit" class="profile-header__buttons--add-friend profile-header-button">
+    <i class="fas fa-user-plus"></i>
+    Add friend
+  </button>
 <% end %>

@@ -1,30 +1,44 @@
 <%= turbo_frame_tag "profile_information" do %>
-  <div class="card">
-    <div class="card-header bg-primary text-white">
-      <h5 class="mb-0">
-        Profile Information 
-        <% if current_user == user %>
-          <%= link_to "Edit", edit_user_profile_path(user, profile), data: { turbo_frame: 'edit_profile_modal' }, class: "btn btn-sm btn-warning" %>
-        <% end %>
-      </h5>
+  <div class="profile-body__intro">
+    <div class="profile-body__intro-header">
+      <h3 class="profile-body__header-intro-title">Intro</h3>
     </div>
-    <div class="card-body">
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-muted"><%= profile.gender %></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-muted"><%= profile.public_email %></p>
-          <p class="text-muted"><%= profile.public_phone_number %></p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-muted"><%= profile.bio_description %></p>
-        </div>
-      </div>
+    <div class="profile-body__intro-content">
+      <% if profile.gender == "Male" %>
+        <i class="fas fa-male"></i>
+      <% elsif profile == "Female" %>
+        <i class="fas fa-female"></i>
+      <% else %>
+        <i class="fas fa-user"></i>
+      <% end %>
+      <% if attribute_provided?(profile.gender) %>
+        I'm a <span> <%= profile&.gender %></span>
+      <% else %>
+        <em><small>Not Provided</small></em>
+      <% end %>
+    </div>
+    <div class="profile-body__intro-content">
+      <i class="bi bi-envelope-fill"></i>
+      <% if attribute_provided?(profile.public_email) %>
+        You can contact me via email at <span> <%= profile.public_email %></span>
+      <% else %>
+        <em><small>Not Provided</small></em>
+      <% end %>
+    </div>
+    <div class="profile-body__intro-content">
+      <i class="bi bi-telephone-fill"></i>
+      <% if attribute_provided?(profile.public_phone_number) %>
+        You can contact me via phone at<span> <%= profile.public_phone_number %></span>
+      <% else %>
+        <em><small>Not Provided</small></em>
+      <% end %>
+    </div>
+    <div class="profile-body__intro-content">
+      <i class="bi bi-file-text-fill"></i>
+      <%= profile.bio_description %>
+      <% unless attribute_provided?(profile.bio_description) %>
+        <em><small>Not Provided</small></em>
+      <% end %>
     </div>
   </div>
 <% end %>

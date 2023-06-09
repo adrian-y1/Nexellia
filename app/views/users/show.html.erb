@@ -53,4 +53,21 @@
       </div>
     </div>
   </div>
+
+  <div class="profile-body">
+    <div class="profile-body__content">
+      <%= render "profiles/profile_information", user: @user, profile: @profile %>
+
+      <div class="profile-body__posts">
+        <%= turbo_stream_from @user.id, "posts" %>
+        <%= turbo_frame_tag "posts" do %>
+          <%= render "posts/empty_state" %>
+          <% @posts.each do |post| %>
+            <%= render "posts/post_interactions", post: post, user: Current.user %>
+          <% end %>
+        <% end %>
+        <%= render "posts/next_page" %>
+      </div>
+    </div>
+  </div>
 </div>

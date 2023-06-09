@@ -23,4 +23,16 @@ module ProfilesHelper
       'default_cover_photo.jpg'
     end
   end
+
+  def display_attribute_data(attribute)
+    if attribute.present?
+      attribute
+    else
+      "Not Provided"
+    end
+  end
+
+  def attribute_provided?(attribute)
+    attribute.present?
+  end
 end

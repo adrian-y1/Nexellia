@@ -8,7 +8,7 @@ export default class extends Controller {
   }
 
   preview() {
-    const fileField = document.querySelector('input[data-action="change->image-preview#preview"]')
+    const fileField = this.element.querySelector('input[data-action="change->image-preview#preview"]')
     const file = fileField.files[0]
     if (file) {
       this.newPictureTarget.src = URL.createObjectURL(file)

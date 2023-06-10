@@ -11,7 +11,11 @@
     grid-template-columns: 1fr 1.5fr;
     gap: 20px;
   }
-
+  
+  &__header-intro-title {
+    color: var(--primary-text);
+  }
+  
   &__intro {
     background-color: var(--secondary-background-color);
     border-radius: $border-radius;
@@ -29,6 +33,7 @@
       display: flex;
       align-items: center;
       font-weight: lighter;
+      color: var(--primary-text);
 
       i {
         margin-right: 20px;

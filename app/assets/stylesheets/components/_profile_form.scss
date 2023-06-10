@@ -1,0 +1,227 @@
+.profile-form {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  gap: 20px;
+
+  i {
+    color: var(--secondary-text-darker);
+  }
+
+  &__pp-group {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+
+    img {
+      border-radius: 50%;
+      object-fit: cover;
+    }
+  }
+
+  &__pp {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    color: var(--primary-text);
+    width: 100%;
+  }
+
+  &__pp-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    label {
+      color: var(--primary-text);
+    }
+  }
+
+  &__input-group {
+    width: 100%;
+
+    &--cover-photo {
+      border-radius: $border-radius !important;
+      margin-bottom: 4px;
+      width: 100% !important;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &--file {
+      width: 100%;
+      border: 1px solid var(--border-color);
+      border-radius: $border-radius;
+      margin-top: 4px;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+    }
+
+    &--file-label {
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: var(--primary-text);
+      font-size: 14px;
+      font-weight: lighter;
+  
+      i {
+        color: yellowgreen;
+        font-size: 30px;
+      }
+    }
+
+    &--check-input {
+      /* Hide the default checkbox */
+      display: none;
+    }
+    
+    &--check-label {
+      /* Style the custom checkbox */
+      position: relative;
+      padding-left: 30px; /* Adjust the padding to increase the size */
+      cursor: pointer;
+      color: var(--primary-text);
+      font-weight: 500;
+    }
+    
+    &--check-label::before {
+      /* Create the checkbox icon */
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: $border-radius;
+      background-color: var(--grey); /* Checkbox background color */
+    }
+    
+    &--check-input:checked + &--check-label::before {
+      /* Style the checked checkbox */
+      background-color: $color-primary; /* Checkbox background color when checked */
+      border-color: $color-primary; /* Checkbox border color when checked */
+    }
+    
+    &--check-label::after {
+      /* Create the checkmark icon */
+      content: "\f00c";
+      font-family: FontAwesome;
+      font-size: 14px;
+      position: absolute;
+      left: 4px;
+      top: 3px;
+      color: #fff;
+      opacity: 0;
+      transition: opacity 0.2s ease-in-out;
+    }
+    
+    &--check-input:checked + &--check-label::after {
+      /* Show the checkmark when the checkbox is checked */
+      opacity: 1;
+    }
+
+    &--input, &--textarea {
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      outline: none;
+      border-radius: $border-radius;
+      width: 100%;
+      font-size: 15px;
+      color: var(--primary-text);
+      background-color: var(--secondary-background-color);
+  
+      &:focus,
+      &:active {
+        border-color: $color-primary;
+      }
+    }
+
+    &--label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 5px;
+      color: var(--primary-text);
+
+      i {
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  &__radio-group-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--primary-text);
+    font-weight: 500;
+
+    &--label {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+
+      i {
+        margin-bottom: 2px;
+      }
+    }
+  }
+
+  &__radio-group {
+    display: flex;
+    align-items: center;
+    font-weight: lighter;
+    padding-left: 15px;
+
+    &--radio {
+      position: relative;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: var(--grey);
+      margin-right: 5px;
+      cursor: pointer;
+
+      &:checked {
+        background-color: $color-primary;
+        border-color: $color-primary;
+      }
+    }
+
+    &--radio:checked::after {
+      content: "";
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    &--label {
+      display: block;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }  
+}

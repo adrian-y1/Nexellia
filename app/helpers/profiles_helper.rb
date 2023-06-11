@@ -2,7 +2,7 @@ module ProfilesHelper
   def profile_picture_for(profile, size=50)
     if profile.picture.attached? && profile.picture.representable?
       begin
-        profile.picture.representation(resize_to_limit: [100, 100]).processed
+        profile.picture
       rescue ActiveStorage::FileNotFoundError
         gravatar_url_for(profile.user.email, size)
       end
@@ -18,7 +18,7 @@ module ProfilesHelper
 
   def cover_photo_for(profile)
     if profile.cover_photo.attached?
-      profile.cover_photo.representation(resize_to_limit: [1200, 415]).processed
+      profile.cover_photo
     else
       'default_cover_photo.jpg'
     end

@@ -11,22 +11,14 @@
       
       <div class="profile-header__info">
         <h1 class="profile-header__name"><%= @user.full_name %></h1>
-        <small class="profile-header__date">
-          <i class="fa fa-calendar" aria-hidden="true"></i>
-          <%= @user.created_at.strftime("%B %d, %Y") %>
-        </small>
         <%# TODO %>
-        <p class="profile-header__friends-count">100 friends</p>
+        <small class="profile-header__friends-count"><i class="bi bi-people-fill"></i> <%= pluralize(@friends_count, "friend") %></small>
         <div class="profile-header__actions">
           <div class="profile-header__friends">
-            <%= link_to @profile.user do %>
-              <%= render "profiles/picture", profile: @profile, size: "45x45" %>
-            <% end %>
-            <%= link_to @profile.user do %>
-              <%= render "profiles/picture", profile: @profile, size: "45x45" %>
-            <% end %>
-            <%= link_to @profile.user do %>
-              <%= render "profiles/picture", profile: @profile, size: "45x45" %>
+            <% @friends.each do |friend| %>
+              <%= link_to friend do %>
+                <%= render "profiles/picture", profile: friend.profile, size: "45x45" %>
+              <% end %>
             <% end %>
           </div>
 

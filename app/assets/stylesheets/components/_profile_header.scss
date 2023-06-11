@@ -23,7 +23,6 @@
   }
 
   &__picture {
-    border: 5px solid var(--secondary-background-color);
     width: fit-content;
     border-radius: 50%;
     position: relative;
@@ -34,6 +33,7 @@
     margin: 0;
 
     img {
+      border: 5px solid var(--secondary-background-color);
       border-radius: 50%;
     }
   }
@@ -43,6 +43,7 @@
     justify-content: flex-start;
     gap: 50px;
     width: 1200px;
+    height: 150px;
     margin-top: 20px;
     border-bottom: 1px solid var(--border-color);
   }

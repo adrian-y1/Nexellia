@@ -95,6 +95,7 @@
         justify-content: flex-start;
         flex-direction: column;
         box-shadow: var(--dark-box-shadow);
+        border: 1px solid var(--border-color);
         z-index: 1;
 
         a {

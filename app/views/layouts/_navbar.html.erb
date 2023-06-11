@@ -13,15 +13,15 @@
         <%= is_current_path?(posts_path) ? set_active_border(posts_path) : set_active_border(root_path) %>
       </li>
       <li class="navbar__item">
-        <%= link_to "#", class: "navbar__link", title: "Friends" do %>
-          <i class="bi bi-people"></i>
-        <% end %>
-      </li>
-      <li class="navbar__item">
-        <%= link_to users_path, class: "navbar__link #{set_active_link(users_path)}", title: "Explore" do %>
-          <i class="bi bi-compass<%= set_fill_icon(users_path) %>"></i>
+        <%= link_to users_path, class: "navbar__link #{set_active_link(users_path)}", title: "Friends" do %>
+          <i class="bi bi-people<%= set_fill_icon(users_path) %>"></i>
         <% end %>
         <%= set_active_border(users_path) %>
+      </li>
+      <li class="navbar__item">
+        <%= link_to "#", class: "navbar__link", title: "Explore" do %>
+          <i class="bi bi-compass"></i>
+        <% end %>
       </li>
     </ul>
 

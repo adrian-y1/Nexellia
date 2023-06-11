@@ -18,7 +18,7 @@ module ProfilesHelper
 
   def cover_photo_for(profile)
     if profile.cover_photo.attached?
-      profile.cover_photo.representation(resize_to_limit: [100, 100]).processed
+      profile.cover_photo.representation(resize_to_limit: [1200, 415]).processed
     else
       'default_cover_photo.jpg'
     end

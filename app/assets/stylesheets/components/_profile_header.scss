@@ -9,8 +9,16 @@
   position: relative;
 
   &__cover {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    overflow: hidden;
+
     img {
       border-radius: $border-radius;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
     }
   }
 
@@ -19,7 +27,7 @@
     width: fit-content;
     border-radius: 50%;
     position: relative;
-    top: -20px;
+    top: -60px;
     margin-bottom: -20px;
     left: 20px;
     padding: 0;
@@ -32,10 +40,10 @@
 
   &__content {
     display: flex;
-    align-items: center;
     justify-content: flex-start;
     gap: 50px;
     width: 1200px;
+    margin-top: 20px;
     border-bottom: 1px solid var(--border-color);
   }
 

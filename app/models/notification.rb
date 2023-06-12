@@ -23,6 +23,7 @@ class Notification < ApplicationRecord
   after_create_commit do 
     broadcast_to_new_notifications
     broadcast_to_dropdown_notifications
+    broadcast_to_index_notifications
     broadcast_notifications_count_async
   end
 
@@ -34,6 +35,7 @@ class Notification < ApplicationRecord
     broadcast_remove_new_notification
     broadcast_remove_dropdown_notification
     broadcast_notifications_count_sync
+    broadcast_remove_index_notification
   end
 
   private 
@@ -48,6 +50,13 @@ class Notification < ApplicationRecord
   # Broadcasts a prepend to the user's dropdown_notifications stream
   def broadcast_to_dropdown_notifications
     stream_name = "dropdown_notifications_#{recipient.id}"
+    broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/dropdown_notification",
+      locals: { notification: self, unread: true }
+  end
+
+  # Broadcasts a prepend to the user's index-notifications stream
+  def broadcast_to_index_notifications
+    stream_name = "index-notifications_#{recipient.id}"
     broadcast_prepend_later_to stream_name, target: stream_name, partial: "notifications/dropdown_notification",
       locals: { notification: self, unread: true }
   end
@@ -74,5 +83,10 @@ class Notification < ApplicationRecord
   # Broadcasts a remove action to the specified notification to the dropdown_notifications stream
   def broadcast_remove_dropdown_notification
     broadcast_remove_to "dropdown_notifications_#{recipient.id}", target: "dropdown_notification_#{recipient.id}_#{id}"
+  end
+
+  # Broadcasts a remove action to the specified notification to the index-notifications stream
+  def broadcast_remove_index_notification
+    broadcast_remove_to "index-notifications_#{recipient.id}", target: "dropdown_notification_#{recipient.id}_#{id}"
   end
 end

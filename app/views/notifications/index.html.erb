@@ -1,11 +1,17 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-8 offset-md-2">
-      <h2 class="my-4">Notifications</h2>
-      <%= turbo_frame_tag "new_notifications_#{current_user.id}" do %>
-        <%= render "shared/empty_state", message: "You don't have any notifications." %>
-        <% @notifications.each do |notification| %>
-          <%= render "notifications/new_notification", notification: notification %>
+<div class="notifications-index-container">
+  <div class="navbar__notifications-dropdown-menu" id="notifications-index">
+    <div class="navbar__notifications-header">
+      <h2 class="navbar__notifications-title">Notifications</h2>
+      <%= link_to "Mark all as read", "#", class: "navbar__notifications-header-link" %>
+    </div>
+
+    <%= turbo_stream_from "index-notifications_#{current_user.id}" %>
+
+    <div class="navbar__notifications-card-container">
+      <%= turbo_frame_tag "index-notifications_#{current_user.id}" do %>
+        <%= render "shared/empty_state", message: "You don't have any notifications" %>
+        <% @all_notifications.each do |notification| %>
+          <%= render "notifications/dropdown_notification", notification: notification %>
         <% end %>
       <% end %>
     </div>

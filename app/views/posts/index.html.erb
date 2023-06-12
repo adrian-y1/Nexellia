@@ -31,6 +31,9 @@
   <div class="post-index-contacts">
     <h3 class="post-index-contacts__header">Contacts</h3>
     <ul class="post-index-contacts__list" id="online_friends">
+      <% if @user_friends.empty? %>
+        <%= render "shared/empty_state", message: "You do not have any friends." %>
+      <% end %>
       <% @user_friends.each do |friend| %>
         <%= render "users/user", user: friend %>
       <% end %>

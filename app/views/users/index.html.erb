@@ -1,18 +1,27 @@
-<h2 class="text-center mb-5 mt-2">All Users</h2>
-<div class="list-group w-100 align-items-center d-flex justify-content-center flex-column">
-
-  <% @users.each do |user| %>
-
-    <%# Creates a 1-on-1 stream for the Friend Request Sender and Receiver %>
-    <%= turbo_stream_from [current_user.id, user.id] %>
-
-    <div class="list-group-item w-75 d-flex justify-content-between align-items-center">
-      <div>
-        <%= render "profiles/picture", profile: user.profile, size: "50x50" %>
-        <%= link_to user.full_name, user_path(user) %>
-      </div>
-      <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
+<div class="users-container">
+  <%= render "layouts/sidebar" %>
+  <div class="friend-requests">
+    <div class="friend-requests__header">
+      <div class="friend-requests__title">Friend requests</div>
     </div>
-  <% end %>
-  
+    <div class="friend-requests__card-container">
+      <% @friend_requests.load_receiver_and_sender_profiles.each do |friend_request| %>
+        <% other_user = friend_request.receiver == current_user ? friend_request.sender : friend_request.receiver %>
+        <%= turbo_stream_from [current_user.id, other_user.id] %>
+        <div class="friend-requests__card">
+          <div class="friend-requests__picture">
+            <%= link_to user_path(other_user) do %>
+              <%= render "profiles/picture", profile: other_user.profile, size: "208x208" %>
+            <% end %>
+          </div>
+          <div class="friend-requests__name">
+            <%= link_to other_user.full_name, user_path(other_user), class: "friend-requests__name--link" %>
+          </div>
+          <div class="friend-requests__buttons">
+            <%= render "users/friend_request_form", logged_in_user: Current.user, user: other_user, friend_request: @friend_request %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>

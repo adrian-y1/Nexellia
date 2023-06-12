@@ -3,6 +3,7 @@ class UsersController < ApplicationController
     # eager load Profile and :profile_attachment to solve N + 1 queries problem
     @users = User.excluding_user(current_user).includes(profile: :picture_attachment)
     @friend_request = FriendRequest.new
+    @friend_requests = current_user.friend_requests_sent.or(current_user.friend_requests_received)
   end
 
   def show

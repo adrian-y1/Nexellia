@@ -24,6 +24,8 @@ class FriendRequest < ApplicationRecord
 
   has_noticed_notifications model_name: 'Notification'
 
+  scope :load_receiver_and_sender_profiles, -> { includes([receiver: [profile: [picture_attachment: [:blob]]], sender: [profile: [picture_attachment: [:blob]]]]) }
+
   after_create_commit do 
     broadcast_friend_request
   end

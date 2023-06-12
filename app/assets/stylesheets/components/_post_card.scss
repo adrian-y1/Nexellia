@@ -6,13 +6,31 @@
   flex-direction: column;
 }
 
+
+@include media(smallTablet) {
+  #posts {
+    width: 100%;
+  }
+
+  .posts_page_pagination {
+    width: 100%;
+  }
+}
+
 .post-card {
   background-color: var(--secondary-background-color);
   border-radius: $border-radius;
   box-shadow: var(--box-shadow);
   margin-top: 10px;
-  min-width: 350px;
-  max-width: 700px;
+  width: 700px;
+
+  @include media(smallTablet) {
+    width: 100%;
+  }
+
+  .dropdown-display {
+    display: block;
+  }
 
   &__header {
     padding: 10px;
@@ -226,13 +244,5 @@
         color: white;
       }
     }
-  }
-
-  .dropdown-display {
-    display: block;
-  }
-
-  @include media(smallTablet) {
-    max-width: 100%;
   }
 }

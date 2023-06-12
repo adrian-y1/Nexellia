@@ -3,7 +3,7 @@
     <div class="col-md-8 offset-md-2">
       <h2 class="my-4">Notifications</h2>
       <%= turbo_frame_tag "new_notifications_#{current_user.id}" do %>
-        <%= render "notifications/empty_state" %>
+        <%= render "shared/empty_state", message: "You don't have any notifications." %>
         <% @notifications.each do |notification| %>
           <%= render "notifications/new_notification", notification: notification %>
         <% end %>

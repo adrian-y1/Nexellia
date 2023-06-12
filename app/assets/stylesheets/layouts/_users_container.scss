@@ -50,6 +50,10 @@
     justify-content: flex-start;
     flex-wrap: wrap;
     width: 100%;
+
+    .empty-state {
+      text-align: left;
+    }
   }
 
   &__card {

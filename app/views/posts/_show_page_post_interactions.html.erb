@@ -70,6 +70,7 @@
     <div class="comments">
       <%= turbo_stream_from post, :comments %>
       <%= turbo_frame_tag post, "comments" do %>
+        <%= render "shared/empty_state", message: "Be the first person to comment on this post." %>
         <%= render partial: "comments/comment_replies", 
                           collection: post.comments.includes(:parent).where(parent_id: nil).load_user_and_profile, 
                           locals: { user: user }, as: :comment %>

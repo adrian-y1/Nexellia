@@ -19,7 +19,7 @@
 
     <div class="post-index-posts__cards-container">
       <%= turbo_frame_tag "posts" do %>
-        <%= render "posts/empty_state" %>
+        <%= render "shared/empty_state", message: "There are currently no posts on your timeline." %>
         <% @posts.each do |post| %>
           <%= render "posts/post_interactions", post: post, user: Current.user %>
         <% end %>

@@ -6,6 +6,9 @@
         <div class="friend-requests__title">Friend requests</div>
       </div>
       <div class="friend-requests__card-container">
+        <% if @friend_requests.empty? %>
+          <%= render "shared/empty_state", message: "You do not have any incoming or outgoing friend requests." %>
+        <% end %>
         <% @friend_requests.load_receiver_and_sender_profiles.each do |friend_request| %>
           <% other_user = friend_request.receiver == current_user ? friend_request.sender : friend_request.receiver %>
           <%= turbo_stream_from [current_user.id, other_user.id] %>
@@ -31,6 +34,9 @@
         <div class="all-users__title">People you may now</div>
       </div>
       <div class="all-users__card-container">
+        <% if @users.empty? %>
+          <%= render "shared/empty_state", message: "There are currently no users to add." %>
+        <% end %>
         <% @users.each do |user| %>
           <%= turbo_stream_from [current_user.id, user.id] %>
           <div class="all-users__card">

@@ -8,7 +8,7 @@
 
   <div class="navbar__notifications-card-container">
     <%= turbo_frame_tag "dropdown_notifications_#{user.id}" do %>
-      <%= render "notifications/empty_state" %>
+      <%= render "shared/empty_state", message: "You don't have any notifications" %>
       <% all_notifications.each do |notification| %>
         <%= render "notifications/dropdown_notification", notification: notification %>
       <% end %>

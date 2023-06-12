@@ -1,10 +1,15 @@
+.empty-state {
+  margin: 20px 0;
+  width: 100%;
+  text-align: center;
+  font-weight: 550;
+  font-size: 16px;
+  color: var(--secondary-text-darker);
+}
+
 .empty-state:not(:only-child) {
   display: none;
-  color: var(--secondary-text-darker);
-  font-weight: bold;
 }
 .empty-state:only-child {
   display: revert;
-  color: var(--secondary-text-darker);
-  font-weight: bold;
 }

@@ -12,7 +12,7 @@
   box-shadow: var(--box-shadow);
   opacity: 0;
   transform: translateX(100%);
-  @include slideInOutAnimation(8s);
+  @include slideInOutAnimation(5s);
   z-index: 1;
   margin-bottom: 20px;
 

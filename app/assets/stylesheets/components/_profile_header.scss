@@ -99,7 +99,7 @@
 
   &__buttons {
 
-    &--edit-profile, &--remove-friend, &--Cancel-friend, &--Decline-friend {
+    &--edit-profile, &--remove-friend, &--Cancel-friend, &--Decline-friend, &--view {
       background-color: var(--light-grey);
       color: var(--primary-text);
 
@@ -111,6 +111,10 @@
       &:focus {
         color: var(--primary-text);
       }
+    }
+
+    &--view {
+      display: none !important;
     }
 
     &--add-friend, &--accept-friend,  &--friends-indicator {

@@ -1,27 +1,53 @@
 <div class="users-container">
   <%= render "layouts/sidebar" %>
-  <div class="friend-requests">
-    <div class="friend-requests__header">
-      <div class="friend-requests__title">Friend requests</div>
+  <div class="users-body">
+    <div class="friend-requests">
+      <div class="friend-requests__header">
+        <div class="friend-requests__title">Friend requests</div>
+      </div>
+      <div class="friend-requests__card-container">
+        <% @friend_requests.load_receiver_and_sender_profiles.each do |friend_request| %>
+          <% other_user = friend_request.receiver == current_user ? friend_request.sender : friend_request.receiver %>
+          <%= turbo_stream_from [current_user.id, other_user.id] %>
+          <div class="friend-requests__card">
+            <div class="friend-requests__picture">
+              <%= link_to user_path(other_user) do %>
+                <%= render "profiles/picture", profile: other_user.profile, size: "208x208" %>
+              <% end %>
+            </div>
+            <div class="friend-requests__name">
+              <%= link_to other_user.full_name, user_path(other_user), class: "friend-requests__name--link" %>
+            </div>
+            <div class="friend-requests__buttons">
+              <%= render "users/friend_request_form", logged_in_user: Current.user, user: other_user, friend_request: @friend_request %>
+            </div>
+          </div>
+        <% end %>
+      </div>
     </div>
-    <div class="friend-requests__card-container">
-      <% @friend_requests.load_receiver_and_sender_profiles.each do |friend_request| %>
-        <% other_user = friend_request.receiver == current_user ? friend_request.sender : friend_request.receiver %>
-        <%= turbo_stream_from [current_user.id, other_user.id] %>
-        <div class="friend-requests__card">
-          <div class="friend-requests__picture">
-            <%= link_to user_path(other_user) do %>
-              <%= render "profiles/picture", profile: other_user.profile, size: "208x208" %>
-            <% end %>
+
+    <div class="all-users">
+      <div class="all-users__header">
+        <div class="all-users__title">People you may now</div>
+      </div>
+      <div class="all-users__card-container">
+        <% @users.each do |user| %>
+          <%= turbo_stream_from [current_user.id, user.id] %>
+          <div class="all-users__card">
+            <div class="all-users__picture">
+              <%= link_to user_path(user) do %>
+                <%= render "profiles/picture", profile: user.profile, size: "208x208" %>
+              <% end %>
+            </div>
+            <div class="all-users__name">
+              <%= link_to user.full_name, user_path(user), class: "friend-requests__name--link" %>
+            </div>
+            <div class="all-users__buttons">
+              <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: @friend_request %>
+            </div>
           </div>
-          <div class="friend-requests__name">
-            <%= link_to other_user.full_name, user_path(other_user), class: "friend-requests__name--link" %>
-          </div>
-          <div class="friend-requests__buttons">
-            <%= render "users/friend_request_form", logged_in_user: Current.user, user: other_user, friend_request: @friend_request %>
-          </div>
-        </div>
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

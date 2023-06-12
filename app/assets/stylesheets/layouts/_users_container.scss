@@ -5,14 +5,19 @@
   display: grid;
   grid-template-columns: 1fr 5fr;
   gap: 20px;
-  
+
   .post-index-sidebar {
     background-color: var(--secondary-background-color);
   }
 }
 
+.users-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
 
-.friend-requests {
+.friend-requests, .all-users {
   border-bottom: 1px solid var(--border-color);
   padding: 30px 0;
   display: flex;
@@ -91,6 +96,16 @@
     .profile-header-button {
       width: 90%;
       justify-content: center;
+    }
+  }
+
+  #profile-header__buttons--view {
+    display: flex !important;
+    padding: 8.5px 14px !important;
+
+    i {
+      font-size: 18px !important;
+      margin-bottom: 2px;
     }
   }
 }

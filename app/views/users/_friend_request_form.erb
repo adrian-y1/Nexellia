@@ -8,6 +8,9 @@
     <%# Cancel Friend Request form %>
     <% elsif logged_in_user.has_sent_friend_request_to?(user) %>
       <%= render "friend_requests/cancel_and_decline_request_form", sender: logged_in_user, receiver: user, action_name: 'Cancel' %>
+      <%= link_to user_path(user), id: "profile-header__buttons--view", class: "profile-header__buttons--view profile-header-button", data: { turbo_frame: "_top" } do %>
+        <i class="bi bi-person-fill"></i> View Profile
+      <% end %>
 
     <%# Accept Friend Request & Decline Friend Request form %>
     <% elsif logged_in_user.has_received_friend_request_from?(user) %>
@@ -17,6 +20,9 @@
     <%# Send Friend Request form %>
     <% elsif !logged_in_user.has_sent_friend_request_to?(user) %>
       <%= render "friend_requests/send_request_form", sender: logged_in_user, receiver: user, friend_request: friend_request %>
+      <%= link_to user_path(user), id: "profile-header__buttons--view", class: "profile-header__buttons--view profile-header-button", data: { turbo_frame: "_top" } do %>
+        <i class="bi bi-person-fill"></i> View Profile
+      <% end %>
     <% end %>
   </div>
 <% end %>

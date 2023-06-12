@@ -47,7 +47,12 @@ class User < ApplicationRecord
 
   scope :excluding_user, -> (user) { where.not(id: [user.id]) }
   scope :load_profiles, -> { includes(profile: { picture_attachment: :blob }) }
-
+  scope :excluding_friends_and_requests, -> (user) {
+    where.not(
+      id: [user.id] + user.friends.pluck(:id) + user.friend_requests_sent.pluck(:receiver_id) + user.friend_requests_received.pluck(:sender_id)
+    )
+  }
+  
   def online?
     status == "online"
   end

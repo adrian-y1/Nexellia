@@ -1,0 +1,129 @@
+.account-container {
+  background-color: var(--main-background-color);
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, auto);
+  gap: 40px;
+  
+  .login-form {
+    margin-top: 20px;
+    grid-area: auto;
+    justify-self: center;
+    gap: 15px;
+    width: 500px;
+    background-color: var(--secondary-background-color);
+    border: 1px solid var(--border-color);
+
+    @include media(smallTablet) {
+      width: 400px;
+    }
+
+    @include media(smallPhone) {
+      width: 100%;
+    }
+
+    &__header {
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+    }
+
+    &__title {
+      color: var(--primary-text);
+    }
+
+    &__input {
+      padding: 10px;
+      background-color: var(--secondary-background-color);
+      color: var(--primary-text);
+    }
+
+    &__button {
+      &--login {
+        padding: 10px;
+      }
+    }
+
+    &__form-group {
+      &--eye-icon {
+        color: var(--primary-text);
+      }
+    }
+  }
+
+  .footer {
+    background-color: var(--secondary-background-color);
+
+    &__link, &__text {
+      color: var(--primary-text);
+
+      &--odin-project {
+        color: var(--secondary-text-darker);
+      }
+    }
+  }
+}
+
+.delete-account {
+  margin: auto;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--secondary-background-color);
+  border-radius: $border-radius;
+  padding: 20px;
+  gap: 15px;
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--border-color);
+
+  @include media(smallTablet) {
+    width: 400px;
+  }
+
+  @include media(smallPhone) {
+    width: 100%;
+  }
+
+  &__title {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 5px;
+    color: #FF4500;
+
+    i {
+      color: #FF4500;
+      margin-bottom: 3px;
+    }
+  }
+
+  &__description {
+    text-align: left;
+    width: 100%;
+    color: var(--primary-text);
+    font-size: 15px;
+  }
+
+  form {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    
+    button {
+      background-color: #FF4500;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 15px;
+      color: #fff;
+      border-radius: $border-radius;
+  
+      &:hover {
+        background-color: #e4440a;
+      }
+    }
+  }
+}

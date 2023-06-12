@@ -1,53 +1,63 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class="account-container">
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "login-form", method: :put }) do |f| %>
+    <div class="login-form__header">
+      <h2 class="login-form__title">Edit Account</h2>
+    </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%# render "devise/shared/error_messages", resource: resource %>
+    <div class="login-form__form-group">
+      <%= f.label :first_name, class: "login-form__label" %>
+      <%= f.text_field :first_name, placeholder: "First Name", autofocus: true, class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
+      <%= render "devise/shared/error_messages", attribute_name: 'First name', attribute_errors: resource.errors[:first_name] %>
+    </div>
 
-  <div class="field">
-    <%= f.label :first_name %><br />
-    <%= f.text_field :first_name, autofocus: true %>
-  </div>
+    <div class="login-form__form-group">
+      <%= f.label :last_name, class: "login-form__label" %>
+      <%= f.text_field :last_name, placeholder: "Last Name", class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
+      <%= render "devise/shared/error_messages", attribute_name: 'Last name', attribute_errors: resource.errors[:last_name] %>
+    </div>
 
-  <div class="field">
-    <%= f.label :last_name %><br />
-    <%= f.text_field :last_name %>
-  </div>
+    <div class="login-form__form-group">
+      <%= f.label :email, class: "login-form__label" %>
+      <%= f.email_field :email, placeholder: "Email address", class: "login-form__input", required: true %>
+      <%= render "devise/shared/error_messages", attribute_name: 'Email', attribute_errors: resource.errors[:email] %>
+    </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
+    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <% end %>
 
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div class="login-form__form-group" data-controller="password-toggle">
+      <%= f.label :password, class: "login-form__label" %>
+      <%= f.password_field :password, placeholder: "Password", class: "login-form__input", data: { password_toggle_target: "passwordField" }, 
+                                                              minlength: 6, pattern: ".{6,}", title: "Minimum 6 characters" %>
+      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+      <%= render "devise/shared/error_messages", attribute_name: 'Password', attribute_errors: resource.errors[:password] %>
+    </div>
+
+    <div class="login-form__form-group" data-controller="password-toggle">
+      <%= f.label :password_confirmation, class: "login-form__label" %>
+      <%= f.password_field :password_confirmation, placeholder: "Password Confirmation", class: "login-form__input", 
+                                                  data: { password_toggle_target: "passwordField" } %>
+      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+      <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:password_confirmation] %>
+    </div>
+
+    <div class="login-form__form-group" data-controller="password-toggle">
+      <%= f.label :current_password, class: "login-form__label" %>
+      <%= f.password_field :current_password, placeholder: "Current Password", class: "login-form__input", 
+                                                  data: { password_toggle_target: "passwordField" },  required: true %>
+      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+      <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:current_password] %>
+    </div>
+    
+    <button class="login-form__button--login button" type="submit">Save</button>
   <% end %>
 
-  <div class="field">
-    <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= @minimum_password_length %> characters minimum</em>
-    <% end %>
+  <div class="delete-account">
+    <h3 class="delete-account__title"><i class="bi bi-exclamation-triangle-fill"></i>Delete Account</h3>
+    <p class="delete-account__description">Are you sure you want to delete your account? This action cannot be undone.</p>
+    <%= button_to "Delete Account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "current-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Update" %>
-  </div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<div>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete %></div>
-
-<%= link_to "Back", :back %>
+  <%= render "shared/footer" %>
+</div>

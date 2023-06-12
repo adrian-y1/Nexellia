@@ -53,6 +53,10 @@ class User < ApplicationRecord
     )
   }
   
+  def destroy_profile
+    profile.destroy
+  end
+
   def online?
     status == "online"
   end

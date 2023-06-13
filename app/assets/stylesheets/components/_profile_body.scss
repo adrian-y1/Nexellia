@@ -10,6 +10,17 @@
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 20px;
+
+    @include media(bigTablet) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto;
+
+      #profile_information {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      } 
+    }
   }
   
   &__header-intro-title {
@@ -29,6 +40,14 @@
     gap: 15px;
     margin-top: 11px;
 
+    @include media(bigTablet) {
+      width: 700px;
+    }
+
+    @include media(smallTablet) {
+      width: 100%;
+    }
+
     &-content {
       display: flex;
       align-items: center;
@@ -43,6 +62,26 @@
       span {
         margin-left: 4px;
         font-weight: 550;
+      }
+    }
+  }
+
+  &__posts {
+    @include media(bigTablet) {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    #posts {
+      @include media(bigTablet) {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
       }
     }
   }

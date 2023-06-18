@@ -7,27 +7,30 @@
     <div class="logo__slogan">Connect with the world, one post at a time</div>
   </div>
 
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "login-form" }) do |f| %>
-    <% if flash[:alert].present? %>
-      <div class="login-form__header">
-        <div class="login-form__error-message"><i class="bi bi-exclamation-circle-fill"></i> <%= flash[:alert] %></div>
+  <div class="login-form">
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <% if flash[:alert].present? %>
+        <div class="login-form__header">
+          <div class="login-form__error-message"><i class="bi bi-exclamation-circle-fill"></i> <%= flash[:alert] %></div>
+        </div>
+      <% end %>
+
+      <div class="login-form__form-group">
+        <%= f.label :email, class: "login-form__label" %>
+        <%= f.email_field :email, placeholder: "Email address", autofocus: true, class: "login-form__input", required: true %>
       </div>
+
+      <div class="login-form__form-group" data-controller="password-toggle">
+        <%= f.label :password, class: "login-form__label" %>
+        <%= f.password_field :password, placeholder: "Password", class: "login-form__input", data: { password_toggle_target: "passwordField" }, minlength: 6, required: true %>
+        <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+      </div>
+      
+      <button class="login-form__button--login button" type="submit">Log in</button>
     <% end %>
 
-    <div class="login-form__form-group">
-      <%= f.label :email, class: "login-form__label" %>
-      <%= f.email_field :email, placeholder: "Email address", autofocus: true, class: "login-form__input", required: true %>
-    </div>
-
-    <div class="login-form__form-group" data-controller="password-toggle">
-      <%= f.label :password, class: "login-form__label" %>
-      <%= f.password_field :password, placeholder: "Password", class: "login-form__input", data: { password_toggle_target: "passwordField" }, minlength: 6, required: true %>
-      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
-    </div>
-    
-    <button class="login-form__button--login button" type="submit">Log in</button>
-  <% end %>
-  <%= render "devise/shared/links" %>
+    <%= render "devise/shared/links", omniauth_message: "Sign in with Facebook" %>
+  </div>
 
   <%= render "shared/footer" %>
 </div>

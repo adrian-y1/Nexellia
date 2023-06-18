@@ -6,6 +6,8 @@ module ProfilesHelper
       rescue ActiveStorage::FileNotFoundError
         gravatar_url_for(profile.user.email, size)
       end
+    elsif profile.user.uid
+      "https://graph.facebook.com/#{profile.user.uid}/picture?type=large&access_token=#{profile.user.access_token}"
     else
       gravatar_url_for(profile.user.email, size)
     end

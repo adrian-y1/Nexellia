@@ -3,15 +3,18 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  access_token           :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
 #  posts_count            :integer          default(0)
+#  provider               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
 #  status                 :string           default("offline"), not null
+#  uid                    :string
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #
@@ -20,6 +23,7 @@
 #  index_users_on_email                 (email) UNIQUE
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
+
 class User < ApplicationRecord
   include ActionView::RecordIdentifier
 
@@ -30,7 +34,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable, 
+         :omniauthable, omniauth_providers: %i[facebook]
   
   validates :first_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters" }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
   validates :last_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters"  }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
@@ -105,6 +110,16 @@ class User < ApplicationRecord
   # Checks if the current user can send a friend request to the given user.
   def can_send_friend_request?(user)
     [is_friends_with?(user), has_sent_friend_request_to?(user), has_received_friend_request_from?(user)].all?
+  end
+
+  def self.from_omniauth(auth)
+    find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
+      user.email = auth.info.email
+      user.password = Devise.friendly_token[0, 20]
+      user.first_name = auth.info.name.split(" ")[0] # assuming the user model has a first_name
+      user.last_name = auth.info.name.split(" ")[1] # assuming the user model has a last_name
+      user.access_token = auth.credentials.token
+    end
   end
 
   private

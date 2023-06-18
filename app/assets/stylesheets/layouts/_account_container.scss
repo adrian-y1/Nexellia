@@ -12,10 +12,14 @@
     margin-top: 20px;
     grid-area: auto;
     justify-self: center;
-    gap: 15px;
+    gap: 15px !important;
     width: 500px;
     background-color: var(--secondary-background-color);
     border: 1px solid var(--border-color);
+  
+    form {
+      width: 100%;
+    }
 
     @include media(smallTablet) {
       width: 400px;
@@ -28,7 +32,6 @@
     &__header {
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 20px;
-      margin-bottom: 20px;
     }
 
     &__title {

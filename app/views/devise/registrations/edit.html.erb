@@ -1,57 +1,59 @@
 <div class="account-container">
-  <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "login-form", method: :put }) do |f| %>
-    <div class="login-form__header">
-      <h2 class="login-form__title">Edit Account</h2>
-    </div>
+  <div class="login-form">
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+      <div class="login-form__header">
+        <h2 class="login-form__title">Edit Account</h2>
+      </div>
 
-    <div class="login-form__form-group">
-      <%= f.label :first_name, class: "login-form__label" %>
-      <%= f.text_field :first_name, placeholder: "First Name", autofocus: true, class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
-      <%= render "devise/shared/error_messages", attribute_name: 'First name', attribute_errors: resource.errors[:first_name] %>
-    </div>
+      <div class="login-form__form-group">
+        <%= f.label :first_name, class: "login-form__label" %>
+        <%= f.text_field :first_name, placeholder: "First Name", autofocus: true, class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
+        <%= render "devise/shared/error_messages", attribute_name: 'First name', attribute_errors: resource.errors[:first_name] %>
+      </div>
 
-    <div class="login-form__form-group">
-      <%= f.label :last_name, class: "login-form__label" %>
-      <%= f.text_field :last_name, placeholder: "Last Name", class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
-      <%= render "devise/shared/error_messages", attribute_name: 'Last name', attribute_errors: resource.errors[:last_name] %>
-    </div>
+      <div class="login-form__form-group">
+        <%= f.label :last_name, class: "login-form__label" %>
+        <%= f.text_field :last_name, placeholder: "Last Name", class: "login-form__input", minlength: 2, maxlength: 30, required: true %>
+        <%= render "devise/shared/error_messages", attribute_name: 'Last name', attribute_errors: resource.errors[:last_name] %>
+      </div>
 
-    <div class="login-form__form-group">
-      <%= f.label :email, class: "login-form__label" %>
-      <%= f.email_field :email, placeholder: "Email address", class: "login-form__input", required: true %>
-      <%= render "devise/shared/error_messages", attribute_name: 'Email', attribute_errors: resource.errors[:email] %>
-    </div>
+      <div class="login-form__form-group">
+        <%= f.label :email, class: "login-form__label" %>
+        <%= f.email_field :email, placeholder: "Email address", class: "login-form__input", required: true %>
+        <%= render "devise/shared/error_messages", attribute_name: 'Email', attribute_errors: resource.errors[:email] %>
+      </div>
 
-    <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-      <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+      <% end %>
+
+      <div class="login-form__form-group" data-controller="password-toggle">
+        <%= f.label :password, class: "login-form__label" %>
+        <%= f.password_field :password, placeholder: "Password", class: "login-form__input", data: { password_toggle_target: "passwordField" }, 
+                                                                minlength: 6, pattern: ".{6,}", title: "Minimum 6 characters" %>
+        <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+        <%= render "devise/shared/error_messages", attribute_name: 'Password', attribute_errors: resource.errors[:password] %>
+      </div>
+
+      <div class="login-form__form-group" data-controller="password-toggle">
+        <%= f.label :password_confirmation, class: "login-form__label" %>
+        <%= f.password_field :password_confirmation, placeholder: "Password Confirmation", class: "login-form__input", 
+                                                    data: { password_toggle_target: "passwordField" } %>
+        <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+        <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:password_confirmation] %>
+      </div>
+
+      <div class="login-form__form-group" data-controller="password-toggle">
+        <%= f.label :current_password, class: "login-form__label" %>
+        <%= f.password_field :current_password, placeholder: "Current Password", class: "login-form__input", 
+                                                    data: { password_toggle_target: "passwordField" },  required: true %>
+        <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+        <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:current_password] %>
+      </div>
+      
+      <button class="login-form__button--login button" type="submit">Save</button>
     <% end %>
-
-    <div class="login-form__form-group" data-controller="password-toggle">
-      <%= f.label :password, class: "login-form__label" %>
-      <%= f.password_field :password, placeholder: "Password", class: "login-form__input", data: { password_toggle_target: "passwordField" }, 
-                                                              minlength: 6, pattern: ".{6,}", title: "Minimum 6 characters" %>
-      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
-      <%= render "devise/shared/error_messages", attribute_name: 'Password', attribute_errors: resource.errors[:password] %>
-    </div>
-
-    <div class="login-form__form-group" data-controller="password-toggle">
-      <%= f.label :password_confirmation, class: "login-form__label" %>
-      <%= f.password_field :password_confirmation, placeholder: "Password Confirmation", class: "login-form__input", 
-                                                  data: { password_toggle_target: "passwordField" } %>
-      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
-      <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:password_confirmation] %>
-    </div>
-
-    <div class="login-form__form-group" data-controller="password-toggle">
-      <%= f.label :current_password, class: "login-form__label" %>
-      <%= f.password_field :current_password, placeholder: "Current Password", class: "login-form__input", 
-                                                  data: { password_toggle_target: "passwordField" },  required: true %>
-      <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
-      <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:current_password] %>
-    </div>
-    
-    <button class="login-form__button--login button" type="submit">Save</button>
-  <% end %>
+  </div>
 
   <div class="delete-account">
     <h3 class="delete-account__title"><i class="bi bi-exclamation-triangle-fill"></i>Delete Account</h3>

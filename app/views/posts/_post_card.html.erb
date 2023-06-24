@@ -31,12 +31,12 @@
               <i class="bi bi-pencil"></i>
               Edit Post
             <% end %>
-            <%= link_to post_path(post), data: { turbo_method: :delete } do %>
+            <%= link_to post_path(post, modal: true), data: { turbo_method: :delete } do %>
               <i class="bi bi-trash"></i>
               Delete Post
             <% end %>
           <% end %>
-          <%= link_to post_path(post), data: { turbo_frame: 'post_show_modal' } do %>
+          <%= link_to post_path(post), data: { turbo_frame: '_top' } do %>
             <i class="bi bi-eye"></i>
             View Post
           <% end %>
@@ -64,7 +64,7 @@
     </div>
     <div class="post-card__footer--buttons">
       <%= render 'likes/post_like_button', post: post, page: page, like_status: user.liked?(post) %>
-      <%= link_to post_path(post), data: { turbo_frame: 'post_show_modal' }, class: "post-card__footer--comment" do %>
+      <%= link_to post_path(post, modal: true), data: { turbo_frame: 'post_show_modal' }, class: "post-card__footer--comment" do %>
         <i class="fa-regular fa-comment"></i>
         Comment
       <% end %>

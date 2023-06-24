@@ -2,7 +2,7 @@
   <div class="profile-body__friends">
     <div class="profile-body__friends-header">
       <h3 class="profile-body__friends-title">Friends</h3>
-      <%= link_to "See all friends", "#", class: "profile-body__friends--all-link" %>
+      <%= link_to "See all friends", user_friends_path(@user), class: "profile-body__friends--all-link" %>
     </div>
     <div class="profile-body__friends-count"><%= pluralize(@friends_count, "friend") %></div>
     <div class="profile-body__friends-card-container">

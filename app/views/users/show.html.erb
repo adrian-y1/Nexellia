@@ -40,29 +40,39 @@
 
     <div class="profile-header__navigation">
       <div class="profile-header__navigation-item">
-        <%= link_to "Posts", "#", class: "profile-header__navigation--link" %>
-        <div class="profile-header__navigation--link-border"></div>
+        <%= link_to "Posts", user_path(@user), class: "profile-header__navigation--link #{set_active_link(user_path(@user))}" %>
+        <%# <div class="profile-header__navigation--link-border"></div> %>
+        <%= set_active_border(user_path(@user)) %>
+      </div>
+      <div class="profile-header__navigation-item">
+        <%= link_to "Friends", user_friends_path(@user), class: "profile-header__navigation--link #{set_active_link(user_friends_path(@user))}" %>
+        <%# <div class="profile-header__navigation--link-border"></div> %>
+        <%= set_active_border(user_friends_path(@user)) %>
       </div>
     </div>
   </div>
 
   <div class="profile-body">
-    <div class="profile-body__content">
-      <div class="profile-body__left">
-        <%= render "profiles/profile_information", user: @user, profile: @profile %>
-        <%= render "profiles/profile_friends" %>
-      </div>
+    <% if current_page?(user_path(@user)) %>
+      <div class="profile-body__content">
+        <div class="profile-body__left">
+          <%= render "profiles/profile_information", user: @user, profile: @profile %>
+          <%= render "profiles/profile_friends" %>
+        </div>
 
-      <div class="profile-body__posts">
-        <%= turbo_stream_from @user.id, "posts" %>
-        <%= turbo_frame_tag "posts" do %>
-          <%= render "shared/empty_state", message: "#{@user.full_name} doesn't have any posts." %>
-          <% @posts.each do |post| %>
-            <%= render "posts/post_interactions", post: post, user: Current.user %>
+        <div class="profile-body__posts">
+          <%= turbo_stream_from @user.id, "posts" %>
+          <%= turbo_frame_tag "posts" do %>
+            <%= render "shared/empty_state", message: "#{@user.full_name} doesn't have any posts." %>
+            <% @posts.each do |post| %>
+              <%= render "posts/post_interactions", post: post, user: Current.user %>
+            <% end %>
           <% end %>
-        <% end %>
-        <%= render "posts/next_page" %>
+          <%= render "posts/next_page" %>
+        </div>
       </div>
-    </div>
+    <% else %>
+      <%= render "friends" %>
+    <% end %>
   </div>
 </div>

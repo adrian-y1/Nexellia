@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:index, :show] do
+    get 'friends'
     resources :profiles, only: [:edit, :update]
     resources :friend_requests, only: [:create, :destroy]
     resources :friendships, only: [:create, :destroy]

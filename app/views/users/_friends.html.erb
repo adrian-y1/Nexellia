@@ -1,0 +1,29 @@
+<div class="friends-container">
+  <div class="friends">
+    <div class="friends__header">
+      <h2 class="friends__title">Friends</h2>
+      <div class="friends__search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Search">
+      </div>
+      <%= link_to "Friend requests", users_path, class: "friends__header--link" %>
+      <%= link_to "Find Friends", users_path, class: "friends__header--link" %>
+    </div>
+
+    <div class="friends__card-container">
+      <% @friends.each do |friend| %>
+        <div class="friends__card">
+          <div class="friends__picture">
+            <%= link_to user_path(friend) do %>
+              <%= render "profiles/picture", profile: friend.profile, size: "125x125" %>
+            <% end %>
+          </div>
+          <div class="friends__content">
+            <a href="<%= user_path(friend) %>" class="friends__name"><%= friend.full_name %></a>
+            <span class="friends__friend-count"><%= pluralize(friend.friends.count, "friend") %></span>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

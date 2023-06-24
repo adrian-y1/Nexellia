@@ -1,0 +1,115 @@
+
+.friends-container {
+  width: 1200px;
+  border-radius: $border-radius;
+  margin: 20px 0;
+  background-color: var(--secondary-background-color);
+  padding: 20px;
+}
+
+.friends {
+  width: 100%;
+
+  &__header {
+    display: grid;
+    grid-template-columns: 5fr repeat(3, auto);
+    gap: 20px;
+    align-items: center;
+
+    @include media(smallTablet) {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(2, 1fr);
+    }
+  }
+
+  &__title {
+    color: var(--primary-text);
+  }
+
+  &__search {
+    padding: 10px;
+    border-radius: 20px;
+    background-color: var(--light-grey);
+
+    i {
+      color: var(--secondary-text-darker);
+      margin-right: 5px;
+    }
+
+    input {
+      border: none;
+      color: var(--primary-text);
+      outline: none;
+      background-color: transparent;
+      font-size: 15px;
+
+      &:focus {
+        border: none;
+      }
+    }
+  }
+
+  &__header--link {
+    color: $color-primary;
+
+    &:hover {
+      color: $color-primary-hover;
+      text-decoration: underline;
+    }
+  }
+
+  &__card-container {
+    display: flex;
+    flex-flow: row wrap;
+    margin: 20px 0;
+    gap: 5px;
+  }
+
+  &__card {
+    flex: 1 1 40%;
+    border: 1px solid var(--border-color);
+    border-radius: $border-radius;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__picture {
+    img {
+      border-radius: $border-radius;
+
+      @include media(bigTablet) {
+        width: 100px;
+        height: 100px;
+      }
+  
+      @include media(smallTablet) {
+        width: 80px;
+        height: 80px;
+      }
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &__name {
+    color: var(--primary-text);
+    font-weight: bold;
+    font-size: 17px;
+
+    &:hover,
+    &:focus {
+      color: var(--primary-text);
+    }
+  }
+
+  &__friend-count {
+    font-size: 14px;
+    color: var(--secondary-text-darker);
+  }
+}

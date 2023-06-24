@@ -76,6 +76,11 @@
   &__dropdown {
     position: relative;
     
+    .post-edited {
+      color: var(--secondary-text-darker);
+      margin-bottom: 2px;
+    }
+
     &--trigger {
       background-color: var(--secondary-background-color);
       border-radius: 50%;

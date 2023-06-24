@@ -44,6 +44,10 @@ class Post < ApplicationRecord
     broadcast_prepend_to self, target: "post_deleted", partial: "posts/post_deleted"
   end
 
+  def is_edited?
+    updated_at > created_at
+  end
+
   private
 
   def image_type

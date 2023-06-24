@@ -18,6 +18,9 @@
     </div>
 
     <div class="post-card__dropdown" data-controller="dropdown-toggle">
+      <% if post.is_edited? %>
+        <i class="bi bi-pencil-square post-edited" title="Edited"></i>
+      <% end %>
       <button class="post-card__dropdown--trigger" data-action="click->dropdown-toggle#toggle">
         <i class="bi bi-three-dots"></i>
       </button>

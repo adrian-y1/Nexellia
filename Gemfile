@@ -65,6 +65,7 @@ group :development do
   # gem "spring"
   gem 'annotate'
   gem 'bullet'
+  gem 'letter_opener'
 end
 
 group :test do

@@ -1,0 +1,17 @@
+<div id="profile-body__friends-container">
+  <div class="profile-body__friends">
+    <div class="profile-body__friends-header">
+      <h3 class="profile-body__friends-title">Friends</h3>
+      <%= link_to "See all friends", "#", class: "profile-body__friends--all-link" %>
+    </div>
+    <div class="profile-body__friends-count"><%= pluralize(@friends_count, "friend") %></div>
+    <div class="profile-body__friends-card-container">
+      <% @friends.each do |friend| %>
+        <%= link_to user_path(friend), class: "profile-body__friends-card" do %>
+          <%= render "profiles/picture", profile: friend.profile, size: "125x125" %>
+          <span class="profile-body__friends-card--name"><%= friend.full_name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -48,7 +48,10 @@
 
   <div class="profile-body">
     <div class="profile-body__content">
-      <%= render "profiles/profile_information", user: @user, profile: @profile %>
+      <div class="profile-body__left">
+        <%= render "profiles/profile_information", user: @user, profile: @profile %>
+        <%= render "profiles/profile_friends" %>
+      </div>
 
       <div class="profile-body__posts">
         <%= turbo_stream_from @user.id, "posts" %>

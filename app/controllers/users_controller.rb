@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @friend_request = FriendRequest.new
     @is_current_user = current_user == @user
     mark_notification_as_read
-    @friends = @user.friends.load_profiles
+    @friends = @user.friends.load_profiles.limit(9)
     @friends_count = @friends.count
     render "posts/paginated_posts_list" if params[:page]
   end

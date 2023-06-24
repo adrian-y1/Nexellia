@@ -40,5 +40,7 @@ jim.comments.create(body: "Awesome read!", commentable_id: jim.posts.first.id)
 
 dwight.friendships.create(friend: michael)
 dwight.friendships.create(friend: ben)
+dwight.friendships.create(friend: fam)
+dwight.friendships.create(friend: jim)
 michael.friendships.create(friend: ben)
 michael.friendships.create(friend: fam)

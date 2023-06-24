@@ -83,4 +83,5 @@ Rails.application.configure do
   # letter_opener gem config
   config.action_mailer.delivery_method = :letter_opener
   config.action_mailer.perform_deliveries = true
+  config.action_mailer.delivery_method = :file
 end

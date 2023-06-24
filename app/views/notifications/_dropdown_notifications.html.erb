@@ -1,7 +1,7 @@
 <div class="navbar__notifications-dropdown-menu" data-dropdown-toggle-target="dropdown">
   <div class="navbar__notifications-header">
     <h2 class="navbar__notifications-title">Notifications</h2>
-    <%= link_to "Mark all as read", "#", class: "navbar__notifications-header-link" %>
+    <%= link_to "Mark as read", request.original_url + "?#{request.query_parameters.merge(mark_as_read: true).to_param}", class: "navbar__notifications-header-link" %>
   </div>
 
   <%= turbo_stream_from "dropdown_notifications_#{user.id}" %>

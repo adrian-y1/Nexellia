@@ -20,6 +20,8 @@ Rails.application.routes.draw do
   end
 
   resources :notifications, only: [:index]
-
+  
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+  
   root 'posts#index'
 end

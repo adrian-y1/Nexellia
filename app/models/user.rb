@@ -27,6 +27,7 @@
 class User < ApplicationRecord
   include ActionView::RecordIdentifier
 
+  after_create :send_welcome_email
   after_create :create_profile
   after_destroy :destroy_profile
   after_update_commit { broadcast_replace_to_online_friends }
@@ -58,6 +59,10 @@ class User < ApplicationRecord
     )
   }
   
+  def send_welcome_email
+    WelcomeMailer.with(user: self).welcome_email.deliver
+  end
+
   def destroy_profile
     profile.destroy
   end

@@ -26,6 +26,7 @@
 
 class User < ApplicationRecord
   include ActionView::RecordIdentifier
+  include PgSearch::Model
 
   after_create :send_welcome_email
   after_create :create_profile
@@ -58,6 +59,8 @@ class User < ApplicationRecord
       id: [user.id] + user.friends.pluck(:id) + user.friend_requests_sent.pluck(:receiver_id) + user.friend_requests_received.pluck(:sender_id)
     )
   }
+  pg_search_scope :by_first_last_name, against: [ :first_name, :last_name ],
+    using: { tsearch: { prefix: true }, trigram: { word_similarity: true } }
   
   def send_welcome_email
     WelcomeMailer.with(user: self).welcome_email.deliver

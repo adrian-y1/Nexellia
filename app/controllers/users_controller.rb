@@ -18,7 +18,11 @@ class UsersController < ApplicationController
   def friends
     set_variables
     mark_notification_as_read
-    @friends = @user.friends.load_profiles
+    if params[:query].present?
+      @friends = @user.friends.by_first_last_name(params[:query]).load_profiles
+    else
+      @friends = @user.friends.load_profiles
+    end
     render 'show'
   end
   

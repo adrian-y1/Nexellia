@@ -1,8 +1,8 @@
 <%= turbo_frame_tag post, :show do %>
 	<p class="post-card__body--text"><%= post.body %></p>
 	<% if post.image.attached? %>
-		<%= link_to post, data: { turbo_frame: "post_show_modal" } do %>
-			<%= image_tag post.image, class: "post-card__body--picture" %>
-		<% end %>
+		<button type="button" data-controller="picture-modal modal" data-action="click->picture-modal#showModal click->modal#open" data-turbo-frame="_top">
+			<%= image_tag post.image, class: "post-card__body--picture", data: { picture_modal_target: "postShowPicture", modal_target: "modal" } %>
+		</button>
 	<% end %>
 <% end %>

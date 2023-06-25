@@ -36,7 +36,7 @@
               Delete Post
             <% end %>
           <% end %>
-          <%= link_to post_path(post), data: { turbo_frame: '_top' } do %>
+          <%= link_to post_path(post, modal: true), data: { turbo_frame: 'post_show_modal' } do %>
             <i class="bi bi-eye"></i>
             View Post
           <% end %>

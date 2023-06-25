@@ -30,7 +30,7 @@ class ApplicationController < ActionController::Base
     return unless current_user
 
     notifications = Notification.where(recipient: current_user).newest_first
-    @all_notifications = notifications.includes(:recipient)
+    @all_notifications = notifications.includes(:recipient).limit(8)
     @unread_notifications = notifications.unread
   end
 

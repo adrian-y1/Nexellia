@@ -10,7 +10,7 @@
     <div class="navbar__notifications-card-container">
       <%= turbo_frame_tag "index-notifications_#{current_user.id}" do %>
         <%= render "shared/empty_state", message: "You don't have any notifications" %>
-        <% @all_notifications.each do |notification| %>
+        <% @notifications.each do |notification| %>
           <%= render "notifications/dropdown_notification", notification: notification %>
         <% end %>
       <% end %>

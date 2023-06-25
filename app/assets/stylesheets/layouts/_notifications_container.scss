@@ -19,4 +19,12 @@
   .navbar__notifications-header {
     border-bottom: 1px solid var(--border-color);
   }
+  .unread {
+    background-color: $color-primary-low-opacity;
+
+    a {
+      color: var(--secondary-text-darker);
+      font-weight: 550;
+    }
+  }
 }

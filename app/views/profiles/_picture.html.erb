@@ -1,3 +1,4 @@
 <%= turbo_frame_tag "picture" do %>
-  <%= image_tag profile_picture_for(profile, size), class: "rounded-circle", size: size, alt: "Profile pic" %>
+  <%= image_tag profile_picture_for(profile, size), class: "rounded-circle", size: size, alt: "Profile pic",
+                                                    data: { picture_modal_target: "postShowPicture", modal_target: "modal" } %>
 <% end %>

@@ -56,6 +56,11 @@
     padding: 0;
     margin: 0;
 
+    button {
+      width: 100%;
+      background-color: transparent;
+    }
+
     img {
       border: 5px solid var(--secondary-background-color);
       border-radius: 50%;

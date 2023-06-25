@@ -31,6 +31,10 @@
     border-radius: 20px;
     background-color: var(--light-grey);
 
+    button {
+      background-color: transparent;
+    }
+
     i {
       color: var(--secondary-text-darker);
       margin-right: 5px;

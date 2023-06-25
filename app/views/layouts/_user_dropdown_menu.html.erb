@@ -14,7 +14,7 @@
     <% end %>
   </div>
   <div class="navbar__user-dropdown-menu__links">
-    <%= link_to "#", class: "navbar__user-dropdown-menu__link" do %>
+    <%= link_to user_friends_path(current_user), class: "navbar__user-dropdown-menu__link" do %>
       <span><i class="bi bi-people-fill"></i></span>
       My Friends
     <% end %>

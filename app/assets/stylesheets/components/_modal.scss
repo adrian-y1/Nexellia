@@ -225,7 +225,7 @@
         background-color: var(--secondary-background-color);
         width: 100%;
         position: fixed;
-        bottom: 0;
+        bottom: -30px;
         left: 0;
         right: 0;
         border-top: 1px solid var(--border-color);
@@ -236,6 +236,7 @@
           width: 100%;
           display: grid;
           grid-template-columns: 35px 1fr 35px;
+          grid-template-rows: 1fr auto;
         }
         
         &-form__input-container {
@@ -247,6 +248,7 @@
 
         .form-error-container {
           padding-left: 50px !important;
+          grid-column: 1/3;
         }
       }
   

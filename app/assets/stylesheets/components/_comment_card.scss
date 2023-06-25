@@ -208,10 +208,12 @@
     width: 100%;
     display: grid;
     grid-template-columns: 35px 1fr 35px;
+    grid-template-rows: 1fr auto;
   }
 
   .form-error-container {
     padding-left: 50px !important;
+    grid-column: 1/3;
   }
 
   &__reply-count {

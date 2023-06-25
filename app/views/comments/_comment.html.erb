@@ -2,7 +2,9 @@
   <div class="comment-card">
     <div class="comment-card__header">
       <div class="comment-card__picture" style="position: relative;">
-        <%= render "profiles/picture", profile: comment.user.profile, size: "35x35" %>
+        <%= link_to comment.user do %>
+          <%= render "profiles/picture", profile: comment.user.profile, size: "35x35", data: { turbo_frame: "_top" } %>
+        <% end %>
       </div>
     </div>
 

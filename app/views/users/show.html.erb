@@ -1,7 +1,9 @@
 <div class="profile">
   <div class="profile-header">
     <div class="profile-header__cover">
-      <%= render "profiles/cover_photo", profile: @profile, size: "1200x415" %>
+    	<button type="button" data-controller="picture-modal modal" data-action="click->picture-modal#showModal click->modal#open">
+        <%= render "profiles/cover_photo", profile: @profile, size: "1200x415" %>
+      </button>
     </div>
 
     <div class="profile-header__content">

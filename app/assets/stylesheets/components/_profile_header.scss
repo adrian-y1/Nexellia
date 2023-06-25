@@ -27,6 +27,11 @@
     max-width: 1200px;
     height: auto;
     overflow: hidden;
+    
+    button {
+      width: 100%;
+      background-color: transparent;
+    }
 
     img {
       border-radius: $border-radius;

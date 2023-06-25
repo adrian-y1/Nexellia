@@ -1,3 +1,4 @@
 <%= turbo_frame_tag "cover_photo" do %>
-  <%= image_tag cover_photo_for(profile), class: "object-fit-cover", size: size, alt: "Cover photo" %>
+  <%= image_tag cover_photo_for(profile), class: "object-fit-cover", size: size, alt: "Cover photo", 
+                                          data: { picture_modal_target: "postShowPicture", modal_target: "modal" } %>
 <% end %>

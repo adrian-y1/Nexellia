@@ -29,22 +29,28 @@ RSpec.describe "Create Comment", type: :system, js: true do
     # is displayed to the user. They also confirm that Turbo Streams is working by checking the comment
     # is created and broadcasted live without a page refresh.
 
-    describe "posts#show page" do
-      # These tests check comment and reply creation with valid attributes in the posts#show page using Turbo Streams.
+    describe "post modal" do
+      # These tests check comment and reply creation with valid attributes in the post modal using Turbo Streams.
 
       it "creates the comment to a post with Turbo Streams" do
         post = create(:post, user: user)
-        visit post_path(post)
+        visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-        within(post_frame) do
-          fill_in 'comment[body]', with: content
-          click_on 'Create Comment'
+        # Open the post modal
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_frame)do
+          click_on 'Comment'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        modal_post_show_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(modal_post_show_frame) do
+          fill_in 'comment[body]', with: content
+          find_button(class: "modal__footer__comments-form--button").click
+        end
+
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content(content)
         expect(page).to have_content(flash_notice)
       end
@@ -52,18 +58,24 @@ RSpec.describe "Create Comment", type: :system, js: true do
       it "creates the reply to a comment with Turbo Streams" do
         post = create(:post, user: user)
         comment = create(:comment, commentable: post, user: user)
-        visit post_path(post)
+        visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        # Open the post modal
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_frame)do
+          click_on 'Comment'
+        end
 
         comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
         within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: 'Replying to a comment'
-          click_on 'Create Comment'
+          find_button(class: "modal__footer__comments-form--button").click
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content('Replying to a comment')
         expect(page).to have_content(flash_notice)
       end
@@ -82,38 +94,50 @@ RSpec.describe "Create Comment", type: :system, js: true do
     # displayed to the user. They also confirm that Turbo Streams is working by checking
     # that the comment is not created live without a page refresh.
     
-    describe "posts#show page" do
+    describe "post modal" do
       it "doesn't create the comment and renders an error with Turbo Streams" do
         post = create(:post, user: user)
-        visit post_path(post)
+        visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
-        post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
-        within(post_frame) do
-          fill_in 'comment[body]', with: ''
-          click_on 'Create Comment'
+        # Open the post modal
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_frame)do
+          click_on 'Comment'
         end
 
-        expect(page).to have_current_path(post_path(post))
+        modal_post_show_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
+        within(modal_post_show_frame) do
+          fill_in 'comment[body]', with: ""
+          find_button(class: "modal__footer__comments-form--button").click
+        end
+
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content("Body can't be blank")
       end
 
       it "doesn't create the reply to a comment and renders an error with Turbo Streams" do
         post = create(:post, user: user)
         comment = create(:comment, commentable: post, user: user)
-        visit post_path(post)
+        visit posts_path
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+        # Open the post modal
+        post_frame = find("turbo-frame#post-interactions-#{post.id}")
+        within(post_frame)do
+          click_on 'Comment'
+        end
 
         comment_replies_element = find("div[id='comment_#{comment.id}_replies']")
         within(comment_replies_element) do
           click_on 'Reply'
           fill_in 'comment[body]', with: ''
-          click_on 'Create Comment'
+          find_button(class: "modal__footer__comments-form--button").click
         end
 
-        expect(page).to have_current_path(post_path(post))
+        expect(page).to have_current_path(posts_path)
         expect(page).to have_content("Body can't be blank")
       end
     end

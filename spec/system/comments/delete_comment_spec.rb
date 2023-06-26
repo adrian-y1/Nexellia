@@ -24,24 +24,31 @@ RSpec.describe "Delete Comment", type: :system, js: true do
   # displayed to the user. They also confirm that Turbo Streams is working by checking
   # that the comment is deleted live without a page refresh.
 
-  describe "posts#show Page" do
+  describe "post modal" do
     let!(:post) { create(:post, user: user) }
     let!(:comment) { create(:comment, commentable: post, user: user) }
 
     it "deletes the comment and renders flash notice using Turbo Streams" do
       post = user.posts.last
-      visit post_path(post)
+      visit posts_path
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
+      # Open the post modal
+      post_frame = find("turbo-frame#post-interactions-#{post.id}")
+      within(post_frame)do
+        click_on 'Comment'
+      end
+
       comment_frame = find("turbo-frame#comment_#{comment.id}")
       within(comment_frame) do
+        find_button(class: "comment-card__dropdown--trigger").click
         click_on "Delete"
       end
 
       # Confirms that the comment was deleted live using Turbo Streams and that 
-      # the user is still on the posts#show page.
-      expect(page).to have_current_path(post_path(post))
+      # the user is still on the posts page.
+      expect(page).to have_current_path(posts_path)
       expect(page).to have_content(flash_notice)
     end
 
@@ -51,16 +58,23 @@ RSpec.describe "Delete Comment", type: :system, js: true do
       reply3 = create(:comment, commentable: comment, parent: reply3, user: user)
       reply4 = create(:comment, commentable: comment, parent: reply4, user: user)
 
-      visit post_path(post)
+      visit posts_path
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+      
+      # Open the post modal
+      post_frame = find("turbo-frame#post-interactions-#{post.id}")
+      within(post_frame)do
+        click_on 'Comment'
+      end
 
       comment_frame = find("turbo-frame#comment_#{comment.id}")
       within(comment_frame) do
+        all('button', class: "comment-card__dropdown--trigger")[0].click
         all('a', text: 'Delete')[0].click
       end
      
-      expect(page).to have_current_path(post_path(post))
+      expect(page).to have_current_path(posts_path)
       expect(page).not_to have_content([reply4.body, reply3.body, reply2.body, reply1.body])
       expect(page).to have_content(flash_notice)
     end

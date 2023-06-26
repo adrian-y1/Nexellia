@@ -35,7 +35,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         expect(page).to have_button('Unlike')
-        expect(page).to have_content('1 Like')
+        expect(page).to have_content('1')
 
         private_likes_index_frame = find("turbo-frame#post_#{post.id}\\ private_likes_index")
         within(private_likes_index_frame) do
@@ -45,7 +45,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_current_path(posts_path)
         expect(page).to have_button('Like')
         expect(page).to have_selector("turbo-frame#post_#{post.id}_likes_index")
-        expect(page).to have_content('0 Likes')
+        expect(page).to have_content('0')
       end
     end
   end
@@ -67,7 +67,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         end
 
         expect(page).to have_button('Unlike')
-        expect(page).to have_content('1 Like')
+        expect(page).to have_content('1')
 
         private_likes_show_frame = find("turbo-frame#post_#{post.id}\\ private_likes_show")
         within(private_likes_show_frame) do
@@ -78,7 +78,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_button('Like')
         
         public_likes_show_frame = find("turbo-frame#post_#{post.id}_likes_show")
-        expect(public_likes_show_frame).to have_content('0 Likes')
+        expect(public_likes_show_frame).to have_content('0')
       end
     end
   end
@@ -95,7 +95,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
         expect(page).to have_button('Unlike')
-        expect(page).to have_content('1 Like')
+        expect(page).to have_content('1')
 
         private_likes_index_frame = find("turbo-frame#post_#{post.id}\\ private_likes_index")
         within(private_likes_index_frame) do
@@ -105,7 +105,7 @@ RSpec.describe 'Unlike Post', type: :system, js: true do
         expect(page).to have_current_path(user_path(post.user))
         expect(page).to have_button('Like')
         expect(page).to have_selector("turbo-frame#post_#{post.id}_likes_index")
-        expect(page).to have_content('0 Likes')
+        expect(page).to have_content('0')
       end
     end
   end

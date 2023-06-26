@@ -41,11 +41,12 @@ RSpec.describe "Like Comment", type: :system, js: true do
         post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
         within(post_frame) do
           fill_in 'comment[body]', with: 'sadasdasd'
-          click_on 'Create Comment'
+          find_button(class: "modal__footer__comments-form--button").click
         end
         
         expect(page).to have_button('Like')
-        expect(page).to have_content('0 Likes')
+        comment_likes_frame = find("turbo-frame#comment_#{user.comments.last.id}_likes")
+        expect(comment_likes_frame).to have_content('0')
         
         
         private_likes_frame = find("turbo-frame#comment_#{user.comments.last.id}\\ private_likes")
@@ -56,7 +57,7 @@ RSpec.describe "Like Comment", type: :system, js: true do
         expect(page).to have_current_path(posts_path)
         expect(page).to have_button('Unlike')
         expect(page).to have_selector("turbo-frame#comment_#{user.comments.last.id}_likes", wait: 10)
-        expect(page).to have_content('1 Like')
+        expect(comment_likes_frame).to have_content('1')
       end
     end
   end

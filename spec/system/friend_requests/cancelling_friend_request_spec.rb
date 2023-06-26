@@ -19,7 +19,7 @@ RSpec.describe "Cancel Friend Request", type: :system, js: true do
   # Then, cancel the friend request by clicking the 'Cancel' button after finding the Turbo Frame
   # that is wrapped around it. Due to having a Turbo Frame tag, a visit to another page is not needed.
   #
-  # Lastly, the expectations for the flash notice, 'Add Friend' button and the current path, ensures
+  # Lastly, the expectations for the flash notice, 'Add friend' button and the current path, ensures
   # that the user is receiving updates as they happen in real-time, without a page refresh/reload.
   # Meaning Turbo Streams is working.
 
@@ -42,7 +42,7 @@ RSpec.describe "Cancel Friend Request", type: :system, js: true do
         
         expect(page).to have_content("Friend request to #{new_user.full_name} has been cancelled.")
         expect(page).to have_current_path(users_path)
-        expect(page).to have_button("Add Friend")
+        expect(page).to have_button("Add friend")
       end
     end
   end
@@ -66,7 +66,7 @@ RSpec.describe "Cancel Friend Request", type: :system, js: true do
         
         expect(page).to have_content("Friend request to #{new_user.full_name} has been cancelled.")
         expect(page).to have_current_path(user_path(new_user))
-        expect(page).to have_button("Add Friend")
+        expect(page).to have_button("Add friend")
       end
     end
   end

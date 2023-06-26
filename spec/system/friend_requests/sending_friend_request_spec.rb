@@ -17,7 +17,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
   # First, ensure that the subscription to the stream has been connected to avoid flaky tests
   # whereby Turbo Stream broadcasts happen before turbo_stream_from can establish a websocket connection.
   #
-  # Then, send the friend request by clicking the 'Add Friend' button after finding the Turbo Frame
+  # Then, send the friend request by clicking the 'Add friend' button after finding the Turbo Frame
   # that is wrapped around it. Due to having a Turbo Frame tag, a visit to another page is not needed.
   #
   # Lastly, the expectations for the flash notice, 'Cancel' button and the current path, ensures
@@ -28,7 +28,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
     # This test checks the functionality for sending a friend request on the
     # users#index using Turbo Streams.
     
-    context "when clicking the add friend button on the users#index page" do
+    context "when clicking the Add friend button on the users#index page" do
       it "successfully sends a friend request on users#index  using Turbo Streams" do
         new_user = create(:user)
         visit users_path
@@ -39,7 +39,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
 
         receiver_frame = find("turbo-frame#user_#{new_user.id}")
         within(receiver_frame) do
-          click_on "Add Friend"
+          click_on "Add friend"
         end
 
         # The flash notice, the 'Cancel' button and the current path, ensure that the Friend Request object was
@@ -55,7 +55,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
     # This test checks the functionality for sending a friend request on the
     # users#show using Turbo Streams.
     
-    context "when clicking the add friend button on the users#show page" do
+    context "when clicking the Add friend button on the users#show page" do
       it "successfully sends a friend request on users#show  using Turbo Streams" do
         new_user = create(:user)
         visit user_path(new_user)
@@ -66,7 +66,7 @@ RSpec.describe "Send Friend Request", type: :system , js: true do
 
         receiver_frame = find("turbo-frame#user_#{new_user.id}")
         within(receiver_frame) do
-          click_on "Add Friend"
+          click_on "Add friend"
         end
 
         # The flash notice, the 'Cancel' button and the current path, ensure that the Friend Request object was

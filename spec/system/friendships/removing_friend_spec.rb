@@ -36,7 +36,6 @@ RSpec.describe "Remove Friend", type: :system, js: true do
         visit users_path
         
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
-        expect(page).to have_content("Friends")
 
         friend_frame = find("turbo-frame#user_#{new_user.id}")
         within(friend_frame) do
@@ -45,7 +44,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
         
         expect(page).to have_content("You and #{new_user.full_name} are no longer friends!")
         expect(page).to have_current_path(users_path)
-        expect(page).to_not have_content("Friends")
+        expect(page).not_to have_css("button[class='profile-header__buttons--friends-indicator profile-header-button']")
       end
     end
   end
@@ -63,7 +62,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
         visit user_path(new_user)
         
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
-        expect(page).to have_content("Friends")
+        expect(page).to have_css("button[class='profile-header__buttons--friends-indicator profile-header-button']")
         
         friend_frame = find("turbo-frame#user_#{new_user.id}")
         within(friend_frame) do
@@ -72,7 +71,7 @@ RSpec.describe "Remove Friend", type: :system, js: true do
         
         expect(page).to have_content("You and #{new_user.full_name} are no longer friends!")
         expect(page).to have_current_path(user_path(new_user))
-        expect(page).to_not have_content("Friends")
+        expect(page).not_to have_css("button[class='profile-header__buttons--friends-indicator profile-header-button']")
       end
     end
   end

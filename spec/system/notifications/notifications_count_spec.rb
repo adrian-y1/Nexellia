@@ -66,10 +66,11 @@ RSpec.describe "Notifications Count", type: :system, js: true do
 
         sender_notification_url = "/users/#{user.id}?notification_id=#{recipient.notifications.last.id}"
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
         within dropdown_notifications_frame do
-          find("a[href=\"#{sender_notification_url}\"]").click
+          link = find("a[href=\"#{sender_notification_url}\"]")
+          page.execute_script("arguments[0].click();", link)
         end
 
         expect(notifications_count_frame).to have_content('0')
@@ -110,10 +111,11 @@ RSpec.describe "Notifications Count", type: :system, js: true do
 
         post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
         within dropdown_notifications_frame do
-          find("a[href=\"#{post_notification_url}\"]").click
+          link = find("a[href=\"#{post_notification_url}\"]")
+          page.execute_script("arguments[0].click();", link)
         end
 
         expect(notifications_count_frame).to have_content('0')
@@ -155,10 +157,11 @@ RSpec.describe "Notifications Count", type: :system, js: true do
   
           post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
   
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
           dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
           within dropdown_notifications_frame do
-            find("a[href=\"#{post_notification_url}\"]").click
+            link = find("a[href=\"#{post_notification_url}\"]")
+            page.execute_script("arguments[0].click();", link)
           end
   
           expect(notifications_count_frame).to have_content('0')
@@ -201,10 +204,11 @@ RSpec.describe "Notifications Count", type: :system, js: true do
   
           post_notification_url = "/posts/#{post.id}?notification_id=#{recipient.notifications.last.id}"
   
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
           dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
           within dropdown_notifications_frame do
-            find("a[href=\"#{post_notification_url}\"]").click
+            link = find("a[href=\"#{post_notification_url}\"]")
+            page.execute_script("arguments[0].click();", link)
           end
   
           expect(notifications_count_frame).to have_content('0')
@@ -267,7 +271,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
         end
         
         using_session :recipient do
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
           notifications_count_frame = find("turbo-frame#user_#{recipient.id}_notifications_count")
 
           expect(notifications_count_frame).to have_content('1')
@@ -277,7 +281,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           friend_notifications_url = "/users/#{user.id}?notification_id=#{recipient.notifications.last.id}"
           dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{recipient.id}")
           within dropdown_notifications_frame do
-            find("a[href=\"#{friend_notifications_url}\"]").click
+            link = find("a[href=\"#{friend_notifications_url}\"]")
+            page.execute_script("arguments[0].click();", link)
           end
 
           expect(notifications_count_frame).to have_content('1')
@@ -285,7 +290,7 @@ RSpec.describe "Notifications Count", type: :system, js: true do
         end
         
         using_session :user do
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
           notifications_count_frame = find("turbo-frame#user_#{user.id}_notifications_count")
 
           expect(notifications_count_frame).to have_content('1')
@@ -293,7 +298,8 @@ RSpec.describe "Notifications Count", type: :system, js: true do
           friend_notifications_url = "/users/#{recipient.id}?notification_id=#{user.notifications.last.id}"
           dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{user.id}")
           within dropdown_notifications_frame do
-            find("a[href=\"#{friend_notifications_url}\"]").click
+            link = find("a[href=\"#{friend_notifications_url}\"]")
+            page.execute_script("arguments[0].click();", link)
           end
 
           expect(notifications_count_frame).to have_content('0')

@@ -36,7 +36,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
         
         create(:comment, user: commenter, commentable: post)
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
@@ -55,7 +55,7 @@ RSpec.describe "New Comment Notification", type: :system, js: true do
         comment = create(:comment, user: author, commentable: post)
         create(:comment, commentable: comment, parent: comment, user: commenter)
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 

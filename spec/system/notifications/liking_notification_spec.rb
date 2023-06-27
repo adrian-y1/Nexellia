@@ -37,7 +37,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
 
         create(:like, likeable: comment, user: liker)
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 
@@ -55,7 +55,7 @@ RSpec.describe "Liking Notification", type: :system, js: true do
 
         create(:like, likeable: post, user: liker)
 
-        find(:id, 'notificationsDropdown').click
+        find_button(class: 'navbar__notifications-dropdown--toggle').click
 
         dropdown_notifications_frame = find("turbo-frame#dropdown_notifications_#{author.id}")
 

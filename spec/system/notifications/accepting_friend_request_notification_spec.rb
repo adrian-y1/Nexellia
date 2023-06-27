@@ -50,7 +50,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
         
         using_session :receiver do
           create(:friendship, user: receiver, friend: sender)
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
 
           receiver_new_notifications_frame = find("turbo-frame#new_notifications_#{receiver.id}")
   
@@ -59,7 +59,7 @@ RSpec.describe "Accepting Friend Request Notification", type: :system, js: true 
         end
         
         using_session :sender do
-          find(:id, 'notificationsDropdown').click
+          find_button(class: 'navbar__notifications-dropdown--toggle').click
 
           sender_new_notifications_frame = find("turbo-frame#new_notifications_#{sender.id}")
 

@@ -25,16 +25,12 @@ RSpec.describe "Update Profile", type: :system, js: true do
       it "opens up the edit profile modal containing the edit profile form" do
         visit user_path(user)
         
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
 
         expect(edit_profile_modal_frame).to have_css('form')
-        expect(edit_profile_modal_frame).to have_button("Update Profile")
-        expect(edit_profile_modal_frame).to have_link("Cancel")
+        expect(edit_profile_modal_frame).to have_button("Save Profile")
       end
     end
 
@@ -44,17 +40,12 @@ RSpec.describe "Update Profile", type: :system, js: true do
       it "closes the modal" do
         visit user_path(user)
         
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         expect(page).to have_css("turbo-frame#edit_profile_modal")
         
-        within(edit_profile_modal_frame) do
-          click_on "Cancel"
-        end
+        find_button(class: "modal__header--close").click
 
         expect(page).to_not have_css("turbo-frame#edit_profile_modal")
       end
@@ -78,15 +69,12 @@ RSpec.describe "Update Profile", type: :system, js: true do
         it "updates the profile without page reload just for the current user" do
           visit user_path(user)
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
   
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
             fill_in 'profile[public_email]', with: 'john@john'
-            click_on 'Update Profile'
+            click_on 'Save Profile'
           end
   
           expect(page).to have_content('john@john')
@@ -105,15 +93,12 @@ RSpec.describe "Update Profile", type: :system, js: true do
           it "renders a flash alert error message inside the modal without page refresh/reload" do
             visit user_path(user)
     
-            profile_information_frame = find("turbo-frame#profile_information")
-            within(profile_information_frame) do
-              click_on "Edit"
-            end
+            click_on "Edit Profile"
     
             edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
             within(edit_profile_modal_frame) do
               fill_in 'profile[public_phone_number]', with: '421sa321s23'
-              click_on 'Update Profile'
+              click_on 'Save Profile'
             end
   
             expect(edit_profile_modal_frame).to have_content('Public phone number must be a valid 10-digit phone number')

@@ -25,19 +25,16 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
       it "displays the new-picture-container div and the selected image" do
         visit user_path(user)
   
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         expect(edit_profile_modal_frame).to_not have_css('[class="new-picture-container"]')
 
         within(edit_profile_modal_frame) do
-          attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
+          attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png', visible: false)
         end
         
-        expect(edit_profile_modal_frame).to have_css('[class="new-picture-container"]')
+        expect(edit_profile_modal_frame).to have_css('[class="new-picture-container profile-form__pp"]')
         expect(edit_profile_modal_frame).to have_css('img[data-image-preview-target="newPicture"]')
       end
     end
@@ -48,10 +45,7 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
       it "does not display new-picture-container div" do
         visit user_path(user)
   
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         expect(edit_profile_modal_frame).to_not have_css('[class="new-picture-container"]')
@@ -75,15 +69,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src$="avatar2.png"]')
@@ -98,15 +89,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/avatar2.png', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src$="avatar2.png"]')
@@ -121,15 +109,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpg')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src$="testing_image.jpg"]')
@@ -144,15 +129,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpeg')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src$="testing_image.jpeg"]')
@@ -167,15 +149,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/test.gif')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/test.gif', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src$="test.gif"]')
@@ -197,15 +176,12 @@ RSpec.describe "Upload Profile Picture", type: :system, js: true do
   
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')
   
-          profile_information_frame = find("turbo-frame#profile_information")
-          within(profile_information_frame) do
-            click_on "Edit"
-          end
+          click_on "Edit Profile"
 
           edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
           within(edit_profile_modal_frame) do
-            attach_file('profile[picture]', 'spec/fixtures/files/text.txt')
-            click_on "Update Profile"
+            attach_file('profile[picture]', 'spec/fixtures/files/text.txt', visible: false)
+            click_on "Save Profile"
           end
 
           expect(page).to have_css('img[src*="https://secure.gravatar.com/avatar/"]')

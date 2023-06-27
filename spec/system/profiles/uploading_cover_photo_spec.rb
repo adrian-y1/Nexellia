@@ -25,15 +25,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/avatar2.png')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/avatar2.png', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src$="avatar2.png"]')
@@ -48,15 +45,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"]')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/avatar2.png')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/avatar2.png', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src$="avatar2.png"]')
@@ -71,15 +65,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"]')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/testing_image.jpg')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src$="testing_image.jpg"]')
@@ -94,15 +85,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"]')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/testing_image.jpeg')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src$="testing_image.jpeg"]')
@@ -117,15 +105,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"]')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/test.gif')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/test.gif', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src$="test.gif"]')
@@ -147,15 +132,12 @@ RSpec.describe "Upload Cover Photo", type: :system, js: true do
 
         expect(page).to have_css('img[src*="default_cover_photo"]')
 
-        profile_information_frame = find("turbo-frame#profile_information")
-        within(profile_information_frame) do
-          click_on "Edit"
-        end
+        click_on "Edit Profile"
 
         edit_profile_modal_frame = find("turbo-frame#edit_profile_modal")
         within(edit_profile_modal_frame) do
-          attach_file('profile[cover_photo]', 'spec/fixtures/files/text.txt')
-          click_on "Update Profile"
+          attach_file('profile[cover_photo]', 'spec/fixtures/files/text.txt', visible: false)
+          click_on "Save Profile"
         end
 
         expect(page).to have_css('img[src*="default_cover_photo"]')

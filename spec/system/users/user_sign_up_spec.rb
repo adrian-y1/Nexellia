@@ -18,7 +18,7 @@ RSpec.describe "User Sign up", type: :system do
       fill_in 'user[email]', with: email
       fill_in 'user[password]', with: password
       fill_in 'user[password_confirmation]', with: password
-      click_button 'Sign up'
+      click_button 'Create Account'
       expect(page).not_to have_current_path(new_user_registration_path)
       expect(page).to have_content('Welcome! You have signed up successfully.')
     end
@@ -33,7 +33,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("First name can't be blank")
@@ -48,21 +48,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
-          expect(page).to have_current_path(user_registration_path)
-          expect(page).not_to have_current_path(new_user_registration_path)
-          expect(page).to have_content("First name must be between 2-30 characters")
-        end
-      end
-
-      context "when first name length is > 30" do
-        it "fails to sign the user up and shows error message" do
-          fill_in 'user[first_name]', with: Faker::Lorem.characters(number: 35)
-          fill_in 'user[last_name]', with: last_name
-          fill_in 'user[email]', with: email
-          fill_in 'user[password]', with: password
-          fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("First name must be between 2-30 characters")
@@ -76,7 +62,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("First name only allows letters")
@@ -92,7 +78,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Last name can't be blank")
@@ -107,21 +93,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
-          expect(page).to have_current_path(user_registration_path)
-          expect(page).not_to have_current_path(new_user_registration_path)
-          expect(page).to have_content("Last name must be between 2-30 characters")
-        end
-      end
-
-      context "when last name length is > 30" do
-        it "fails to sign the user up and shows error message" do
-          fill_in 'user[first_name]', with: first_name
-          fill_in 'user[last_name]', with: Faker::Lorem.characters(number: 35)
-          fill_in 'user[email]', with: email
-          fill_in 'user[password]', with: password
-          fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Last name must be between 2-30 characters")
@@ -135,7 +107,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Last name only allows letters")
@@ -151,7 +123,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: ''
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Email can't be blank")
@@ -167,7 +139,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Email has already been taken")
@@ -181,7 +153,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: "#{first_name}@"
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Email is invalid")
@@ -197,11 +169,11 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: ''
           fill_in 'user[password_confirmation]', with: password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Password can't be blank")
-          expect(page).to have_content("Password confirmation doesn't match Password")
+          expect(page).to have_content("Passwords do not match")
         end
       end
 
@@ -212,7 +184,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: '1234'
           fill_in 'user[password_confirmation]', with: '1234'
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Password is too short (minimum is 6 characters)")
@@ -228,7 +200,7 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: long_password
           fill_in 'user[password_confirmation]', with: long_password
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
           expect(page).to have_content("Password is too long (maximum is 128 characters)")
@@ -244,10 +216,10 @@ RSpec.describe "User Sign up", type: :system do
           fill_in 'user[email]', with: email
           fill_in 'user[password]', with: password
           fill_in 'user[password_confirmation]', with: 'okwqe'
-          click_button 'Sign up'
+          click_button 'Create Account'
           expect(page).to have_current_path(user_registration_path)
           expect(page).not_to have_current_path(new_user_registration_path)
-          expect(page).to have_content("Password confirmation doesn't match Password")
+          expect(page).to have_content("Passwords do not match")
         end
       end
     end

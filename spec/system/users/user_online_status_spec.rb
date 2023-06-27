@@ -15,18 +15,18 @@ RSpec.describe "User Online Status", type: :system, js: true do
         login_as(user)
         visit posts_path
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
-        expect(page).to have_content("Offline")
+        expect(page).to have_css("span[class='post-index-contacts__status--offline']")
       end
 
       using_session :friend do
         login_as(friend)
         visit posts_path
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
-        expect(page).to have_content("Online")
+        expect(page).to have_css("span[class='post-index-contacts__status--online']")
       end
 
       using_session :user do
-        expect(page).to have_content("Online")
+        expect(page).to have_css("span[class='post-index-contacts__status--online']")
       end
     end
   end
@@ -47,12 +47,13 @@ RSpec.describe "User Online Status", type: :system, js: true do
 
       # Reload the page so the user gets disconnected from the stream
       using_session :user do
-        click_on "Sign out"
+        find_button(class: "navbar__user-dropdown--toggle").click
+        click_on "Log out"
         visit current_path
       end
 
       using_session :friend do
-        expect(page).to have_content("Offline")
+        expect(page).to have_css("span[class='post-index-contacts__status--offline']")
       end
     end
   end

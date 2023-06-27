@@ -27,10 +27,11 @@ RSpec.describe "Create Post", type: :system, js: true do
   
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          click_on 'Create Post'
+          click_on 'Post'
         end
   
         # Confirms that the post was created live using Turbo Streams and that 
@@ -47,11 +48,13 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/avatar2.png', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to have_content(content)
@@ -67,11 +70,13 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to have_content(content)
@@ -87,11 +92,13 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to have_content(content)
@@ -107,11 +114,13 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          attach_file('post[image]', 'spec/fixtures/files/test.gif')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/test.gif', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to have_content(content)
@@ -127,10 +136,12 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          click_on 'Create Post'
+          click_on 'Post'
         end
 
         expect(page).to have_content(content)
@@ -153,10 +164,12 @@ RSpec.describe "Create Post", type: :system, js: true do
   
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: ''
-          click_on 'Create Post'
+          click_on 'Post'
         end
 
         expect(page).to have_current_path(posts_path)
@@ -170,11 +183,13 @@ RSpec.describe "Create Post", type: :system, js: true do
 
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: content
-          attach_file('post[image]', 'spec/fixtures/files/text.txt')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/text.txt', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to_not have_css('img[src$="text.txt"]')
@@ -189,11 +204,13 @@ RSpec.describe "Create Post", type: :system, js: true do
   
         expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
   
-        new_post_frame = find("turbo-frame[id='new_post']")
-        within(new_post_frame) do
+        all("a[href=\"/posts/new\"]")[0].click
+        
+        new_post_modal_frame = find("turbo-frame[id='modal']")
+        within(new_post_modal_frame) do
           fill_in 'post[body]', with: ''
-          attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
-          click_on 'Create Post'
+          attach_file('post[image]', 'spec/fixtures/files/avatar2.png', visible: false)
+          click_on 'Post'
         end
 
         expect(page).to have_current_path(posts_path)

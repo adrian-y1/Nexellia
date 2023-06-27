@@ -6,7 +6,7 @@
 
 require 'rails_helper'
 
-RSpec.describe "Update Post", type: :system, js: true do
+RSpec.describe 'Save Post', type: :system, js: true do
   let(:user) { create(:user) }
 
   before do
@@ -49,13 +49,14 @@ RSpec.describe "Update Post", type: :system, js: true do
           # and make it visibile
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -70,13 +71,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -91,13 +93,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -112,13 +115,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -133,13 +137,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/test.gif')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/test.gif', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -162,13 +167,14 @@ RSpec.describe "Update Post", type: :system, js: true do
     
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: ''
-            click_on "Update Post"
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -185,13 +191,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
 
           expect(page).to have_current_path(posts_path)
@@ -206,13 +213,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/text.txt')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/text.txt', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(posts_path)
@@ -229,12 +237,13 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            click_on "Cancel"
+            find_button(class: "modal__header--close").click
           end
 
           expect(page).to have_current_path(posts_path)
@@ -277,13 +286,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
 
           expect(page).to have_current_path(post_path(post))
@@ -298,13 +308,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -319,13 +330,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -340,13 +352,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -361,13 +374,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/test.gif')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/test.gif', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -390,13 +404,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: ''
-            click_on "Update Post"
+            click_on 'Save Post'
           end
 
           expect(page).to have_current_path(post_path(post))
@@ -413,13 +428,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -434,13 +450,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/text.txt')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/text.txt', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(post_path(post))
@@ -457,12 +474,13 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           show_page_post_interactions_frame = find("turbo-frame#show-page-post-interactions-#{user.posts.last.id}")
           within(show_page_post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            click_on "Cancel"
+            find_button(class: "modal__header--close").click
           end
 
           expect(page).to have_current_path(post_path(post))
@@ -505,13 +523,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
 
           expect(page).to have_current_path(user_path(post.user))
@@ -526,13 +545,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/avatar2.png')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/avatar2.png', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -547,13 +567,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -568,13 +589,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/testing_image.jpeg', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -589,13 +611,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/test.gif')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/test.gif', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -618,13 +641,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: ''
-            click_on "Update Post"
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -641,13 +665,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
             fill_in 'post[body]', with: updated_content
-            click_on "Update Post"
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -662,13 +687,14 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            attach_file('post[image]', 'spec/fixtures/files/text.txt')
-            click_on "Update Post"
+            attach_file('post[image]', 'spec/fixtures/files/text.txt', visible: false)
+            click_on 'Save Post'
           end
           
           expect(page).to have_current_path(user_path(post.user))
@@ -685,12 +711,13 @@ RSpec.describe "Update Post", type: :system, js: true do
 
           post_interactions_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
           within(post_interactions_frame) do
+            find_button(class: "post-card__dropdown--trigger").click
             click_on 'Edit'
           end
 
           modal_form_frame = find("turbo-frame#modal")
           within(modal_form_frame) do
-            click_on "Cancel"
+            find_button(class: "modal__header--close").click
           end
 
           expect(page).to have_current_path(user_path(post.user))

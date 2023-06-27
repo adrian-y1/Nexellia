@@ -40,6 +40,7 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
+      find_button(class: "post-card__dropdown--trigger").click
       post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
       within(post_frame) do
         click_on "Delete"
@@ -63,6 +64,8 @@ RSpec.describe "Delete Post", type: :system, js: true do
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
 
+      find_button(class: "post-card__dropdown--trigger").click
+
       post_frame = find("turbo-frame#post-interactions-#{user.posts.last.id}")
       within(post_frame) do
         click_on "Delete"
@@ -77,27 +80,29 @@ RSpec.describe "Delete Post", type: :system, js: true do
     # This test checks that a post can be successfully deleted inside the posts#show page/modal and
     # displays a message in the modal to every user that had the modal opened.
     #
-    # When a post is deleted, the flash notice is displayed without a page refresh, all users 
-    # who are on the show page/modal of the deleted post, will get a message about the deleted post they are viewing.
+    # When a post is deleted all users 
+    # who are on the show page/modal of the deleted post, will get a message about 
+    # the deleted post they are viewing and get redirect to index page.
 
     before do
       post = create(:post, user: user)
     end
 
-    it "deletes the post, renders flash notice and redirects all subscribed users to index page after 5 seconds using Turbo Streams" do
+    it "deletes the post, renders flash notice and redirects all subscribed users to index page using Turbo Streams" do
       post = user.posts.last
       visit post_path(post)
 
       expect(page).to have_css('turbo-cable-stream-source[connected]', visible: false)
+
+      find_button(class: "post-card__dropdown--trigger").click
 
       post_frame = find("turbo-frame#show-page-post-interactions-#{post.id}")
       within(post_frame) do
         click_on "Delete"
       end
 
-      expect(page).to have_current_path(post_path(post))
-      expect(page).to have_content(flash_notice)
-      expect(page).to have_content('The post you were viewing has been deleted and no longer exists')
+      # Everyone gets redirected to index page after post is successfully deleted
+      expect(page).to have_current_path(posts_path) 
     end
   end
 end

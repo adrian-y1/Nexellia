@@ -13,6 +13,6 @@
         <div class="flash-notification__border"></div>
       </div>
     <% end %>
-    <button type="button" data-action="click->close-flash#close" class="flash-notification--button"><i class="fa-regular fa-x"></i></button>
+    <button type="button" data-action="click->close-flash#close" data-notification-id="<%= notification.id %>" class="flash-notification--button"><i class="fa-regular fa-x"></i></button>
   </div>
 <% end %>

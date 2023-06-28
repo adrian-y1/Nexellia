@@ -3,6 +3,7 @@
 # Table name: notifications
 #
 #  id             :bigint           not null, primary key
+#  is_closed      :boolean          default(FALSE)
 #  params         :jsonb
 #  read_at        :datetime
 #  recipient_type :string           not null
@@ -37,6 +38,8 @@ class Notification < ApplicationRecord
     broadcast_notifications_count_sync
     broadcast_remove_index_notification
   end
+
+  scope :not_closed, -> { where(is_closed: false) }
 
   private 
   

@@ -16,15 +16,25 @@
   border: 1px solid var(--border-color);
   z-index: 0 !important;
 
-  .navbar__notifications-header {
-    border-bottom: 1px solid var(--border-color);
-  }
   .unread {
     background-color: $color-primary-low-opacity;
 
     a {
       color: var(--secondary-text-darker);
       font-weight: 550;
+    }
+  }
+
+  .notifications-clear-all-button {
+    padding: 15px;
+    color: var(--secondary-text-darker);
+    font-weight: 550;
+    margin-bottom: 10px;
+
+    &:focus,
+    &:hover {
+      color: var(--secondary-text-darker);
+      text-decoration: underline;
     }
   }
 }

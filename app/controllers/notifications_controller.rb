@@ -7,4 +7,9 @@ class NotificationsController < ApplicationController
     notification = Notification.find(params[:id])
     notification.update(is_closed: true)
   end
+
+  def destroy_all
+    current_user.notifications.destroy_all
+    redirect_to request.referrer
+  end
 end

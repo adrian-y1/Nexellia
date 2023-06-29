@@ -164,6 +164,19 @@
     color: var(--primary-text);
   }
 
+  .notifications-clear-all-button {
+    padding: 15px;
+    color: var(--secondary-text-darker);
+    font-weight: 550;
+    margin-bottom: 10px;
+
+    &:focus,
+    &:hover {
+      color: var(--secondary-text-darker);
+      text-decoration: underline;
+    }
+  }
+
   &__notifications-footer {
     width: 100%;
     text-align: center;

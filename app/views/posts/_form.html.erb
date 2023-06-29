@@ -8,9 +8,15 @@
 
   <%= f.text_area :body, size: "70x4", class: "modal__body--textarea", placeholder: "What's on your mind, #{current_user.first_name}?" %>
   
-  <div class="modal__preview-image-container" data-image-preview-target="newPictureContainer">
-    <%= image_tag "", data: { image_preview_target: "newPicture" }, class: "modal__preview-image" %>
-  </div>
+  <% if action == "edit" && post.image.present? %>
+    <div class="modal__preview-image-container">
+      <%= image_tag post.image, data: { image_preview_target: "newPicture" }, class: "modal__preview-image" %>
+    </div>
+  <% else %> 
+    <div class="modal__preview-image-container" data-image-preview-target="newPictureContainer">
+      <%= image_tag "", data: { image_preview_target: "newPicture" }, class: "modal__preview-image" %>
+    </div>
+  <% end %>
 
   <div class="modal__body--file-upload">
     <label for="post_image" class="modal__body--custom-file-upload">

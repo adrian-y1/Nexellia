@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = [ "newPicture", "newPictureContainer" ]
 
   connect() {
-    this.newPictureContainerTarget.style.display = 'none'
+    this.pictureContainerDisplay('none')
   }
 
   preview() {
@@ -12,7 +12,13 @@ export default class extends Controller {
     const file = fileField.files[0]
     if (file) {
       this.newPictureTarget.src = URL.createObjectURL(file)
-      this.newPictureContainerTarget.style.display = 'flex'
+      this.pictureContainerDisplay('flex')
+    }
+  }
+
+  pictureContainerDisplay(display) {
+    if (this.hasNewPictureContainerTarget) {
+      this.newPictureContainerTarget.style.display = display
     }
   }
 }

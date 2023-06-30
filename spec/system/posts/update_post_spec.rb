@@ -732,7 +732,7 @@ RSpec.describe 'Save Post', type: :system, js: true do
       it "redirects to index page and shows error message" do
         unauthorized_post = create(:post)
         visit edit_post_path(unauthorized_post)
-        expect(page).to have_content("You can only edit the posts that you have created.")
+        expect(page).to have_content("404! The page you requested was not found.")
       end
     end
   end

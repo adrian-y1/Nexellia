@@ -116,7 +116,7 @@ RSpec.describe "Update Profile", type: :system, js: true do
         visit edit_user_profile_path(new_user, new_user.profile)
 
         expect(page).to have_current_path(root_path)
-        expect(page).to have_content('You can only edit your own profile.')
+        expect(page).to have_content('404! The page you requested was not found.')
       end
     end
   end

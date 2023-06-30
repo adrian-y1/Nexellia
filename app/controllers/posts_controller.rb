@@ -35,7 +35,7 @@ class PostsController < ApplicationController
 
   def edit
     if current_user != @post.user
-      redirect_to root_path, alert: "You can only edit the posts that you have created."
+      redirect_to root_path, alert: "404! The page you requested was not found."
     end
   end
 

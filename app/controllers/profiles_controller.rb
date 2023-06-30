@@ -3,7 +3,7 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
     @user = User.find(params[:user_id])
     if current_user != @user
-      redirect_to root_path, alert: "You can only edit your own profile."
+      redirect_to root_path, alert: "404! The page you requested was not found."
     end
   end
 

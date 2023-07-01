@@ -48,6 +48,11 @@ class Post < ApplicationRecord
     updated_at > created_at
   end
 
+  def post_likes_users
+    user_ids = likes.pluck(:user_id)
+    User.find(user_ids)
+  end
+
   private
 
   def image_type

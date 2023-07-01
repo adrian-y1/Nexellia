@@ -1,0 +1,21 @@
+.likers-dropup-menu {
+  position: absolute;
+  top: 30px;
+  background-color: var(--primary-text);
+  opacity: 0.8;
+  border-radius: 6px;
+  padding: 10px;
+  display: none;
+  align-items: start;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  box-shadow: var(--dark-box-shadow);
+  width: 150px;
+
+  span {
+    color: var(--secondary-background-color);
+    font-size: 13px;
+
+  }
+}

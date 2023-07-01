@@ -1,6 +1,17 @@
 <%= turbo_frame_tag post, "likes_#{page}" do %>
-  <div class="post-card__footer--likes-count-container">
+  <div class="post-card__footer--likes-count-container" data-controller="dropup-menu">
     <span class="post-card__footer--likes-icon"><i class='fas fa-thumbs-up'></i></span>
-    <div class="post-card__footer--likes-comment_count"><%= post.likes_count %></div>
+    <%= link_to post.likes_count, "#", class: "post-card__footer--likes-comment_count", 
+        data: { action: "mouseenter->dropup-menu#displayDropup mouseleave->dropup-menu#hideDropup" } %>
+    <% if post.post_likes_users.count > 0 %>
+      <div class="likers-dropup-menu" data-dropup-menu-target="likersDropup">
+        <% post.post_likes_users.take(6).each do |liker| %>
+          <span><%= liker.full_name %></span>
+        <% end %>
+        <% if post.post_likes_users.count > 6 %>
+          <span>and <%= post.post_likes_users.count - 6 %> more...</span>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>

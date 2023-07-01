@@ -21,6 +21,20 @@ ben = User.create(first_name: 'Ben', last_name: 'Ten', email: 'ben@ben', passwor
 sam = User.create(first_name: 'Sam', last_name: 'Ryder', email: 'sam@sam', password: 'samsam', password_confirmation: 'samsan')
 fam = User.create(first_name: 'Fam', last_name: 'Wam', email: 'fam@fam', password: 'famfam', password_confirmation: 'famfam')
 
+10.times do |n|
+  first_name = Faker::Name.first_name
+  last_name = Faker::Name.last_name
+  email = "#{first_name.downcase}@example.com"
+  password = 'password'
+  User.create(
+    first_name: first_name,
+    last_name: last_name,
+    email: email,
+    password: password,
+    password_confirmation: password
+  )
+end
+
 jim.posts.create(body: "Lorem ipsum dolor sit amet. Et nihil dicta sed numquam laboriosam et galisum deleniti.")
 michael.posts.create(body: "Lorem ipsum dolor sit amet. Eum sint excepturi hic debitis assumenda qui quia adipisci eos eius cupiditate est galisum nemo et consectetur molestiae et sint magni.")
 
@@ -44,3 +58,9 @@ dwight.friendships.create(friend: fam)
 dwight.friendships.create(friend: jim)
 michael.friendships.create(friend: ben)
 michael.friendships.create(friend: fam)
+
+users = User.where.not(first_name: dwight.first_name, last_name: "Schrute")
+
+users.each do |user|
+  user.like(dwight.posts.last)
+end

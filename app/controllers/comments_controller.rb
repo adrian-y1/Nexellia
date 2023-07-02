@@ -5,6 +5,8 @@ class CommentsController < ApplicationController
   include ApplicationHelper
 
   def index
+    return redirect_to posts_path unless request.headers["Turbo-Frame"].present?
+    
     @comment = Comment.find(params[:comment_id])
     @comments = @commentable.comments.load_comments
   end

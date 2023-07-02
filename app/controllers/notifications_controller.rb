@@ -10,6 +10,6 @@ class NotificationsController < ApplicationController
 
   def destroy_all
     current_user.notifications.destroy_all
-    redirect_to request.referrer
+    redirect_to request.referrer || notifications_path
   end
 end

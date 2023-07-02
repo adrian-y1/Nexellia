@@ -30,7 +30,8 @@
     border-bottom-right-radius: $border-radius;
     padding-left: 6px;
     padding: 0;
-
+    margin-bottom: 40px;
+    
     @include media(smallTablet) {
       width: 100%;
     }

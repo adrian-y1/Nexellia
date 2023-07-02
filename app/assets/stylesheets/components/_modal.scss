@@ -29,6 +29,7 @@
     border-bottom-left-radius: $border-radius;
     border-bottom-right-radius: $border-radius;
     padding-left: 6px;
+    padding: 0;
 
     @include media(smallTablet) {
       width: 100%;
@@ -191,7 +192,7 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    box-shadow: var(--box-shadow);
+    padding: 15px 0;
 
     &--btn-primary {
       width: 100%;

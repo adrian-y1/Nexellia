@@ -1,0 +1,19 @@
+.non-turbo-frame {
+  width: 100%;
+  background-color: var(--main-background-color) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+
+  #modal {
+    margin-top: 30px;
+    background-color: var(--secondary-background-color);
+    border-radius: $border-radius;
+
+    .modal__header--close {
+      display: none;
+    }
+  }
+}

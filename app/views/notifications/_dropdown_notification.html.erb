@@ -7,7 +7,14 @@
         <%= render "profiles/picture", profile: noticed_obj.actor.profile, size: "65x65" %>
       </div>
       <div class="navbar__notification-card__body">
-        <div class="navbar__notification-card__content"><%= noticed_obj.message %>.</div>
+        <div class="navbar__notification-card__content">
+          <% if noticed_obj.is_a?(FriendshipNotification) %>
+            You and <span class="notification-actor-<%= notification.unread? ? 'unread' : '' %>"><%= noticed_obj.actor.full_name %></span> are now friends.
+          <% else %>
+            <span class="notification-actor-<%= notification.unread? ? 'unread' : '' %>"><%= noticed_obj.actor.full_name %></span>
+            <%= noticed_obj.message %>.
+          <% end %>
+        </div>
         <div class="navbar__notification-card__date-container">
           <% if notification.unread? %>
             <div class="navbar__notification-card__date__unread"><%= time_ago_in_words(notification.created_at) %> ago</div>

@@ -8,7 +8,14 @@
       </div>
       <div class="flash-notification__body">
         <div class="flash-notification__header">New <i class="bi bi-bell-fill"></i></div>
-        <div class="flash-notification__message"><%= noticed_obj.message %></div>
+        <div class="flash-notification__message">
+          <% if noticed_obj.is_a?(FriendshipNotification) %>
+            You and <span class="notification-actor-<%= notification.unread? ? 'unread' : '' %>"><%= noticed_obj.actor.full_name %></span> are now friends.
+          <% else %>
+            <span class="notification-actor-<%= notification.unread? ? 'unread' : '' %>"><%= noticed_obj.actor.full_name %></span>
+            <%= noticed_obj.message %>.
+          <% end %>
+        </div>
         <small class="flash-notification__date"><%= time_ago_in_words(notification.created_at) %> ago</small>
         <div class="flash-notification__border"></div>
       </div>

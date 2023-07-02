@@ -17,23 +17,21 @@
   z-index: 0 !important;
 
   .unread {
-    background-color: $color-primary-low-opacity;
-
     a {
-      color: var(--secondary-text-darker);
-      font-weight: 550;
+      color: var(--primary-text);
+      font-weight: 350;
     }
   }
 
   .notifications-clear-all-button {
     padding: 15px;
-    color: var(--secondary-text-darker);
+    color: var(--notifications-text);
     font-weight: 550;
     margin-bottom: 10px;
 
     &:focus,
     &:hover {
-      color: var(--secondary-text-darker);
+      color: var(--notifications-text);
       text-decoration: underline;
     }
   }

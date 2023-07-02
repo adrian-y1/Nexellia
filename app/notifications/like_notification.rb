@@ -11,7 +11,7 @@ class LikeNotification < Noticed::Base
 
   def message
     likeable_type = like.likeable_type == 'Post' ? "post" : "comment"
-    "#{actor.full_name} liked your #{likeable_type}"    
+    "liked your #{likeable_type}"    
   end
 
   def url

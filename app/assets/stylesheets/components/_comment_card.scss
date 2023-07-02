@@ -204,7 +204,7 @@
   position: relative;
   margin-bottom: 5px;
 
-  form {
+  form[data-reply-target='replyForm'] {
     width: 100%;
     display: grid;
     grid-template-columns: 35px 1fr 35px;

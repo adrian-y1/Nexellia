@@ -62,6 +62,10 @@ class User < ApplicationRecord
   pg_search_scope :by_first_last_name, against: [ :first_name, :last_name ],
     using: { tsearch: { prefix: true }, trigram: { word_similarity: true } }
   
+  def mutual_friends(user)
+    user.friends.where(id: friends.pluck(:id))
+  end
+
   def send_welcome_email
     WelcomeMailer.with(user: self).welcome_email.deliver
   end

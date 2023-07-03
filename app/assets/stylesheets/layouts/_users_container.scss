@@ -62,7 +62,7 @@
     flex-direction: column;
     background-color: var(--secondary-background-color);
     border: 1px solid var(--border-color);
-    gap: 10px;
+    gap: 5px;
     box-shadow: var(--box-shadow);
     margin-right: 7px;
     margin-bottom: 7px;
@@ -78,7 +78,6 @@
   &__name {
     width: 90%;
     margin: auto;
-    margin-bottom: 5px;
 
     &--link {
       font-weight: 550;
@@ -89,6 +88,36 @@
       &:focus {
         color: var(--primary-text);
       }
+    }
+  }
+
+  &__mutual-friends {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    span {
+      font-weight: 500;
+      font-size: 15px;
+      color: var(--secondary-text-darker);
+      margin-left: 17px;
+    }
+
+    a {
+      #picture {
+        position: relative;
+        border-radius: 50%;
+        margin-right: -10px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    img {
+      border-radius: 50%;
+      border: 2px solid var(--secondary-background-color);
     }
   }
 

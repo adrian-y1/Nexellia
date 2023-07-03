@@ -45,5 +45,7 @@ class UsersController < ApplicationController
     @friend_request = FriendRequest.new
     @is_current_user = current_user == @user
     @friends_count = @user.friends.count
+    @mutual_friends = current_user.mutual_friends(@user).load_profiles.limit(9)
+    @mutual_friends_count = current_user.mutual_friends(@user).count
   end
 end

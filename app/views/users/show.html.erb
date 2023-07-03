@@ -15,11 +15,17 @@
       
       <div class="profile-header__info">
         <h1 class="profile-header__name"><%= @user.full_name %></h1>
-        <%# TODO %>
-        <small class="profile-header__friends-count"><i class="bi bi-people-fill"></i> <%= pluralize(@friends_count, "friend") %></small>
+        <small class="profile-header__friends-count"><i class="bi bi-people-fill"></i> 
+          <% if current_user == @user || @mutual_friends_count <= 0 %>
+            <%= pluralize(@friends_count, "friend") %>
+          <% else %>
+            <%= pluralize(@mutual_friends_count, "mutual friend") %>
+          <% end %>
+        </small>
         <div class="profile-header__actions">
           <div class="profile-header__friends">
-            <% @friends.each do |friend| %>
+            <% friends_to_display = current_user != @user && @mutual_friends_count > 0 ? @mutual_friends : @friends %>
+            <% friends_to_display.each do |friend| %>
               <%= link_to friend do %>
                 <%= render "profiles/picture", profile: friend.profile, size: "45x45" %>
               <% end %>

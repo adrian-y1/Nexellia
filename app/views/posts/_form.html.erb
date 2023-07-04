@@ -9,6 +9,12 @@
   <%= f.text_area :body, size: "70x4", class: "modal__body--textarea", placeholder: "What's on your mind, #{current_user.first_name}?" %>
   
   <% if action == "edit" && post.image.present? %>
+    <div class="profile-form__input-group" style="margin-bottom: 10px; margin-left: 10px;">
+      <%= f.check_box(:remove_image, class: "profile-form__input-group--check-input") %>
+      <label for="post_remove_image" class="profile-form__input-group--check-label">
+        Remove Image
+      </label>
+    </div>
     <div class="modal__preview-image-container">
       <%= image_tag post.image, data: { image_preview_target: "newPicture" }, class: "modal__preview-image" %>
     </div>

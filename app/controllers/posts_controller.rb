@@ -42,6 +42,7 @@ class PostsController < ApplicationController
   def update
     respond_to do |format|
       if @post.update(post_params)
+        remove_post_image
         format.turbo_stream { flash.now[:notice] = "Post was successfully updated." }
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
@@ -76,6 +77,12 @@ class PostsController < ApplicationController
 
   private
 
+  def remove_post_image
+    if params[:post][:remove_image] == "1"
+      @post.image.purge
+    end
+  end
+
   # Update the like button text only for the current user for for given page/context by using
   # turbo_stream.replace for the given private target to only change the button's text
   # to either Like or Unlike for the current user
@@ -98,6 +105,6 @@ class PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:body, :user_id, :image)
+    params.require(:post).permit(:body, :user_id, :image, :remove_image)
   end
 end

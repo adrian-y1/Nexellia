@@ -16,6 +16,8 @@
 #
 class Post < ApplicationRecord
   include ActionView::RecordIdentifier
+
+  attr_accessor :remove_image
   
   belongs_to :user, counter_cache: true
   has_many :likes, as: :likeable, dependent: :destroy

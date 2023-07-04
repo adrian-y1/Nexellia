@@ -19,6 +19,8 @@ Rails.application.routes.draw do
     resources :friendships, only: [:create, :destroy]
   end
 
+  resources :search, only: [:index]
+
   resources :notifications, only: [:index, :update] do
     collection do
       get :destroy_all

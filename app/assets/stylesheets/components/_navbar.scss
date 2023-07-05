@@ -151,7 +151,7 @@
     right: -50px;
     width: 370px;
     border-radius: $border-radius;
-    box-shadow: var(--dark-box-shadow);
+    box-shadow: var(--box-shadow);
     border: 1px solid var(--border-color);
     z-index: 5;
   }
@@ -303,7 +303,7 @@
     right: 0px;
     width: 250px;
     border-radius: $border-radius;
-    box-shadow: var(--dark-box-shadow);
+    box-shadow: var(--box-shadow);
     border: 1px solid var(--border-color);
     padding: 10px 5px;
 

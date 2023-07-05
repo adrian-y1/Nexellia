@@ -11,4 +11,7 @@
   @if $query == smallPhone {
     @media (max-width: 480px) { @content; }
   }
+  @if $query == verySmallPhone {
+    @media (max-width: 380px) { @content; }
+  }
 }

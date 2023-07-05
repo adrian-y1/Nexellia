@@ -1,0 +1,23 @@
+<div class="users-search-container">
+  <div class="users-search-card-container">
+    <%= render "shared/empty_state", message: "No results found." %>
+    <% @users.each do |user| %>
+      <%= turbo_stream_from [current_user.id, user.id] %>
+      <div class="users-search__card">
+        <div class="users-search__picture">
+          <%= link_to user do %>
+            <%= render "profiles/picture", profile: user.profile, size: "80x80" %>
+          <% end %>
+        </div>
+        <div class="users-search__body">
+          <div class="users-search__name"><%= link_to user.full_name, user %></div>
+          <div class="users-search__bio-description"><%= user.profile.bio_description.truncate(50) if attribute_provided?(user.profile.bio_description) %></div>
+          <div class="users-search__mutual-friends"><%= pluralize(current_user.mutual_friends(user).count, "mutual friend") if current_user.mutual_friends(user).count > 0 %></div>
+        </div>
+        <div class="users-search__friend-request">
+          <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: FriendRequest.new %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

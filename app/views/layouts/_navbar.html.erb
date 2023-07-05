@@ -2,7 +2,11 @@
   <nav class="navbar">
     <div class="navbar__brand">
       <img class="navbar__logo" src="https://placehold.co/50x50" alt="placeholder image">
-      <%= link_to "EchoVerse", posts_path, class: "navbar__title" %>
+      <%# link_to "EchoVerse", posts_path, class: "navbar__title" %>
+      <%= form_with url: search_index_path, html: { class: "friends__search" }, method: :get do |f| %>
+        <button><i class="bi bi-search"></i></button>
+        <%= f.text_field :q, placeholder: "Search" %>
+      <% end %>
     </div>
 
     <ul class="navbar__nav">

@@ -11,8 +11,12 @@
 
   &__brand {
     display: flex;
-    align-items: end;
+    align-items: center;
     gap: 10px;
+  }
+
+  &__icon {
+    height: 80px;
   }
 
   &__name {

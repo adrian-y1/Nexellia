@@ -1,25 +1,36 @@
-<h2>Change your password</h2>
+<div class="registration-container">
+  <div class="logo">
+    <div class="logo__brand">
+      <%= image_tag("odin_facebook_logo.png", class: "logo__icon",  alt:"Nexellia Logo") %> 
+      <div class="logo__name">Nexellia</div>
+    </div>
+  </div>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%# render "devise/shared/error_messages", resource: resource %>
-  <%= f.hidden_field :reset_password_token %>
+  <div class="login-form" style="align-self: center;">
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+      <div class="login-form__header">
+        <h2 class="login-form__title">Change your password</h2>
+      </div>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <%= f.hidden_field :reset_password_token %>
+
+      <div class="login-form__form-group"">
+        <%= f.label :password, class: "login-form__label" %>
+        <%= f.password_field :password, placeholder: "Password", class: "login-form__input", autofocus: true,
+                                                                minlength: 6, pattern: ".{6,}", title: "Minimum 6 characters" %>
+        <%= render "devise/shared/error_messages", attribute_name: 'Password', attribute_errors: resource.errors[:password] %>
+      </div>
+
+      <div class="login-form__form-group">
+        <%= f.label :password_confirmation, class: "login-form__label" %>
+        <%= f.password_field :password_confirmation, placeholder: "Password Confirmation", class: "login-form__input" %>
+        <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:password_confirmation] %>
+      </div>
+
+      <button class="login-form__button--login button" type="submit" style="font-size: 17px;">Change password</button>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "new-password" %>
+    <%= render "devise/shared/links", omniauth_message: "Sign in with Facebook" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Change my password" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+  <%= render "shared/footer" %>
+</div>

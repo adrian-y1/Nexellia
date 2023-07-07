@@ -1,16 +1,27 @@
-<h2>Forgot your password?</h2>
-
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%# render "devise/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<div class="registration-container">
+  <div class="logo">
+    <div class="logo__brand">
+      <%= image_tag("odin_facebook_logo.png", class: "logo__icon",  alt:"Nexellia Logo") %> 
+      <div class="logo__name">Nexellia</div>
+    </div>
   </div>
 
-  <div class="actions">
-    <%= f.submit "Send me reset password instructions" %>
-  </div>
-<% end %>
+  <div class="login-form" style="align-self: center;">
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <div class="login-form__header">
+        <h2 class="login-form__title">Reset your password</h2>
+      </div>
 
-<%= render "devise/shared/links", omniauth_message: "Sign in with Facebook" %>
+      <div class="logini-form__form-group">
+        <%= f.label :email, class: "login-form__label" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class: "login-form__input", placeholder: "Enter your email address" %>
+        <%= render "devise/shared/error_messages", attribute_name: 'Email', attribute_errors: resource.errors[:email] %>
+      </div>
+
+      <button class="login-form__button--login button" type="submit" style="font-size: 17px;">Reset password</button>
+    <% end %>
+    <%= render "devise/shared/links", omniauth_message: "Sign in with Facebook" %>
+  </div>
+
+  <%= render "shared/footer" %>
+</div>

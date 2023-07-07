@@ -76,7 +76,7 @@
 
   <div class="profile-form__input-group">
     <label for="profile_bio_description" class="profile-form__input-group--label"><i class="bi bi-file-text-fill"></i> About:</label>
-    <%= f.text_area :bio_description, size: "7x5", class: "profile-form__input-group--input", placeholder: "Tell us about you..." %>
+    <%= f.text_area :bio_description, size: "7x5", class: "profile-form__input-group--input", placeholder: "Tell us about you...", maxlength: 255  %>
   </div>
 
   <div class="modal__footer">

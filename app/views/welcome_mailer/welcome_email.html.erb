@@ -33,6 +33,14 @@
         margin-bottom: 40px;
         padding-bottom: 10px;
         border-bottom: 1px solid #DDDFE2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      img {
+        height: 55px;
       }
 
       .welcome-email__footer {
@@ -77,6 +85,7 @@
     <div class="welcome-email-container">
       <div class="welcome-email">
         <div class="welcome-email__banner">
+          <%= image_tag attachments['nexellia.png'].url, alt: 'Nexellia logo', class: 'photo' -%>
           Nexellia
         </div>
 

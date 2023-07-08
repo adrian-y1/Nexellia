@@ -2,110 +2,54 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1, user-scalable=0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-    <style>
-      .welcome-email-container {
-        font-family: 'Roboto', sans-serif;
-        width: 100%;
-        background-color: #F0F2F5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 25px;
-      }
-
-      .welcome-email {
-        width: 600px;
-        border-radius: 6px;
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-      }
-
-      .welcome-email__banner {
-        font-family: 'Roboto', sans-serif;
-        font-size: 40px;
-        font-weight: bold;
-        color: #1876f2;
-        margin-bottom: 40px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #DDDFE2;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-      }
-
-      img {
-        height: 55px;
-      }
-
-      .welcome-email__footer {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 50px;
-      }
-
-      .footer__link {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        font-size: 16px;
-        width: fit-content;
-        margin-bottom: 10px;
-      }
-
-      i {
-        color: #000;
-        font-size: 18px;
-        margin-bottom: 2px;
-      }
-
-      h3 {
-        margin: 5px 0 20px 0;
-        font-size: 20px;
-      }
-
-      small {
-        display: block;
-        width: 100%;
-        color: #7a7b7e;
-        border-top: 1px solid #DDDFE2;
-        padding-top: 10px;
-        text-align: center;
-      }
-    </style>
   </head>
-
   <body>
-    <div class="welcome-email-container">
-      <div class="welcome-email">
-        <div class="welcome-email__banner">
-          <%= image_tag attachments['nexellia.png'].url, alt: 'Nexellia logo', class: 'photo' -%>
-          Nexellia
-        </div>
-
-        <div class="welcome-email__content">
-          <p>Hello <b><%= @user.full_name %></b>,</p>
-          <p>Thank you for signing up for Nexellia. I am thrilled to have you onboard!</p>
-          <p>With Nexellia, you can connect with friends, share your thoughts and discover exciting content. I hope you have a great experience!</p>
-          <p>To visit and start using the site, please click <a href="http://localhost:3000/">here</a>. </p>
-          <p>If you have any questions, feedback or need assistance, feel free to reach out to me. </p>
-          <br>
-          <br>
-          <span>Best regards,</span>
-          <h3>Adrian</h3>
-          <div class="welcome-email__footer">
-            <a class="footer__link" href="mailto:adriany.webdev@gmail.com" target="_blank"><i class="bi bi-envelope-fill"></i> adriany.webdev@gmail.com</a>
-            <a class="footer__link" href="https://github.com/adrian-y1" target="_blank"><i class="bi bi-github"></i> Adrian-y1</a>
-          </div>
-          <small>Disclaimer: This site is not affiliated with Facebook.</small>
-        </div>
-      </div>
-    </div>
+    <table style="font-family: 'Roboto', sans-serif; width: 100%; background-color: #F0F2F5;" width="100%" cellpadding="0" cellspacing="0">
+      <tr>
+        <td>
+          <table style="max-width: 600px; margin: 0 auto; border: 1px solid #DDDFE2; border-radius: 6px; background-color: #fff;" width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+              <td style="padding: 20px;">
+                <table style="width: 100%;" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="width: 60px; text-align: left;">
+                      <%= image_tag attachments['nexellia.png'].url, alt: 'Nexellia logo', class: 'photo', style: 'height: 55px;' %>
+                    </td>
+                    <td style="text-align: left;">
+                      <h1 style="font-family: 'Roboto', sans-serif; font-size: 28px; font-weight: bold; color: #1876f2; margin-bottom: 20px;">Nexellia</h1>
+                    </td>
+                  </tr>
+                </table>
+                <p style="text-align: left;">Hello <b><%= @user.full_name %></b>,</p>
+                <p style="text-align: left;">Thank you for signing up for Nexellia. I am thrilled to have you onboard!</p>
+                <p style="text-align: left;">With Nexellia, you can connect with friends, share your thoughts and discover exciting content. I hope you have a great experience!</p>
+                <p style="text-align: left;">To visit and start using the site, please click <a href="http://localhost:3000/">here</a>.</p>
+                <p style="text-align: left;">If you have any questions, feedback or need assistance, feel free to reach out to me.</p>
+                <br>
+                <br>
+                <span style="display: block;">Best regards,</span>
+                <h3 style="margin: 5px 0 20px 0; font-size: 20px;">Adrian</h3>
+                <div style="width: 100%; margin-bottom: 50px;">
+                  <div>
+                    Email:
+                    <a href="mailto:adriany.webdev@gmail.com" target="_blank">
+                      adriany.webdev@gmail.com
+                    </a>
+                  </div>
+                  <br>
+                  <div>
+                    Github:
+                    <a href="https://github.com/adrian-y1" target="_blank">
+                      <i class="bi bi-github" style="color: #000; font-size: 18px; margin-bottom: 2px;"></i> Adrian-y1
+                    </a>
+                  </div>
+                </div>
+                <small style="display: block; width: 100%; color: #7a7b7e; border-top: 1px solid #DDDFE2; padding-top: 10px; text-align: center;">Disclaimer: This site is not affiliated with Facebook.</small>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
   </body>
 </html>

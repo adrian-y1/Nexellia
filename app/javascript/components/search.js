@@ -31,7 +31,7 @@ document.addEventListener("turbo:load", () => {
       users.forEach(user => {
         if (user.name.toLowerCase().includes(value)) {
           createCard(user, searchResults);
-          hasResults = true; // Set flag to true if at least one result is found
+          hasResults = true;
         }
       });
 
@@ -44,6 +44,8 @@ document.addEventListener("turbo:load", () => {
       searchResults.style.display = "none"; // Hide the search results container if the input is empty
     }
   });
+
+  handleOutsideClick(searchResults);
 });
 
 // Create a card element for the user
@@ -61,4 +63,15 @@ function createCard(user, container) {
     </a>
   `;
   container.appendChild(searchUserCard);
+}
+
+// Hide container if the user has clicked outside
+function handleOutsideClick(container) {
+  window.addEventListener('click', event => {
+    if(event.target !== container){
+      if (container !== null ) {
+        container.style.display = 'none'
+      }
+    }
+})
 }

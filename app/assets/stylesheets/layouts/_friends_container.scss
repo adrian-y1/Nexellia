@@ -51,6 +51,15 @@
       &:focus {
         border: none;
       }
+
+      &::-webkit-search-cancel-button{
+        -webkit-appearance: none;
+        border-radius: 50px;
+        height: 15px;
+        width: 15px;
+        background: url(https://pro.fontawesome.com/releases/v5.10.0/svgs/solid/times-circle.svg) no-repeat 50% 50%;
+        cursor: pointer;
+      }
     }
   }
 

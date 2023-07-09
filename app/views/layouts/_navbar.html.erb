@@ -1,12 +1,14 @@
 <div class="navbar-container">
   <nav class="navbar">
     <div class="navbar__brand">
-      <%= image_tag("nexellia.png", class: "navbar__logo",  alt:"Nexellia Logo") %> 
-      <%# link_to "Nexellia", posts_path, class: "navbar__title" %>
+      <%= link_to root_path, class: "navbar__title" do %>
+        <%= image_tag("nexellia.png", class: "navbar__logo",  alt:"Nexellia Logo") %> 
+      <% end %>
       <%= form_with url: search_index_path, html: { class: "friends__search" }, method: :get do |f| %>
         <button><i class="bi bi-search"></i></button>
-        <%= f.text_field :q, placeholder: "Search" %>
+        <%= f.text_field :q, placeholder: "Search", id: "search-users", autocomplete: "off" %>
       <% end %>
+      <div class="search-results"></div>
     </div>
 
     <ul class="navbar__nav">

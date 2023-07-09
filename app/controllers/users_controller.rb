@@ -1,11 +1,20 @@
 class UsersController < ApplicationController
   before_action :load_user, only: %i[show friends]
+
+  include ProfilesHelper
+
   def index
-    # eager load Profile and :profile_attachment to solve N + 1 queries problem
+    # Eager load Profile and :profile_attachment to solve N + 1 queries problem
     @users = User.excluding_friends_and_requests(current_user).load_profiles
     @friend_request = FriendRequest.new
     @friend_requests = current_user.friend_requests_sent.or(current_user.friend_requests_received)
+
+    respond_to do |format|
+      format.html
+      format.json { render json: jsonified_users }
+    end
   end
+  
 
   def show
     set_variables
@@ -47,5 +56,15 @@ class UsersController < ApplicationController
     @friends_count = @user.friends.count
     @mutual_friends = current_user.mutual_friends(@user).load_profiles.limit(9)
     @mutual_friends_count = current_user.mutual_friends(@user).count
+  end
+
+  def jsonified_users
+    User.load_profiles.map do |user|
+      {
+        id: user.id,
+        name: user.full_name,
+        picture: profile_picture_for(user.profile, "40x40")
+      }
+    end
   end
 end

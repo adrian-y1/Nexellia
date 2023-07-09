@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 Dotenv::Railtie.load
 
-module OdinFacebook
+module Nexellia
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller

@@ -4,7 +4,7 @@
       <h2 class="friends__title">Friends</h2>
       <%= form_with url: user_friends_path(@user), html: { class: "friends__search" }, method: :get do |f| %>
         <button><i class="bi bi-search"></i></button>
-        <%= f.text_field :query, placeholder: "Search" %>
+        <%= f.text_field :query, placeholder: "Search", class: "friends-search", data: { user_id: @user.id } %>
       <% end %>
       <%= link_to "Friend requests", users_path, class: "friends__header--link" %>
       <%= link_to "Find Friends", users_path, class: "friends__header--link" %>

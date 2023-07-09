@@ -32,7 +32,11 @@ class UsersController < ApplicationController
     else
       @friends = @user.friends.load_profiles
     end
-    render 'show'
+
+    respond_to do |format|
+      format.html { render "show" }
+      format.json { render json: jsonified_friends }
+    end
   end
   
   private
@@ -64,6 +68,16 @@ class UsersController < ApplicationController
         id: user.id,
         name: user.full_name,
         picture: profile_picture_for(user.profile, "40x40")
+      }
+    end
+  end
+
+  def jsonified_friends
+    @user.friends.load_profiles.map do |friend|
+      {
+        id: friend.id,
+        name: friend.full_name,
+        picture: profile_picture_for(friend.profile)
       }
     end
   end

@@ -2,7 +2,7 @@
   <%= turbo_stream_from "new_notifications_#{user.id}" %>
   
   <%= turbo_frame_tag "new_notifications_#{user.id}" do %>
-    <% @unread_notifications.not_closed.each do |notification| %>
+    <% @unread_notifications.not_closed.includes([:recipient]).each do |notification| %>
       <%= render "notifications/new_notification", notification: notification %>
     <% end %>
   <% end %>

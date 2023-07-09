@@ -17,33 +17,38 @@ document.addEventListener("turbo:load", () => {
 
   const search = document.getElementById("search-users");
   const searchResults = document.querySelector(".search-results");
-  searchResults.style.display = "none";
+
+  if (searchResults !== null) {
+    searchResults.style.display = "none";
+  }
 
   // Listen for user input
-  search.addEventListener("input", event => {
-    const value = event.target.value.toLowerCase();
-    searchResults.innerHTML = "";
-
-    // If the user input is not empty and is included in the user's name, 
-    // create card and append it
-    if (value.trim() !== "") {
-      let hasResults = false; // Flag to check if there are any search results
-      users.forEach(user => {
-        if (user.name.toLowerCase().includes(value)) {
-          createCard(user, searchResults);
-          hasResults = true;
+  if (search !== null) {
+    search.addEventListener("input", event => {
+      const value = event.target.value.toLowerCase();
+      searchResults.innerHTML = "";
+  
+      // If the user input is not empty and is included in the user's name, 
+      // create card and append it
+      if (value.trim() !== "") {
+        let hasResults = false; // Flag to check if there are any search results
+        users.forEach(user => {
+          if (user.name.toLowerCase().includes(value)) {
+            createCard(user, searchResults);
+            hasResults = true;
+          }
+        });
+  
+        if (!hasResults) {
+          searchResults.style.display = "none"; // Hide the search results container if no results found
+        } else {
+          searchResults.style.display = "flex"; // Show the search results container if there are results
         }
-      });
-
-      if (!hasResults) {
-        searchResults.style.display = "none"; // Hide the search results container if no results found
       } else {
-        searchResults.style.display = "flex"; // Show the search results container if there are results
+        searchResults.style.display = "none"; // Hide the search results container if the input is empty
       }
-    } else {
-      searchResults.style.display = "none"; // Hide the search results container if the input is empty
-    }
-  });
+    });
+  }
 
   handleOutsideClick(searchResults);
 });

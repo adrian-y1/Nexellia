@@ -6,6 +6,7 @@ class PostsController < ApplicationController
   def index
     @pagy, @posts = pagy(Post.user_and_friends_posts(current_user).includes(image_attachment: :blob), items: 5)
     @user_friends = current_user.friends.load_profiles
+    suggested_users
 
     render "paginated_posts_list" if params[:page]
   end
@@ -106,5 +107,26 @@ class PostsController < ApplicationController
 
   def post_params
     params.require(:post).permit(:body, :user_id, :image, :remove_image)
+  end
+
+  def suggested_users
+    users = User.load_profiles.excluding_friends_and_requests(current_user)
+    mutual_friends = find_mutual_friends(users)
+  
+    if mutual_friends.length >= 5
+      @suggestions = mutual_friends.first(5)
+    else
+      remaining_users_count = 5 - mutual_friends.length
+      remaining_users = users.limit(remaining_users_count)
+      @suggestions = mutual_friends + remaining_users
+    end
+  end
+  
+  def find_mutual_friends(users)
+    mutual_friends = []
+    users.each do |user|
+      mutual_friends << user if current_user.mutual_friends(user).count > 0
+    end
+    mutual_friends
   end
 end

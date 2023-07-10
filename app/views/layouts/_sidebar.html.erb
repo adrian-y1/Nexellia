@@ -15,4 +15,25 @@
       </a>
     </li>
   </ul>
+
+  <div class="suggestions">
+    <div class="suggestions__header">
+      <h3>Suggestions</h3>
+      <%= link_to "See all", users_path, class: "suggestions__header--link" %>
+    </div>
+    <% @suggestions&.each do |user| %>
+      <%= turbo_stream_from [current_user.id, user.id] %>
+      <div class="suggestions__card">
+        <a href="<%= user_path(user) %>" class="suggestions__user">
+          <div class="suggestions__picture">
+            <%= render "profiles/picture", profile: user.profile, size: "40x40" %>
+          </div>
+          <div class="suggestions__name"><%= user.full_name %></div>
+        </a>
+        <div class="suggestions__friend-request">
+          <%= render "users/friend_request_form", logged_in_user: Current.user, user: user, friend_request: FriendRequest.new %>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </div>

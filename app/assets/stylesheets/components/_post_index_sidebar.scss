@@ -36,6 +36,68 @@
     }
   }
 
+  .suggestions {
+    border-top: 2px solid var(--border-color);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    &__header {
+      padding: 10px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      h3 {
+        color: var(--primary-text);
+      }
+    }
+
+    &__card {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-radius: $border-radius;
+
+      &:hover,
+      &:focus,
+      &:active {
+        color: var(--primary-text);
+        background-color: var(--light-grey);
+      }
+    }
+
+    &__user {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    &__picture {
+      img {
+        border-radius: 50%;
+      }
+    }
+
+    &__name {
+      color: var(--primary-text);
+      font-weight: 550;
+    }
+
+    &__friend-request {
+      button, input {
+        font-size: 0 !important;
+        padding: 10px !important;
+        margin: 0 !important;
+        display: block !important;
+      }
+    }
+  }
+
   @include media(laptop) {
     display: none;
   }

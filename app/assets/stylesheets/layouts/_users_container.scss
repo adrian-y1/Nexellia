@@ -8,6 +8,9 @@
 
   .post-index-sidebar {
     background-color: var(--secondary-background-color);
+    .suggestions {
+      display: none !important;
+    }
   }
 
   @include media(laptop) {

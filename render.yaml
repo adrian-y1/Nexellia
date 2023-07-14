@@ -1,0 +1,21 @@
+database:
+  - name: nexellia
+    ipAllowList: []
+services:
+  - type: web
+    name: nexellia
+    env: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: bundle exec rails s
+    envVars:
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nexellia
+          property: connectionString
+  - type: redis
+    name: nexellia_redis
+    ipAllowList: []
+    plan: free
+    maxmemoryPolicy: noeviction

@@ -83,6 +83,7 @@ test:
 #
 production:
   <<: *default
+  url: <%= ENV["DATABASE_URL"] %>
   database: nexellia_production
   username: nexellia
   password: <%= ENV["NEXELLIA_DATABASE_PASSWORD"] %>

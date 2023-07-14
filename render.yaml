@@ -1,4 +1,4 @@
-database:
+databases:
   - name: nexellia
     ipAllowList: []
 services:

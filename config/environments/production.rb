@@ -107,4 +107,8 @@ Rails.application.configure do
     enable_starttls_auto: true,
     open_timeout:         5,
     read_timeout:         5 }
+
+  # Assets configs
+  config.assets.precompile += %w( *.js *.css )
+  config.serve_static_assets = true
 end

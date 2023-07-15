@@ -60,7 +60,7 @@ function createCard(user, container) {
   searchUserCard.innerHTML = `
     <a href="/users/${user.id}" class="search-results__card--link">
       <div class="search-results__card--picture">
-        <img src="${user.picture}" alt="${user.name} picture">
+        <img src="${user.picture}" alt="${user.name} picture" width="40" height="40">
       </div>
       <div class="search-results__card--name">
         ${user.name}

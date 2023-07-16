@@ -38,19 +38,28 @@
   }
 
   &__status--online, &__status--offline {
+    border: 5px solid var(--main-background-color);
+    background-color: var(--main-background-color);
     position: absolute;
-    left: 45px;
-    top: 45px;
+    left: 43px;
+    top: 43px;
     border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    padding-left: 1px;
+    justify-content: center;
 
     i {
       border: none;
       outline: none;
+      font-size: 12px;
     }
   }
 
   &__status--online {
-    color: #32CD32;
+    color: #329A4C;
   }
 
   &__status--offline {

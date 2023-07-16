@@ -2,7 +2,8 @@
 import "@hotwired/turbo-rails"
 import "@hotwired/stimulus"
 import "controllers"
-import "./components/notifications"
-import "./components/search"
-import "./components/search_friends"
+import "components/notifications"
+import "components/search"
+import "components/search_friends"
+
 

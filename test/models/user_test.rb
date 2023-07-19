@@ -8,6 +8,7 @@
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
 #  last_name              :string
+#  last_online_at         :datetime
 #  posts_count            :integer          default(0)
 #  provider               :string
 #  remember_created_at    :datetime

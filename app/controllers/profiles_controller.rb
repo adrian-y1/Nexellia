@@ -23,7 +23,6 @@ class ProfilesController < ApplicationController
         # Re-attach the original picture object to the profile object
         @profile.picture.attach(@original_picture) if @original_picture.present?
         format.html { render :edit, status: :unprocessable_entity, locals: { profile: @profile }, alert: "Error while updating profile" }
-        format.turbo_stream { flash.now[:alert] = "Error updating profile information!" }
       end
     end
   end

@@ -1,4 +1,10 @@
 @mixin media($query) {
+  @if $query == desktop {
+    @media (max-width: 1479px) { @content; }
+  }
+  @if $query == smallerDesktop {
+    @media (max-width: 1317px) { @content; }
+  }
   @if $query == laptop {
     @media (max-width: 1150px) { @content; }
   }

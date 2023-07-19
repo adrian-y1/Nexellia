@@ -1,4 +1,10 @@
 .post-index-sidebar {
+  margin-top: 70px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 380px;
 
   &__nav {
     display: flex;
@@ -96,6 +102,14 @@
         display: block !important;
       }
     }
+  }
+
+  @include media(desktop) {
+    width: 300px;
+  }
+
+  @include media(smallerDesktop) {
+    width: 225px;
   }
 
   @include media(laptop) {

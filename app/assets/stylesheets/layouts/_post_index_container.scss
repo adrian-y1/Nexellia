@@ -1,17 +1,18 @@
 .post-index-container {
-  display: grid;
-  grid-template-columns: 1fr 3fr 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: "sidebar posts contact";
-  align-items: flex-start;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  @include media(laptop) {
-    grid-template-columns: 3fr 1fr;
-    grid-template-areas: "posts contact";
-  }
+  .post-index-posts, .post-index-posts__cards-container {
+    @include media(laptop) {
+      justify-content: flex-start;
+      align-items: flex-start;
+    }
 
-  @include media(bigTablet) {
-    grid-template-columns: 1fr;
-    grid-template-areas: "posts";
+    @include media(bigTablet) {
+      justify-content: center;
+      align-items: center;
+    }
   }
 }

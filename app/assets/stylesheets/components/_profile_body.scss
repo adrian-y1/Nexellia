@@ -34,6 +34,15 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+
+    @include media(laptop){
+      position: static;
+      height: 100%;
+    }
   }
   
   &__header-intro-title {

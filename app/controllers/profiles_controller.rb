@@ -17,12 +17,13 @@ class ProfilesController < ApplicationController
     respond_to do |format|
       if @profile.update(profile_params)
         update_profile_picture
-        format.turbo_stream { flash.now[:notice] = "Profile information have been updated" }
-        format.html { redirect_to user_path(@profile.user), notice: "Profile information have been updated" }
+        format.turbo_stream { flash.now[:notice] = "Profile information have been updated." }
+        format.html { redirect_to user_path(@profile.user), notice: "Profile information have been updated." }
       else
         # Re-attach the original picture object to the profile object
         @profile.picture.attach(@original_picture) if @original_picture.present?
         format.html { render :edit, status: :unprocessable_entity, locals: { profile: @profile }, alert: "Error while updating profile" }
+        format.turbo_stream { flash.now[:alert] = "Error updating profile information!" }
       end
     end
   end

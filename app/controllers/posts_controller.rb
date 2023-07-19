@@ -24,6 +24,7 @@ class PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: "Post was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity, alert: "Post could not be created." }
+        format.turbo_stream { flash.now[:alert] = "Post could not be created." }
       end
     end
   end
@@ -48,6 +49,7 @@ class PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: "Post was successfully updated." }
       else
         format.html { render :edit, status: :see_other, alert: "Post could not be updated." }
+        format.turbo_stream { flash.now[:alert] = "Post could not be updated." }
       end
     end
   end

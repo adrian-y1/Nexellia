@@ -1,6 +1,6 @@
 class OnlineChannel < Turbo::StreamsChannel
   def subscribed
-    current_user&.update!(status: "online")
+    current_user&.update!(status: "online", last_online_at: Time.current)
     super
   end
 

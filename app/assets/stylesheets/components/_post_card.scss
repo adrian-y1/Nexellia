@@ -71,6 +71,10 @@
   &__date {
     text-align: start;
     color: var(--secondary-text-darker);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
   }
 
   &__dropdown {

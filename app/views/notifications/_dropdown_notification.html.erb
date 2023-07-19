@@ -17,10 +17,10 @@
         </div>
         <div class="navbar__notification-card__date-container">
           <% if notification.unread? %>
-            <div class="navbar__notification-card__date__unread"><%= time_ago_in_words(notification.created_at) %> ago</div>
+            <div class="navbar__notification-card__date__unread"><%= time_ago_in_words(notification.created_at) %> </div>
             <i class="bi bi-circle-fill navbar__notification-card__unread"></i>
           <% else %>
-            <div class="navbar__notification-card__date"><%= time_ago_in_words(notification.created_at) %> ago</div>
+            <div class="navbar__notification-card__date"><%= time_ago_in_words(notification.created_at) %> </div>
           <% end %>
         </div>
       </div>

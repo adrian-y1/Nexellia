@@ -24,7 +24,7 @@
 
         <small><%= render 'likes/comment_like_button', comment: comment, post: comment.commentable, like_status: user.liked?(comment) %></small>
         <%= link_to "Reply", '#', data: { action: "click->reply#toggle" }, class: "text-decoration-none" %>
-        <small class="comment-card__date"><%= time_ago_in_words(comment.created_at) %> ago</small>
+        <small class="comment-card__date"><%= time_ago_in_words(comment.created_at) %> </small>
         <div class="post-buttons comment-card__dropdown" data-user-id="<%= comment.user.id %>">
           <% if user == comment.user %>
             <div class="comment-card__dropdown" data-controller="dropdown-toggle">

@@ -67,7 +67,7 @@ class UsersController < ApplicationController
       {
         id: user.id,
         name: user.full_name,
-        picture: profile_picture_for(user.profile, "40x40")
+        picture: picture_url(user)
       }
     end
   end
@@ -79,6 +79,15 @@ class UsersController < ApplicationController
         name: friend.full_name,
         picture: profile_picture_for(friend.profile)
       }
+    end
+  end
+
+  def picture_url(user)
+    picture = profile_picture_for(user.profile, "40x40")
+    if picture.is_a?(ActiveStorage::Attached::One)
+      return picture.url
+    else
+      return picture
     end
   end
 end

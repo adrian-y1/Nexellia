@@ -27,8 +27,8 @@ if User.count < 10
 
   puts "\n Creating Posts... \n"
   random_users.each do |random_user|
-    user.posts.create(body: Faker::Lorem.paragraph)
-    user.posts.create(body: Faker::Lorem.paragraph)
+    random_user.posts.create(body: Faker::Lorem.paragraph)
+    random_user.posts.create(body: Faker::Lorem.paragraph)
   end
 
   puts "\n Creating Comments... \n"

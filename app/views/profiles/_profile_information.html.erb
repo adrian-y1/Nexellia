@@ -19,19 +19,23 @@
     </div>
     <div class="profile-body__intro-content">
       <i class="bi bi-envelope-fill"></i>
-      <% if attribute_provided?(profile.public_email) %>
-        You can contact me via email at <span> <%= profile.public_email %></span>
-      <% else %>
-        <em><small>Not Provided</small></em>
-      <% end %>
+      <div>
+        <% if attribute_provided?(profile.public_email) %>
+          You can contact me via email at <span> <%= profile.public_email %></span>
+        <% else %>
+          <em><small>Not Provided</small></em>
+        <% end %>
+      </div>
     </div>
     <div class="profile-body__intro-content">
       <i class="bi bi-telephone-fill"></i>
-      <% if attribute_provided?(profile.public_phone_number) %>
-        You can contact me via phone at<span> <%= profile.public_phone_number %></span>
-      <% else %>
-        <em><small>Not Provided</small></em>
-      <% end %>
+      <div>
+        <% if attribute_provided?(profile.public_phone_number) %>
+          You can contact me via phone at<span> <%= profile.public_phone_number %></span>
+        <% else %>
+          <em><small>Not Provided</small></em>
+        <% end %>
+      </div>
     </div>
     <div class="profile-body__intro-content">
       <i class="bi bi-file-text-fill"></i>

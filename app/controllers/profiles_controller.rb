@@ -36,6 +36,7 @@ class ProfilesController < ApplicationController
     if params[:profile][:default] == "1"
       @profile.picture.purge
     else
+      @profile.picture.purge if picture.present?
       @profile.picture.attach(picture) if picture.present?
     end
   end

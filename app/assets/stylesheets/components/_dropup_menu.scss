@@ -12,6 +12,7 @@
   gap: 5px;
   box-shadow: var(--box-shadow);
   width: 150px;
+  z-index: 10;
 
   span {
     color: var(--secondary-background-color);

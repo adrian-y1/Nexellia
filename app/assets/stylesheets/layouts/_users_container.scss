@@ -2,14 +2,29 @@
   width: 100%;
   height: 100vh;
   background-color: var(--main-background-color);
-  display: grid;
-  grid-template-columns: 1fr 4fr;
-  gap: 20px;
 
   .post-index-sidebar {
     background-color: var(--secondary-background-color);
+    
     .suggestions {
       display: none !important;
+    }
+
+    @include media(desktop) {
+      width: 300px;
+    }
+  
+    @include media(smallerDesktop) {
+      width: 250px;
+    }
+  
+    @include media(laptop) {
+      width: 220px;
+      display: block;
+    }
+
+    @include media(bigTablet) {
+      display: none;
     }
   }
 
@@ -22,9 +37,23 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-left: 400px;
+
+  @include media(desktop) {
+    padding-left: 320px;
+  }
+
+  @include media(smallerDesktop) {
+    padding-left: 270px;
+  }
 
   @include media(laptop) {
-    margin: 0 30px;
+    padding-left: 240px;
+  }
+
+  @include media(bigTablet) {
+    padding-left: 30px;
+    padding-right: 30px;
   }
 }
 

@@ -11,11 +11,13 @@
       <% else %>
         <i class="fas fa-user"></i>
       <% end %>
-      <% if attribute_provided?(profile.gender) %>
-        I'm a <span> <%= profile&.gender %></span>
-      <% else %>
-        <em><small>Not Provided</small></em>
-      <% end %>
+      <div>
+        <% if attribute_provided?(profile.gender) %>
+          I'm a <span> <%= profile&.gender %></span>
+        <% else %>
+          <em><small>Not Provided</small></em>
+        <% end %>
+      </div>
     </div>
     <div class="profile-body__intro-content">
       <i class="bi bi-envelope-fill"></i>

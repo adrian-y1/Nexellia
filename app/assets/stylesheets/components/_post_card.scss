@@ -184,12 +184,13 @@
       justify-content: space-between;
       align-items: center;
 
-      a {
+      a, .post-card__footer--likes-comment_count {
         color: var(--secondary-text-darker);
 
         &:hover {
           color: var(--secondary-text-darker);
           text-decoration: underline;
+          cursor: pointer;
         }
 
         &:focus,

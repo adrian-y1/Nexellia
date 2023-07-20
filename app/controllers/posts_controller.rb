@@ -117,7 +117,7 @@ class PostsController < ApplicationController
       @suggestions = mutual_friends.first(5)
     else
       remaining_users_count = 5 - mutual_friends.length
-      remaining_users = users.limit(remaining_users_count)
+      remaining_users = users.where.not(id: mutual_friends.map(&:id)).limit(remaining_users_count)
       @suggestions = mutual_friends + remaining_users
     end
   end

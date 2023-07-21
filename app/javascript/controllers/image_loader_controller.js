@@ -10,7 +10,7 @@ export default class extends Controller {
   
   handleError = () => {
     let placeholder_image = new Image()
-    placeholder_image.src = "assets/placeholder_image.jpg" 
+    placeholder_image.src = "https://archive.org/download/placeholder-image/placeholder-image.jpg" 
 
     // Copy attributes from original image to the placeholder image
     placeholder_image = this.copyAttributes(placeholder_image, this.imageTarget)

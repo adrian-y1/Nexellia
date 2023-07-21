@@ -90,6 +90,8 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
+  config.assets.prefix = "https://#{ENV["AWS_PRODUCTION_BUCKET"]}.s3.amazonaws.com"
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 

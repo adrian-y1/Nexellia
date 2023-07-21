@@ -13,6 +13,11 @@ Nexellia is a full-featured social media platform, developed using `Ruby on Rail
 One of the key strengths of Nexellia lies in its efficient use of the `Hotwire/Turbo` library, which empowers the platform to deliver real-time updates to users. These updates encompass a range of features, including posts, likes, comments, notifications, and more, providing users with a dynamic and engaging social media experience.
 
 
+## Demo
+<img alt="Nexellia demo" src="demo/nexellia_demo.gif"><br>
+*Nexellia demonstration*
+
+
 ## Table of Contents
 - [Dependencies](https://github.com/adrian-y1/Nexellia#dependencies)
 - [Initial Setup](https://github.com/adrian-y1/Nexellia#initial-setup)
@@ -23,6 +28,7 @@ One of the key strengths of Nexellia lies in its efficient use of the `Hotwire/T
 - [Challenges Faced](https://github.com/adrian-y1/Nexellia#challenges-faced)
 - [Future Plans](https://github.com/adrian-y1/Nexellia#future-plans)
 - [Conclusion](https://github.com/adrian-y1/Nexellia#conclusion)
+- [Attributions](https://github.com/adrian-y1/Nexellia#attributions)
 
 ## Dependencies
 - `rails 7.0.4.2`
@@ -151,3 +157,11 @@ In the future, I am enthusiastic about continuously enhancing this application b
 Nexellia is a feature-rich social media platform developed using `Ruby on Rails 7`, providing users with a seamless experience to create, interact with, and connect through various functionalities, inspired by Facebook. The implementation of real-time features using the `Hotwire/Turbo` library presented notable challenges, requiring extensive understanding of `broadcasting`, `turbo-streams`, and `turbo-frames`. Despite limited online resources, I persevered through trial and error, to solve the problems i came across. 
 
 Through these challenges, i was able to enahnce my technical skills but the development process also taught me to creatively solve problems and leverage existing tools like `Gravatar` for improved user interactions. As Nexellia continues to evolve, I look forward to implementing future features such as real-time chat, enhanced comment & post functionalities, and more.
+
+
+## Attributions
+- `libvips` library for images: [github.com./libvips](https://github.com/libvips/libvips)
+- `Gravatar` for default image: [en.gravatar.com](https://en.gravatar.com/)
+- `default.png` for testing purposes: Icon PNG by [Vecteezy](https://www.vecteezy.com/free-png/profile-icon)
+- `avatar1.png` for testing purposes: Icon by [Fayethequeen93](https://www.dreamstime.com/fayethequeen93_info) on [Dreamstime](https://www.dreamstime.com/stock-illustration-male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-image91462914)
+- `avatar2.png` for testing purposes: Icon PNG by [Vecteezy](https://www.vecteezy.com/free-vector/user-icon)

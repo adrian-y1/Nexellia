@@ -71,7 +71,7 @@ To start the development server, along with `sass`, run:
   - Login
   - Register
   - Forgot Password
-  - Facebook Sign in/Sign up
+  - Google Sign in/Sign up
   - Welcome Email
   - Edit Account
 

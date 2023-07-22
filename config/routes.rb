@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     end
   end
   
+  resources :privacy_policy, only: [:index]
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   
   root 'posts#index'

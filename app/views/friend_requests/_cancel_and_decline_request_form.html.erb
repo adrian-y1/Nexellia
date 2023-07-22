@@ -1,7 +1,7 @@
 <%= form_with url: user_friend_request_path(sender, receiver), method: :delete, local: true do |f| %>
   <%= f.hidden_field :sender_id, value: sender.id %>
   <%= f.hidden_field :receiver_id, value: receiver.id %>
-  <button type="submit" class="profile-header__buttons--<%= action_name %>-friend profile-header-button">
+  <button type="submit" class="profile-header__buttons--<%= action_name %>-friend profile-header-button" title="<%= action_name %> Friend Request">
     <% if action_name == "Cancel" %>
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-fill-dash" viewBox="0 0 16 16">
         <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM11 12h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Zm0-7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>

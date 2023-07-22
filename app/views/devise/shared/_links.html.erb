@@ -14,9 +14,9 @@
   <% end %>
 
   <%- if devise_mapping.omniauthable? %>
-    <%= button_to user_facebook_omniauth_authorize_path, :data => {turbo: "false"}, class: "login-form__button--facebook-login button" do %>
-      <i class="bi bi-facebook"></i>
-      <%= omniauth_message %>
-    <% end %>
+    <%# button_to user_facebook_omniauth_authorize_path, :data => {turbo: "false"}, class: "login-form__button--facebook-login button" do %>
+      <%# <i class="bi bi-facebook"></i> %>
+      <%# omniauth_message %>
+    <%# end %>
   <% end %>
 </div>

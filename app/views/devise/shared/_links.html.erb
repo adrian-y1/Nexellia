@@ -16,7 +16,7 @@
   <%- if devise_mapping.omniauthable? %>
     <%# button_to user_facebook_omniauth_authorize_path, :data => {turbo: "false"}, class: "login-form__button--facebook-login button" do %>
       <%# <i class="bi bi-facebook"></i> %>
-      <%# omniauth_message %>
+      <%# Sign in with Facebook %>
     <%# end %>
     <%= button_to user_google_oauth2_omniauth_authorize_path, :data => {turbo: "false"}, class: "login-form__button--google-login button" do %>
       <%= image_tag asset_url("google_logo.svg") %>

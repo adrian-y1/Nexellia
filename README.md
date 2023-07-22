@@ -1,8 +1,5 @@
-<div style="display:flex; align-items: center; gap: 10px;">
-  <img src="app/assets/images/nexellia.png" width="60">
-  <div style="font-size: 35px;"> <b>Nexellia</b> </div>
-</div>
-<hr>
+<img src="app/assets/images/nexellia.png" width="60">
+<h1> Nexellia </h1>
 
 Live Site: [nexellia.onrender.com](https://nexellia.onrender.com/)
 

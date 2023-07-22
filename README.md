@@ -165,3 +165,4 @@ Through these challenges, i was able to enahnce my technical skills but the deve
 - `default.png` for testing purposes: Icon PNG by [Vecteezy](https://www.vecteezy.com/free-png/profile-icon)
 - `avatar1.png` for testing purposes: Icon by [Fayethequeen93](https://www.dreamstime.com/fayethequeen93_info) on [Dreamstime](https://www.dreamstime.com/stock-illustration-male-avatar-icon-flat-style-male-user-icon-cartoon-man-avatar-hipster-vector-stock-image91462914)
 - `avatar2.png` for testing purposes: Icon PNG by [Vecteezy](https://www.vecteezy.com/free-vector/user-icon)
+- `google icon svg` - By Google Inc. - google.com Google icon-Sep15 Google &quot;G&quot; Logo, Public Domain, [commons.wikimedia.org](https://commons.wikimedia.org/w/index.php?curid=42850884)

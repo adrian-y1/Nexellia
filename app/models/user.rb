@@ -25,6 +25,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
+require 'open-uri'
+
 class User < ApplicationRecord
   include ActionView::RecordIdentifier
   include PgSearch::Model
@@ -38,7 +40,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, 
-         :omniauthable, omniauth_providers: %i[facebook]
+         :omniauthable, omniauth_providers: %i[facebook google_oauth2]
   
   validates :first_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters" }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
   validates :last_name, presence: true, length: { minimum: 2, maximum: 30, message: "must be between 2-30 characters"  }, format: { with: /\A[a-zA-Z]+\z/, message: "only allows letters" }
@@ -126,15 +128,25 @@ class User < ApplicationRecord
   end
 
   def self.from_omniauth(auth)
-    find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
+    user = find_or_create_by(provider: auth.provider, uid: auth.uid) do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.first_name = auth.info.name.split(" ")[0] # assuming the user model has a first_name
-      user.last_name = auth.info.name.split(" ")[1] # assuming the user model has a last_name
+      user.first_name = auth.info.name.split(" ")[0]
+      user.last_name = auth.info.name.split(" ")[1]
       user.access_token = auth.credentials.token
+      user.build_profile if user.profile.nil?
     end
+    user.attach_picture_from_auth(auth)
+    user
   end
 
+  def attach_picture_from_auth(auth)
+    image_url = auth.info.image
+    image_data = URI.open(URI.parse(image_url)) # Parse URL and download image data
+    filename = File.basename(URI.parse(image_url).path)
+    profile.picture.attach(io: image_data, filename: filename)
+  end
+  
   private
 
   def broadcast_replace_to_online_friends

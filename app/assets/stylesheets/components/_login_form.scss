@@ -95,6 +95,31 @@
     }
   }
 
+
+  &__button--google-login {
+    background-color: #fff;
+    font-size: 17px;
+    width: fit-content;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px !important;
+    box-shadow: var(--dark-box-shadow);
+    color: #000 !important;
+    font-weight: 500 !important;
+
+    i {
+      margin-bottom: 2px;
+      font-size: 20px;
+    }
+
+    &:hover {
+      background-color: var(--light-grey);
+    }
+  }
+
   &__button--sign-up {
     background-color: #41af2b;
     font-size: 17px;

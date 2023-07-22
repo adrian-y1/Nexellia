@@ -18,5 +18,9 @@
       <%# <i class="bi bi-facebook"></i> %>
       <%# omniauth_message %>
     <%# end %>
+    <%= button_to user_google_oauth2_omniauth_authorize_path, :data => {turbo: "false"}, class: "login-form__button--google-login button" do %>
+      <%= image_tag asset_url("google_logo.svg") %>
+      Sign in with Google
+    <% end %>
   <% end %>
 </div>

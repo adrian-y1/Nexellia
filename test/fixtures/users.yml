@@ -7,6 +7,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  first_name             :string
+#  has_set_password       :boolean          default(FALSE)
 #  last_name              :string
 #  last_online_at         :datetime
 #  posts_count            :integer          default(0)

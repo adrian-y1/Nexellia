@@ -15,9 +15,12 @@
 
   &__form-group {
     flex: 1;
+    position: relative;
 
     &--eye-icon {
-      margin-left: -40px;
+      position: absolute;
+      top: 7px;
+      right: 15px;
       cursor: pointer;
       font-size: 20px;
     }
@@ -36,7 +39,7 @@
     display: inline-block;
     color: #df2929;
     font-size: 14px;
-    text-align: center;
+    text-align: left;
   }
 
   &__label {

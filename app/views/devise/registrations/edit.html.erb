@@ -43,13 +43,17 @@
         <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:password_confirmation] %>
       </div>
 
-      <div class="login-form__form-group" data-controller="password-toggle">
-        <%= f.label :current_password, class: "login-form__label" %>
-        <%= f.password_field :current_password, placeholder: "Current Password", class: "login-form__input", 
-                                                    data: { password_toggle_target: "passwordField" },  required: true %>
-        <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
-        <%= render "devise/shared/error_messages", attribute_name: '', attribute_errors: resource.errors[:current_password] %>
-      </div>
+      <% if resource.has_set_password == true %>
+        <div class="login-form__form-group" data-controller="password-toggle">
+          <%= f.label :current_password, class: "login-form__label" %>
+          <%= f.password_field :current_password, placeholder: "Current Password", class: "login-form__input", 
+                                                      data: { password_toggle_target: "passwordField" } %>
+          <i class="bi bi-eye-slash-fill login-form__form-group--eye-icon" data-password-toggle-target="togglePassword" data-action="click->password-toggle#toggle"></i>
+          <%= render "devise/shared/error_messages", attribute_name: 'Current Password', attribute_errors: resource.errors[:current_password] %>
+        </div>
+      <% else %>
+        <span class="login-form__error-message"><i class="bi bi-exclamation-circle-fill"></i> To edit your account, you must set a password.</span>
+      <% end %>
       
       <button class="login-form__button--login button" type="submit">Save</button>
     <% end %>

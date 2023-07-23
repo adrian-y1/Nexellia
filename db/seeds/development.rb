@@ -11,8 +11,8 @@ p "Seeding: #{__FILE__}"
 
 password = 'password'
 
-dwight = User.create(first_name: 'Dwight', last_name: 'Schrute', email: 'dwight.schrute@nexellia.com', password: password, password_confirmation: password)
-michael = User.create(first_name: 'Michael', last_name: 'Scott', email: 'michael.scott@nexellia.com', password: password, password_confirmation: password)
+dwight = User.create(first_name: 'Dwight', last_name: 'Schrute', email: 'dwight.schrute@nexellia.com', password: password, password_confirmation: password, has_set_password: true)
+michael = User.create(first_name: 'Michael', last_name: 'Scott', email: 'michael.scott@nexellia.com', password: password, password_confirmation: password, has_set_password: true)
 
 puts "\nCreating Users...\n"
 10.times do |n|
@@ -25,7 +25,8 @@ puts "\nCreating Users...\n"
     last_name: last_name,
     email: email,
     password: password,
-    password_confirmation: password
+    password_confirmation: password,
+    has_set_password: true
   )
 end
 

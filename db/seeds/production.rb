@@ -15,7 +15,8 @@ if User.count < 10
         last_name: last_name,
         email: email,
         password: password,
-        password_confirmation: password
+        password_confirmation: password,
+        has_set_password: true
       )
       random_users << random_user
   end

@@ -1,34 +1,34 @@
 document.addEventListener("turbo:load", () => {
-  let users;
+  let users = [];
 
-  // Fetch all users
-  fetch('/users', {
-    headers: {
-      'Accept': 'application/json'
-    }
-  })
-    .then(response => response.json())
-    .then(data => {
-      users = data;
+  const fetchUsers = () => {
+    return fetch('/users', {
+      headers: {
+        'Accept': 'application/json'
+      }
     })
-    .catch(error => {
-      console.error(error);
-    });
+      .then(response => response.json())
+      .then(data => {
+        users = data;
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
+
+  // Fetch all users on initial load
+  fetchUsers();
 
   const search = document.getElementById("search-users");
   const searchResults = document.querySelector(".search-results");
-
-  if (searchResults !== null) {
-    searchResults.style.display = "none";
-  }
 
   // Listen for user input
   if (search !== null) {
     search.addEventListener("input", event => {
       const value = event.target.value.toLowerCase();
       searchResults.innerHTML = "";
-  
-      // If the user input is not empty and is included in the user's name, 
+
+      // If the user input is not empty and is included in the user's name,
       // create card and append it
       if (value.trim() !== "") {
         let hasResults = false; // Flag to check if there are any search results
@@ -38,12 +38,8 @@ document.addEventListener("turbo:load", () => {
             hasResults = true;
           }
         });
-  
-        if (!hasResults) {
-          searchResults.style.display = "none"; // Hide the search results container if no results found
-        } else {
-          searchResults.style.display = "flex"; // Show the search results container if there are results
-        }
+
+        searchResults.style.display = hasResults ? "flex" : "none";
       } else {
         searchResults.style.display = "none"; // Hide the search results container if the input is empty
       }
@@ -73,10 +69,10 @@ function createCard(user, container) {
 // Hide container if the user has clicked outside
 function handleOutsideClick(container) {
   window.addEventListener('click', event => {
-    if(event.target !== container){
-      if (container !== null ) {
-        container.style.display = 'none'
+    if (event.target !== container) {
+      if (container !== null) {
+        container.style.display = 'none';
       }
     }
-})
+  });
 }
